@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Content with notebooks &#8212; My sample book</title>
+    <title>Análisis Exploratorio de Datos (EDA) &#8212; My sample book</title>
   
   
   
@@ -57,8 +57,6 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -183,8 +181,7 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Content with notebooks</a></li>
-
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Análisis Exploratorio de Datos (EDA)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
 </ul>
 
@@ -371,7 +368,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Content with notebooks</h1>
+    <h1>Análisis Exploratorio de Datos (EDA)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -381,15 +378,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Content with notebooks</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba">Prueba</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markdown-notebooks">Markdown + notebooks</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#myst-markdown">MyST markdown</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-blocks-and-outputs">Code blocks and outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
 </ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -400,53 +390,103 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="content-with-notebooks">
-<h1>Content with notebooks<a class="headerlink" href="#content-with-notebooks" title="Link to this heading">#</a></h1>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="prueba">
-<h1>Prueba<a class="headerlink" href="#prueba" title="Link to this heading">#</a></h1>
-<p>You can also create content with Jupyter Notebooks. This means that you can include
-code blocks and their outputs in your book.</p>
-<section id="markdown-notebooks">
-<h2>Markdown + notebooks<a class="headerlink" href="#markdown-notebooks" title="Link to this heading">#</a></h2>
-<p>As it is markdown, you can embed images, HTML, etc into your posts!</p>
-<p><img alt="" src="https://myst-parser.readthedocs.io/en/latest/_static/logo-wide.svg" /></p>
-<p>You can also <span class="math notranslate nohighlight">\(add_{math}\)</span> and</p>
-<div class="math notranslate nohighlight">
-\[
-math^{blocks}
-\]</div>
-<p>or</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{aligned}
-\mbox{mean} la_{tex} \\ \\
-math blocks
-\end{aligned}
-\end{split}\]</div>
-<p>But make sure you $Escape $your $dollar signs $you want to keep!</p>
-</section>
-<section id="myst-markdown">
-<h2>MyST markdown<a class="headerlink" href="#myst-markdown" title="Link to this heading">#</a></h2>
-<p>MyST markdown works in Jupyter Notebooks as well. For more information about MyST markdown, check
-out <a class="reference external" href="https://jupyterbook.org/content/myst.html">the MyST guide in Jupyter Book</a>,
-or see <a class="reference external" href="https://myst-parser.readthedocs.io/en/latest/">the MyST markdown documentation</a>.</p>
-</section>
-<section id="code-blocks-and-outputs">
-<h2>Code blocks and outputs<a class="headerlink" href="#code-blocks-and-outputs" title="Link to this heading">#</a></h2>
-<p>Jupyter Book will also embed your code blocks and output in your book.
-For example, here’s some sample Matplotlib code:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="analisis-exploratorio-de-datos-eda">
+<h1>Análisis Exploratorio de Datos (EDA)<a class="headerlink" href="#analisis-exploratorio-de-datos-eda" title="Link to this heading">#</a></h1>
+<section id="introduccion">
+<h2>Introducción<a class="headerlink" href="#introduccion" title="Link to this heading">#</a></h2>
+<p>En este notebook se realizará un análisis exploratorio
+del conjunto de datos seleccionado.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">rcParams</span><span class="p">,</span> <span class="n">cycler</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">rcParams</span><span class="p">,</span> <span class="n">cycler</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
+
+
+
+<span class="n">df_mutations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;dataset/TCGA_GBM_LGG_Mutations_all.csv&quot;</span><span class="p">)</span>
+<span class="n">df_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;dataset/TCGA_InfoWithGrade.csv&quot;</span><span class="p">)</span>
+
+<span class="n">df_mutations</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">df_info</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="n">df_mutations</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">df_info</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="n">df_mutations</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="n">df_info</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;contextlib.ExitStack at 0x1b28bfeba30&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 862 entries, 0 to 861
+Data columns (total 27 columns):
+ #   Column             Non-Null Count  Dtype 
+---  ------             --------------  ----- 
+ 0   Grade              862 non-null    object
+ 1   Project            862 non-null    object
+ 2   Case_ID            862 non-null    object
+ 3   Gender             862 non-null    object
+ 4   Age_at_diagnosis   862 non-null    object
+ 5   Primary_Diagnosis  862 non-null    object
+ 6   Race               862 non-null    object
+ 7   IDH1               862 non-null    object
+ 8   TP53               862 non-null    object
+ 9   ATRX               862 non-null    object
+ 10  PTEN               862 non-null    object
+ 11  EGFR               862 non-null    object
+ 12  CIC                862 non-null    object
+ 13  MUC16              862 non-null    object
+ 14  PIK3CA             862 non-null    object
+ 15  NF1                862 non-null    object
+ 16  PIK3R1             862 non-null    object
+ 17  FUBP1              862 non-null    object
+ 18  RB1                862 non-null    object
+ 19  NOTCH1             862 non-null    object
+ 20  BCOR               862 non-null    object
+ 21  CSMD3              862 non-null    object
+ 22  SMARCA4            862 non-null    object
+ 23  GRIN2A             862 non-null    object
+ 24  IDH2               862 non-null    object
+ 25  FAT4               862 non-null    object
+ 26  PDGFRA             862 non-null    object
+dtypes: object(27)
+memory usage: 182.0+ KB
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 839 entries, 0 to 838
+Data columns (total 24 columns):
+ #   Column            Non-Null Count  Dtype  
+---  ------            --------------  -----  
+ 0   Grade             839 non-null    int64  
+ 1   Gender            839 non-null    int64  
+ 2   Age_at_diagnosis  839 non-null    float64
+ 3   Race              839 non-null    int64  
+ 4   IDH1              839 non-null    int64  
+ 5   TP53              839 non-null    int64  
+ 6   ATRX              839 non-null    int64  
+ 7   PTEN              839 non-null    int64  
+ 8   EGFR              839 non-null    int64  
+ 9   CIC               839 non-null    int64  
+ 10  MUC16             839 non-null    int64  
+ 11  PIK3CA            839 non-null    int64  
+ 12  NF1               839 non-null    int64  
+ 13  PIK3R1            839 non-null    int64  
+ 14  FUBP1             839 non-null    int64  
+ 15  RB1               839 non-null    int64  
+ 16  NOTCH1            839 non-null    int64  
+ 17  BCOR              839 non-null    int64  
+ 18  CSMD3             839 non-null    int64  
+ 19  SMARCA4           839 non-null    int64  
+ 20  GRIN2A            839 non-null    int64  
+ 21  IDH2              839 non-null    int64  
+ 22  FAT4              839 non-null    int64  
+ 23  PDGFRA            839 non-null    int64  
+dtypes: float64(1), int64(23)
+memory usage: 157.4 KB
 </pre></div>
 </div>
 </div>
@@ -547,15 +587,8 @@ with your book. For more information about this, see <a class="reference externa
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Content with notebooks</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba">Prueba</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markdown-notebooks">Markdown + notebooks</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#myst-markdown">MyST markdown</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-blocks-and-outputs">Code blocks and outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
 </ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>
