@@ -4,7 +4,8 @@
 
 **Autores**
 
-Alejandro Cantillo 
+Alejandro Cantillo
+
 Joshua Hincapie  
 </div>
 
@@ -22,12 +23,14 @@ El objetivo principal es realizar un análisis exploratorio de
 las variables clínicas y genéticas disponibles y estudiar su
 relación con la variable objetivo `Grade`.
 
-La variable `Grade` representa el grado del glioma y constituye
-la variable objetivo del análisis.
+A través del análisis exploratorio y la visualización de datos,
+se buscará identificar patrones, distribuciones y relaciones que
+permitan comprender mejor las características de los pacientes
+y su posible asociación con el grado del glioma.
 
-> **Objetivo:** explorar las características clínicas y
-> genéticas de los pacientes e identificar patrones
-> relacionados con el grado del glioma.
+> **Pregunta:** ¿Qué patrones y relaciones pueden
+> identificarse en las características clínicas y genéticas
+> de los pacientes según el grado del glioma (`Grade`)?
 
 ## Datos
 
@@ -37,8 +40,7 @@ Para el análisis se utilizarán dos archivos:
 - `TCGA_InfoWithGrade.csv`
 
 Estos archivos contienen información clínica y características
-relacionadas con mutaciones genéticas de pacientes con glioma.
-
+relacionadas con mutaciones genéticas de pacientes con glioma. 
 El análisis de ambos conjuntos de datos permitirá explorar sus
 estructuras, características y variables disponibles antes de
 realizar análisis más específicos.
@@ -50,7 +52,7 @@ El proyecto se desarrollará mediante las siguientes etapas:
 1. Análisis Exploratorio de Datos (EDA)
 
 
-## Estructura del proyecto
+## Estructura
 
 El Jupyter Book está organizado en diferentes secciones para
 presentar de manera progresiva el análisis exploratorio,
