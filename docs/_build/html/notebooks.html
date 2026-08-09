@@ -378,7 +378,15 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-objetivo">Variable objetivo</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-clinicas">Variables clínicas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-geneticas">Variables genéticas</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -396,6 +404,8 @@ document.write(`
 <h2>Introducción<a class="headerlink" href="#introduccion" title="Link to this heading">#</a></h2>
 <p>En este notebook se realizará un análisis exploratorio
 del conjunto de datos seleccionado.</p>
+<section id="dataset">
+<h3>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -411,115 +421,238 @@ del conjunto de datos seleccionado.</p>
 <span class="n">df_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;dataset/TCGA_InfoWithGrade.csv&quot;</span><span class="p">)</span>
 
 <span class="c1">#df_mutations.head()</span>
-<span class="c1">#df_info.head()</span>
+<span class="n">df_info</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 
 <span class="c1">#print(df_mutations.shape)</span>
 <span class="c1">#print(df_info.shape)</span>
 
-<span class="n">df_mutations</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
-<span class="n">df_info</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<span class="c1">#df_mutations.info()</span>
+<span class="c1">#df_info.info()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 862 entries, 0 to 861
-Data columns (total 27 columns):
- #   Column             Non-Null Count  Dtype 
----  ------             --------------  ----- 
- 0   Grade              862 non-null    object
- 1   Project            862 non-null    object
- 2   Case_ID            862 non-null    object
- 3   Gender             862 non-null    object
- 4   Age_at_diagnosis   862 non-null    object
- 5   Primary_Diagnosis  862 non-null    object
- 6   Race               862 non-null    object
- 7   IDH1               862 non-null    object
- 8   TP53               862 non-null    object
- 9   ATRX               862 non-null    object
- 10  PTEN               862 non-null    object
- 11  EGFR               862 non-null    object
- 12  CIC                862 non-null    object
- 13  MUC16              862 non-null    object
- 14  PIK3CA             862 non-null    object
- 15  NF1                862 non-null    object
- 16  PIK3R1             862 non-null    object
- 17  FUBP1              862 non-null    object
- 18  RB1                862 non-null    object
- 19  NOTCH1             862 non-null    object
- 20  BCOR               862 non-null    object
- 21  CSMD3              862 non-null    object
- 22  SMARCA4            862 non-null    object
- 23  GRIN2A             862 non-null    object
- 24  IDH2               862 non-null    object
- 25  FAT4               862 non-null    object
- 26  PDGFRA             862 non-null    object
-dtypes: object(27)
-memory usage: 182.0+ KB
-&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 839 entries, 0 to 838
-Data columns (total 24 columns):
- #   Column            Non-Null Count  Dtype  
----  ------            --------------  -----  
- 0   Grade             839 non-null    int64  
- 1   Gender            839 non-null    int64  
- 2   Age_at_diagnosis  839 non-null    float64
- 3   Race              839 non-null    int64  
- 4   IDH1              839 non-null    int64  
- 5   TP53              839 non-null    int64  
- 6   ATRX              839 non-null    int64  
- 7   PTEN              839 non-null    int64  
- 8   EGFR              839 non-null    int64  
- 9   CIC               839 non-null    int64  
- 10  MUC16             839 non-null    int64  
- 11  PIK3CA            839 non-null    int64  
- 12  NF1               839 non-null    int64  
- 13  PIK3R1            839 non-null    int64  
- 14  FUBP1             839 non-null    int64  
- 15  RB1               839 non-null    int64  
- 16  NOTCH1            839 non-null    int64  
- 17  BCOR              839 non-null    int64  
- 18  CSMD3             839 non-null    int64  
- 19  SMARCA4           839 non-null    int64  
- 20  GRIN2A            839 non-null    int64  
- 21  IDH2              839 non-null    int64  
- 22  FAT4              839 non-null    int64  
- 23  PDGFRA            839 non-null    int64  
-dtypes: float64(1), int64(23)
-memory usage: 157.4 KB
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fixing random state for reproducibility</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">19680801</span><span class="p">)</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">ii</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cycler</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)))</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
-<span class="n">custom_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-                <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">.5</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-                <span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">cmap</span><span class="p">(</span><span class="mf">1.</span><span class="p">),</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">)]</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
-<span class="n">lines</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">custom_lines</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Cold&#39;</span><span class="p">,</span> <span class="s1">&#39;Medium&#39;</span><span class="p">,</span> <span class="s1">&#39;Hot&#39;</span><span class="p">]);</span>
-</pre></div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Grade</th>
+      <th>Gender</th>
+      <th>Age_at_diagnosis</th>
+      <th>Race</th>
+      <th>IDH1</th>
+      <th>TP53</th>
+      <th>ATRX</th>
+      <th>PTEN</th>
+      <th>EGFR</th>
+      <th>CIC</th>
+      <th>...</th>
+      <th>FUBP1</th>
+      <th>RB1</th>
+      <th>NOTCH1</th>
+      <th>BCOR</th>
+      <th>CSMD3</th>
+      <th>SMARCA4</th>
+      <th>GRIN2A</th>
+      <th>IDH2</th>
+      <th>FAT4</th>
+      <th>PDGFRA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>51.30</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>0</td>
+      <td>38.72</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0</td>
+      <td>0</td>
+      <td>35.17</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>1</td>
+      <td>32.78</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>0</td>
+      <td>31.51</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 24 columns</p>
+</div></div></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/10e4426d9a98b8b32d6c7c558b9983b6bfbf3f7b3422996bacff632594cdfad8.png" src="_images/10e4426d9a98b8b32d6c7c558b9983b6bfbf3f7b3422996bacff632594cdfad8.png" />
-</div>
-</div>
+<p>El conjunto de datos utilizado para el análisis es <code class="docutils literal notranslate"><span class="pre">TCGA_InfoWithGrade.csv</span></code>,
+correspondiente a una versión preprocesada de los datos relacionados con
+gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
+<section id="variable-objetivo">
+<h4>Variable objetivo<a class="headerlink" href="#variable-objetivo" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Grade</span></code></strong>: indica el grado del glioma. Esta variable distingue entre
+los dos grupos principales presentes en el conjunto de datos:
+<code class="docutils literal notranslate"><span class="pre">LGG</span></code> (<em>Low-Grade Glioma</em>) y <code class="docutils literal notranslate"><span class="pre">GBM</span></code> (<em>Glioblastoma Multiforme</em>).</p></li>
+</ul>
+</section>
+<section id="variables-clinicas">
+<h4>Variables clínicas<a class="headerlink" href="#variables-clinicas" title="Link to this heading">#</a></h4>
+<p>Las variables clínicas proporcionan información sobre las características
+demográficas de los pacientes:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Gender</span></code></strong>: género del paciente.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></strong>: edad del paciente al momento del diagnóstico.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Race</span></code></strong>: raza reportada del paciente.</p></li>
+</ul>
+</section>
+<section id="variables-geneticas">
+<h4>Variables genéticas<a class="headerlink" href="#variables-geneticas" title="Link to this heading">#</a></h4>
+<p>El conjunto de datos también contiene variables correspondientes a
+diferentes genes. Estas variables están codificadas de forma binaria,
+indicando con un valor de <strong>1</strong> la presencia de una mutación en el gen
+correspondiente, y con un <strong>0</strong> la ausencia de dicha mutación.</p>
+<p>Entre los genes incluidos se encuentran:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">IDH1</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">TP53</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ATRX</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PTEN</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">EGFR</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">CIC</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">MUC16</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PIK3CA</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">NF1</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PIK3R1</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">FUBP1</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">RB1</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">NOTCH1</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">BCOR</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">CSMD3</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SMARCA4</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">GRIN2A</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">IDH2</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">FAT4</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PDGFRA</span></code></strong></p></li>
+</ul>
 <p>There is a lot more that you can do with outputs (such as including interactive outputs)
 with your book. For more information about this, see <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a></p>
+</section>
+</section>
 </section>
 </section>
 
@@ -587,7 +720,15 @@ with your book. For more information about this, see <a class="reference externa
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-objetivo">Variable objetivo</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-clinicas">Variables clínicas</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-geneticas">Variables genéticas</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
