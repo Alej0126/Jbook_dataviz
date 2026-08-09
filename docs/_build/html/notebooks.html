@@ -387,6 +387,10 @@ document.write(`
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#el-dataset-esta-compuesto-por-24-variables-de-las-cuales-23-son-de-tipo-int64-mientras-que-age-at-diagnosis-es-tipo-float64-expresando-en-anos-la-edad-del-paciente-al-momento-del-diagnostico-donde-la-parte-decimal-incorpora-informacion-adicional-sobre-los-dias-transcurridos">El dataset está compuesto por 24 variables de las cuales 23 son de
+tipo int64 mientras que <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> es tipo float64, expresando
+en años, la edad del paciente al momento del diagnóstico, donde la parte
+decimal incorpora información adicional sobre los días transcurridos.</a></li>
 </ul>
             </nav>
         </div>
@@ -406,14 +410,15 @@ document.write(`
 del conjunto de datos seleccionado.</p>
 <section id="dataset">
 <h3>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
+<p>El conjunto de datos utilizado para el análisis es <code class="docutils literal notranslate"><span class="pre">TCGA_InfoWithGrade.csv</span></code>,
+correspondiente a una versión preprocesada de los datos relacionados con
+gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Librerias</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">rcParams</span><span class="p">,</span> <span class="n">cycler</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ion</span><span class="p">()</span>
 
 
 
@@ -422,12 +427,6 @@ del conjunto de datos seleccionado.</p>
 
 <span class="c1">#df_mutations.head()</span>
 <span class="n">df_info</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-
-<span class="c1">#print(df_mutations.shape)</span>
-<span class="c1">#print(df_info.shape)</span>
-
-<span class="c1">#df_mutations.info()</span>
-<span class="c1">#df_info.info()</span>
 </pre></div>
 </div>
 </div>
@@ -599,9 +598,6 @@ del conjunto de datos seleccionado.</p>
 <p>5 rows × 24 columns</p>
 </div></div></div>
 </div>
-<p>El conjunto de datos utilizado para el análisis es <code class="docutils literal notranslate"><span class="pre">TCGA_InfoWithGrade.csv</span></code>,
-correspondiente a una versión preprocesada de los datos relacionados con
-gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
 <section id="variable-objetivo">
 <h4>Variable objetivo<a class="headerlink" href="#variable-objetivo" title="Link to this heading">#</a></h4>
 <ul class="simple">
@@ -628,31 +624,411 @@ indicando con un valor de <strong>1</strong> la presencia de una mutación en el
 correspondiente, y con un <strong>0</strong> la ausencia de dicha mutación.</p>
 <p>Entre los genes incluidos se encuentran:</p>
 <ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">IDH1</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">TP53</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">ATRX</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">PTEN</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">EGFR</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">CIC</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">MUC16</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">PIK3CA</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">NF1</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">PIK3R1</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">FUBP1</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">RB1</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">NOTCH1</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">BCOR</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">CSMD3</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">SMARCA4</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">GRIN2A</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">IDH2</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">FAT4</span></code></strong></p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">PDGFRA</span></code></strong></p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">IDH1</span></code></strong>: codifica una enzima involucrada en el metabolismo celular.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">TP53</span></code></strong>: gen supresor tumoral que participa en el control del ciclo
+celular y en la respuesta al daño del ADN. Sus alteraciones pueden
+favorecer la proliferación de células tumorales.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">ATRX</span></code></strong>: participa en el mantenimiento de la estructura de la
+cromatina y en la estabilidad del genoma.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PTEN</span></code></strong>: gen supresor tumoral que regula vías relacionadas con el
+crecimiento y la supervivencia celular.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">EGFR</span></code></strong>: codifica un receptor involucrado en señales de crecimiento
+y proliferación celular.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">CIC</span></code></strong>: participa en la regulación de la expresión de otros genes y
+en procesos relacionados con el desarrollo celular.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">MUC16</span></code></strong>: codifica una proteína de gran tamaño asociada a la
+superficie celular.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PIK3CA</span></code></strong>: participa en la vía de señalización PI3K/AKT, relacionada
+con crecimiento, supervivencia y proliferación celular.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">NF1</span></code></strong>: actúa como regulador negativo de señales relacionadas con el
+crecimiento celular. Sus alteraciones pueden contribuir a la
+proliferación tumoral.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PIK3R1</span></code></strong>: codifica una subunidad reguladora de la vía PI3K, que
+interviene en procesos de crecimiento y supervivencia celular.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">FUBP1</span></code></strong>: participa en la regulación de la expresión génica y del
+crecimiento celular.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">RB1</span></code></strong>: gen supresor tumoral que participa en el control del ciclo
+celular y regula la progresión de las células hacia la división.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">NOTCH1</span></code></strong>: forma parte de la vía de señalización Notch, relacionada
+con la diferenciación, proliferación y supervivencia celular.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">BCOR</span></code></strong>: participa en la regulación de la expresión génica mediante
+complejos relacionados con la cromatina.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">CSMD3</span></code></strong>: codifica una proteína de gran tamaño y se encuentra entre
+los genes que pueden presentar mutaciones en distintos tumores.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">SMARCA4</span></code></strong>: participa en la remodelación de la cromatina y, por
+tanto, en la regulación de la expresión de los genes.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">GRIN2A</span></code></strong>: codifica una subunidad de un receptor de glutamato,
+relacionado principalmente con la señalización neuronal.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">IDH2</span></code></strong>: codifica una enzima metabólica relacionada con IDH1.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">FAT4</span></code></strong>: participa en procesos relacionados con la organización,
+adhesión y crecimiento de las células.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">PDGFRA</span></code></strong>: codifica un receptor involucrado en señales de
+crecimiento y proliferación celular.</p></li>
 </ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="el-dataset-esta-compuesto-por-24-variables-de-las-cuales-23-son-de-tipo-int64-mientras-que-age-at-diagnosis-es-tipo-float64-expresando-en-anos-la-edad-del-paciente-al-momento-del-diagnostico-donde-la-parte-decimal-incorpora-informacion-adicional-sobre-los-dias-transcurridos">
+<h2>El dataset está compuesto por 24 variables de las cuales 23 son de
+tipo int64 mientras que <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> es tipo float64, expresando
+en años, la edad del paciente al momento del diagnóstico, donde la parte
+decimal incorpora información adicional sobre los días transcurridos.<a class="headerlink" href="#el-dataset-esta-compuesto-por-24-variables-de-las-cuales-23-son-de-tipo-int64-mientras-que-age-at-diagnosis-es-tipo-float64-expresando-en-anos-la-edad-del-paciente-al-momento-del-diagnostico-donde-la-parte-decimal-incorpora-informacion-adicional-sobre-los-dias-transcurridos" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Conformacion</span>
+<span class="n">df_info</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 839 entries, 0 to 838
+Columns: 24 entries, Grade to PDGFRA
+dtypes: float64(1), int64(23)
+memory usage: 157.4 KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>A continuación se revisan los valores faltantes y las principales
+estadísticas descriptivas del conjunto de datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valores faltantes:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estadísticas descriptivas:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estadísticas de Age_at_diagnosis:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="p">[</span><span class="s2">&quot;Age_at_diagnosis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valores faltantes:
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadísticas descriptivas:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Grade</th>
+      <td>839.0</td>
+      <td>0.419547</td>
+      <td>0.493779</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>1.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>Gender</th>
+      <td>839.0</td>
+      <td>0.418355</td>
+      <td>0.493583</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>1.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>Age_at_diagnosis</th>
+      <td>839.0</td>
+      <td>50.935411</td>
+      <td>15.702339</td>
+      <td>14.42</td>
+      <td>38.055</td>
+      <td>51.55</td>
+      <td>62.8</td>
+      <td>89.29</td>
+    </tr>
+    <tr>
+      <th>Race</th>
+      <td>839.0</td>
+      <td>0.107271</td>
+      <td>0.369392</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>3.00</td>
+    </tr>
+    <tr>
+      <th>IDH1</th>
+      <td>839.0</td>
+      <td>0.481526</td>
+      <td>0.499957</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>1.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>TP53</th>
+      <td>839.0</td>
+      <td>0.414779</td>
+      <td>0.492978</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>1.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>ATRX</th>
+      <td>839.0</td>
+      <td>0.258641</td>
+      <td>0.438149</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>1.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>PTEN</th>
+      <td>839.0</td>
+      <td>0.168057</td>
+      <td>0.374140</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>EGFR</th>
+      <td>839.0</td>
+      <td>0.133492</td>
+      <td>0.340309</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>CIC</th>
+      <td>839.0</td>
+      <td>0.132300</td>
+      <td>0.339019</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>MUC16</th>
+      <td>839.0</td>
+      <td>0.116806</td>
+      <td>0.321380</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>PIK3CA</th>
+      <td>839.0</td>
+      <td>0.087008</td>
+      <td>0.282015</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>NF1</th>
+      <td>839.0</td>
+      <td>0.079857</td>
+      <td>0.271233</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>PIK3R1</th>
+      <td>839.0</td>
+      <td>0.064362</td>
+      <td>0.245544</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>FUBP1</th>
+      <td>839.0</td>
+      <td>0.053635</td>
+      <td>0.225431</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>RB1</th>
+      <td>839.0</td>
+      <td>0.047676</td>
+      <td>0.213206</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>NOTCH1</th>
+      <td>839.0</td>
+      <td>0.045292</td>
+      <td>0.208068</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>BCOR</th>
+      <td>839.0</td>
+      <td>0.034565</td>
+      <td>0.182784</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>CSMD3</th>
+      <td>839.0</td>
+      <td>0.032181</td>
+      <td>0.176586</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>SMARCA4</th>
+      <td>839.0</td>
+      <td>0.032181</td>
+      <td>0.176586</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>GRIN2A</th>
+      <td>839.0</td>
+      <td>0.032181</td>
+      <td>0.176586</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>IDH2</th>
+      <td>839.0</td>
+      <td>0.027414</td>
+      <td>0.163383</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>FAT4</th>
+      <td>839.0</td>
+      <td>0.027414</td>
+      <td>0.163383</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>PDGFRA</th>
+      <td>839.0</td>
+      <td>0.026222</td>
+      <td>0.159889</td>
+      <td>0.00</td>
+      <td>0.000</td>
+      <td>0.00</td>
+      <td>0.0</td>
+      <td>1.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadísticas de Age_at_diagnosis:
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    839.000000
+mean      50.935411
+std       15.702339
+min       14.420000
+25%       38.055000
+50%       51.550000
+75%       62.800000
+max       89.290000
+Name: Age_at_diagnosis, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
 <p>There is a lot more that you can do with outputs (such as including interactive outputs)
 with your book. For more information about this, see <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a></p>
-</section>
-</section>
 </section>
 </section>
 
@@ -729,6 +1105,10 @@ with your book. For more information about this, see <a class="reference externa
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#el-dataset-esta-compuesto-por-24-variables-de-las-cuales-23-son-de-tipo-int64-mientras-que-age-at-diagnosis-es-tipo-float64-expresando-en-anos-la-edad-del-paciente-al-momento-del-diagnostico-donde-la-parte-decimal-incorpora-informacion-adicional-sobre-los-dias-transcurridos">El dataset está compuesto por 24 variables de las cuales 23 son de
+tipo int64 mientras que <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> es tipo float64, expresando
+en años, la edad del paciente al momento del diagnóstico, donde la parte
+decimal incorpora información adicional sobre los días transcurridos.</a></li>
 </ul>
   </nav></div>
 
