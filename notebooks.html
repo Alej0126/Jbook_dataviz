@@ -387,10 +387,6 @@ document.write(`
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#el-dataset-esta-compuesto-por-24-variables-de-las-cuales-23-son-de-tipo-int64-mientras-que-age-at-diagnosis-es-tipo-float64-expresando-en-anos-la-edad-del-paciente-al-momento-del-diagnostico-donde-la-parte-decimal-incorpora-informacion-adicional-sobre-los-dias-transcurridos">El dataset está compuesto por 24 variables de las cuales 23 son de
-tipo int64 mientras que <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> es tipo float64, expresando
-en años, la edad del paciente al momento del diagnóstico, donde la parte
-decimal incorpora información adicional sobre los días transcurridos.</a></li>
 </ul>
             </nav>
         </div>
@@ -665,15 +661,10 @@ adhesión y crecimiento de las células.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">PDGFRA</span></code></strong>: codifica un receptor involucrado en señales de
 crecimiento y proliferación celular.</p></li>
 </ul>
-</section>
-</section>
-</section>
-<hr class="docutils" />
-<section id="el-dataset-esta-compuesto-por-24-variables-de-las-cuales-23-son-de-tipo-int64-mientras-que-age-at-diagnosis-es-tipo-float64-expresando-en-anos-la-edad-del-paciente-al-momento-del-diagnostico-donde-la-parte-decimal-incorpora-informacion-adicional-sobre-los-dias-transcurridos">
-<h2>El dataset está compuesto por 24 variables de las cuales 23 son de
+<p>El dataset está compuesto por 24 variables de las cuales 23 son de
 tipo int64 mientras que <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> es tipo float64, expresando
 en años, la edad del paciente al momento del diagnóstico, donde la parte
-decimal incorpora información adicional sobre los días transcurridos.<a class="headerlink" href="#el-dataset-esta-compuesto-por-24-variables-de-las-cuales-23-son-de-tipo-int64-mientras-que-age-at-diagnosis-es-tipo-float64-expresando-en-anos-la-edad-del-paciente-al-momento-del-diagnostico-donde-la-parte-decimal-incorpora-informacion-adicional-sobre-los-dias-transcurridos" title="Link to this heading">#</a></h2>
+decimal incorpora información adicional sobre los días transcurridos.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Conformacion</span>
@@ -697,12 +688,6 @@ estadísticas descriptivas del conjunto de datos.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valores faltantes:&quot;</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estadísticas descriptivas:&quot;</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estadísticas de Age_at_diagnosis:&quot;</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="p">[</span><span class="s2">&quot;Age_at_diagnosis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -713,6 +698,16 @@ estadísticas descriptivas del conjunto de datos.</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estadísticas descriptivas:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadísticas descriptivas:
 </pre></div>
 </div>
@@ -1011,24 +1006,12 @@ estadísticas descriptivas del conjunto de datos.</p>
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadísticas de Age_at_diagnosis:
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>count    839.000000
-mean      50.935411
-std       15.702339
-min       14.420000
-25%       38.055000
-50%       51.550000
-75%       62.800000
-max       89.290000
-Name: Age_at_diagnosis, dtype: float64
-</pre></div>
-</div>
-</div>
+</div></div></div>
 </div>
 <p>There is a lot more that you can do with outputs (such as including interactive outputs)
 with your book. For more information about this, see <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a></p>
+</section>
+</section>
 </section>
 </section>
 
@@ -1105,10 +1088,6 @@ with your book. For more information about this, see <a class="reference externa
 </li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#el-dataset-esta-compuesto-por-24-variables-de-las-cuales-23-son-de-tipo-int64-mientras-que-age-at-diagnosis-es-tipo-float64-expresando-en-anos-la-edad-del-paciente-al-momento-del-diagnostico-donde-la-parte-decimal-incorpora-informacion-adicional-sobre-los-dias-transcurridos">El dataset está compuesto por 24 variables de las cuales 23 son de
-tipo int64 mientras que <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> es tipo float64, expresando
-en años, la edad del paciente al momento del diagnóstico, donde la parte
-decimal incorpora información adicional sobre los días transcurridos.</a></li>
 </ul>
   </nav></div>
 
