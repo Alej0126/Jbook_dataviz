@@ -60,8 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Notebooks with MyST Markdown" href="markdown-notebooks.html" />
-    <link rel="prev" title="Markdown Files" href="markdown.html" />
+    <link rel="prev" title="Proyecto - Visualización de Datos" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -180,9 +179,7 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Análisis Exploratorio de Datos (EDA)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
 </ul>
 
     </div>
@@ -378,15 +375,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-objetivo">Variable objetivo</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-clinicas">Variables clínicas</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-geneticas">Variables genéticas</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-objetivo">Variable objetivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-clinicas">Variables clínicas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-geneticas">Variables genéticas</a></li>
 </ul>
             </nav>
         </div>
@@ -400,12 +392,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="analisis-exploratorio-de-datos-eda">
 <h1>Análisis Exploratorio de Datos (EDA)<a class="headerlink" href="#analisis-exploratorio-de-datos-eda" title="Link to this heading">#</a></h1>
-<section id="introduccion">
-<h2>Introducción<a class="headerlink" href="#introduccion" title="Link to this heading">#</a></h2>
-<p>En este notebook se realizará un análisis exploratorio
-del conjunto de datos seleccionado.</p>
 <section id="dataset">
-<h3>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
+<h2>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h2>
 <p>El conjunto de datos utilizado para el análisis es <code class="docutils literal notranslate"><span class="pre">TCGA_InfoWithGrade.csv</span></code>,
 correspondiente a una versión preprocesada de los datos relacionados con
 gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
@@ -417,12 +405,9 @@ gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
 
-
-<span class="n">df_mutations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;dataset/TCGA_GBM_LGG_Mutations_all.csv&quot;</span><span class="p">)</span>
-<span class="n">df_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;dataset/TCGA_InfoWithGrade.csv&quot;</span><span class="p">)</span>
-
-<span class="c1">#df_mutations.head()</span>
-<span class="n">df_info</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="c1"># Dataset</span>
+<span class="n">df_mutations</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;dataset/TCGA_InfoWithGrade.csv&quot;</span><span class="p">)</span>
+<span class="n">df_mutations</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -594,8 +579,9 @@ gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
 <p>5 rows × 24 columns</p>
 </div></div></div>
 </div>
+</section>
 <section id="variable-objetivo">
-<h4>Variable objetivo<a class="headerlink" href="#variable-objetivo" title="Link to this heading">#</a></h4>
+<h2>Variable objetivo<a class="headerlink" href="#variable-objetivo" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">Grade</span></code></strong>: indica el grado del glioma. Esta variable distingue entre
 los dos grupos principales presentes en el conjunto de datos:
@@ -603,7 +589,7 @@ los dos grupos principales presentes en el conjunto de datos:
 </ul>
 </section>
 <section id="variables-clinicas">
-<h4>Variables clínicas<a class="headerlink" href="#variables-clinicas" title="Link to this heading">#</a></h4>
+<h2>Variables clínicas<a class="headerlink" href="#variables-clinicas" title="Link to this heading">#</a></h2>
 <p>Las variables clínicas proporcionan información sobre las características
 demográficas de los pacientes:</p>
 <ul class="simple">
@@ -613,7 +599,7 @@ demográficas de los pacientes:</p>
 </ul>
 </section>
 <section id="variables-geneticas">
-<h4>Variables genéticas<a class="headerlink" href="#variables-geneticas" title="Link to this heading">#</a></h4>
+<h2>Variables genéticas<a class="headerlink" href="#variables-geneticas" title="Link to this heading">#</a></h2>
 <p>El conjunto de datos también contiene variables correspondientes a
 diferentes genes. Estas variables están codificadas de forma binaria,
 indicando con un valor de <strong>1</strong> la presencia de una mutación en el gen
@@ -667,27 +653,195 @@ en años, la edad del paciente al momento del diagnóstico, donde la parte
 decimal incorpora información adicional sobre los días transcurridos.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Conformacion</span>
-<span class="n">df_info</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">info_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Tipo de dato&quot;</span><span class="p">:</span> <span class="n">df_mutations</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">),</span>
+    <span class="s2">&quot;Valores no nulos&quot;</span><span class="p">:</span> <span class="n">df_mutations</span><span class="o">.</span><span class="n">notna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="s2">&quot;Valores nulos&quot;</span><span class="p">:</span> <span class="n">df_mutations</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">values</span>
+<span class="p">})</span>
+
+<span class="n">info_df</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 839 entries, 0 to 838
-Columns: 24 entries, Grade to PDGFRA
-dtypes: float64(1), int64(23)
-memory usage: 157.4 KB
-</pre></div>
-</div>
-</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Tipo de dato</th>
+      <th>Valores no nulos</th>
+      <th>Valores nulos</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Grade</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Gender</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Age_at_diagnosis</th>
+      <td>float64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>Race</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>IDH1</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>TP53</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>ATRX</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PTEN</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>EGFR</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>CIC</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>MUC16</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PIK3CA</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>NF1</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PIK3R1</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>FUBP1</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RB1</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>NOTCH1</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>BCOR</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>CSMD3</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>SMARCA4</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>GRIN2A</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>IDH2</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>FAT4</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PDGFRA</th>
+      <td>int64</td>
+      <td>839</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>A continuación se revisan los valores faltantes y las principales
 estadísticas descriptivas del conjunto de datos.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valores faltantes:&quot;</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_mutations</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -703,7 +857,7 @@ estadísticas descriptivas del conjunto de datos.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estadísticas descriptivas:&quot;</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">df_info</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_mutations</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1012,8 +1166,6 @@ estadísticas descriptivas del conjunto de datos.</p>
 with your book. For more information about this, see <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a></p>
 </section>
 </section>
-</section>
-</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1046,22 +1198,13 @@ with your book. For more information about this, see <a class="reference externa
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="markdown.html"
+       href="intro.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Markdown Files</p>
+        <p class="prev-next-title">Proyecto - Visualización de Datos</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="markdown-notebooks.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Notebooks with MyST Markdown</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -1079,15 +1222,10 @@ with your book. For more information about this, see <a class="reference externa
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-objetivo">Variable objetivo</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-clinicas">Variables clínicas</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-geneticas">Variables genéticas</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-objetivo">Variable objetivo</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-clinicas">Variables clínicas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-geneticas">Variables genéticas</a></li>
 </ul>
   </nav></div>
 
