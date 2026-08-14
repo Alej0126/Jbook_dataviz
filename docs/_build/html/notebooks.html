@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Proyecto - Visualización de Datos" href="intro.html" />
+    <link rel="prev" title="Glioma Grading Clinical and Mutation Features - Visualización de Datos 2026" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -174,7 +174,7 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Proyecto - Visualización de Datos
+                    Glioma Grading Clinical and Mutation Features - Visualización de Datos 2026
                 </a>
             </li>
         </ul>
@@ -375,10 +375,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contexto-de-los-datos">Contexto de los datos</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-objetivo">Variable objetivo</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-clinicas">Variables clínicas</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-geneticas">Variables genéticas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estructura">Estructura</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-data">Missing data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division-del-dataset">División del dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-univariado-de-variables">Análisis Univariado de variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-la-variable-grade-target">Análisis de la variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code> (Target)</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -392,8 +399,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="analisis-exploratorio-de-datos-eda">
 <h1>Análisis Exploratorio de Datos (EDA)<a class="headerlink" href="#analisis-exploratorio-de-datos-eda" title="Link to this heading">#</a></h1>
-<section id="dataset">
-<h2>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h2>
+<section id="contexto-de-los-datos">
+<h2>Contexto de los datos<a class="headerlink" href="#contexto-de-los-datos" title="Link to this heading">#</a></h2>
 <p>El conjunto de datos utilizado para el análisis es <code class="docutils literal notranslate"><span class="pre">TCGA_InfoWithGrade.csv</span></code>,
 correspondiente a una versión preprocesada de los datos relacionados con
 gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
@@ -647,10 +654,12 @@ adhesión y crecimiento de las células.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">PDGFRA</span></code></strong>: codifica un receptor involucrado en señales de
 crecimiento y proliferación celular.</p></li>
 </ul>
-<p>El dataset está compuesto por 24 variables de las cuales 23 son de
-tipo int64 mientras que <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> es tipo float64, expresando
-en años, la edad del paciente al momento del diagnóstico, donde la parte
+<p>El dataset está compuesto por 24 variables de las cuales 23 son binarias mientras que <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> es númerica (<code class="docutils literal notranslate"><span class="pre">float64</span></code>), expresando  en años la edad del paciente al momento del diagnóstico, donde la parte
 decimal incorpora información adicional sobre los días transcurridos.</p>
+<p>El objetivo a resolver es predecir la severidad del glioma en pacientes, clasificándolos entre Glioma de Bajo Grado (<strong>LGG</strong>) y Glioblastoma Multiforme (<strong>GBM</strong>) a partir de sus características clínicas y perfil de mutaciones genéticas. Sin embargo, antes de entrenar modelos de clasificación supervisados y realizar la selección óptima de variables, iniciaremos con un análisis exploratorio de datos (EDA) sobre el conjunto de entrenamiento (Train set) derivado del dataset TCGA Glioma. El propósito es comprender la estructura de las variables, identificar los patrones de mutación genéticos más frecuentes, detectar valores atípicos y analizar las relaciones clave entre los biomarcadores clínicos y las alteraciones moleculares que diferencian ambos tipos de tumor.</p>
+</section>
+<section id="estructura">
+<h2>Estructura<a class="headerlink" href="#estructura" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">info_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
@@ -836,6 +845,10 @@ decimal incorpora información adicional sobre los días transcurridos.</p>
 </table>
 </div></div></div>
 </div>
+<p>El conjunto de datos presenta una estructura completamente limpia y estructurada de 839 registros y 24 variables, sin presencia de valores nulos o faltantes. Está compuesto por una única variable continua de tipo flotante correspondiente a la edad al diagnóstico (<code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code>) y 23 variables enteras que condensan la variable objetivo (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>), las características demográficas de género y raza, y la presencia binaria de mutaciones en los 20 genes analizados. Con un consumo de memoria optimizado de apenas 157.4 KB, esta arquitectura tabular ligera permite ejecutar análisis exploratorios, transformaciones de ingeniería de características y entrenamientos de modelos predictivos de manera altamente eficiente.</p>
+</section>
+<section id="missing-data">
+<h2>Missing data<a class="headerlink" href="#missing-data" title="Link to this heading">#</a></h2>
 <p>A continuación se revisan los valores faltantes y las principales
 estadísticas descriptivas del conjunto de datos.</p>
 <div class="cell docutils container">
@@ -854,6 +867,7 @@ estadísticas descriptivas del conjunto de datos.</p>
 </div>
 </div>
 </div>
+<p>El conjunto de datos no presenta datos faltantes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estadísticas descriptivas:&quot;</span><span class="p">)</span>
@@ -1162,8 +1176,92 @@ estadísticas descriptivas del conjunto de datos.</p>
 </table>
 </div></div></div>
 </div>
+</section>
+<section id="division-del-dataset">
+<h2>División del dataset<a class="headerlink" href="#division-del-dataset" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">FutureWarning</span><span class="p">)</span>
+
+<span class="n">conteo</span> <span class="o">=</span> <span class="n">df_mutations</span><span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">proporcion</span> <span class="o">=</span> <span class="n">df_mutations</span><span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_mutations</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Grade&#39;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;#2b5c8f&#39;</span><span class="p">,</span> <span class="s1">&#39;#d95f02&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribución Global de Tipos de Glioma (Target)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Clase (0 = LGG, 1 = GBM)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Cantidad de Pacientes&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LGG (58.05%)&#39;</span><span class="p">,</span> <span class="s1">&#39;GBM (41.95%)&#39;</span><span class="p">])</span>
+
+<span class="c1"># Añadir etiquetas de conteo sobre las barras</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ax</span><span class="o">.</span><span class="n">patches</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">())</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> 
+                <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">p</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">get_height</span><span class="p">()),</span> 
+                <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> 
+                <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a5533fad2cbab9e90a00176fde15897c3a034d8333ff9c9f55927ac1016b2f64.png" src="_images/a5533fad2cbab9e90a00176fde15897c3a034d8333ff9c9f55927ac1016b2f64.png" />
+</div>
+</div>
+<p>La elección de una partición estratificada (Stratified Train-Test Split) se justifica por la necesidad de preservar la proporción original de las clases de la variable objetivo (Grade) en ambos subconjuntos de datos. En el dataset completo, la distribución presenta un ligero desbalance, donde el 58.05% corresponde a Gliomas de Bajo Grado (LGG) y el 41.95% a Glioblastomas (GBM), una división sin estratificar podría dejar los conjuntos de <code class="docutils literal notranslate"><span class="pre">train</span></code> y <code class="docutils literal notranslate"><span class="pre">test</span></code> sesgados a un solo grupo de la variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">df_info</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_info</span><span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">]</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">,</span> 
+    <span class="n">y</span><span class="p">,</span> 
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.20</span><span class="p">,</span> 
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> 
+    <span class="n">stratify</span><span class="o">=</span><span class="n">y</span>
+<span class="p">)</span>
+
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">x</span> <span class="o">=</span> <span class="n">df_info</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">y</span> <span class="o">=</span> <span class="n">df_info</span><span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">x</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">y</span><span class="p">,</span> 
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="n">stratify</span><span class="o">=</span><span class="n">y</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;df_info&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>Para asegurar una evaluación rigurosa del modelo y prevenir la fuga de datos, el conjunto original de 839 registros se dividió en una proporción 80/20 mediante una partición estratificada basada en la variable objetivo (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>). De este modo, se reservó un conjunto de prueba (<em>Test set</em>) compuesto por 168 pacientes exclusivamente para la validación final del rendimiento, mientras que las 671 observaciones restantes formaron el conjunto de entrenamiento (<em>Train set</em>), garantizando que el patrón de distribución de las clases —aproximadamente 58% para tumores de bajo grado (LGG) y 42% para glioblastomas (GBM)— se mantuviera perfectamente balanceado entre ambas subdivisiones.</p>
+</section>
+<section id="analisis-univariado-de-variables">
+<h2>Análisis Univariado de variables<a class="headerlink" href="#analisis-univariado-de-variables" title="Link to this heading">#</a></h2>
+<section id="analisis-de-la-variable-grade-target">
+<h3>Análisis de la variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code> (Target)<a class="headerlink" href="#analisis-de-la-variable-grade-target" title="Link to this heading">#</a></h3>
+<p>Resumen estadístico de la variable objetivo:</p>
 <p>There is a lot more that you can do with outputs (such as including interactive outputs)
 with your book. For more information about this, see <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a></p>
+</section>
 </section>
 </section>
 
@@ -1203,7 +1301,7 @@ with your book. For more information about this, see <a class="reference externa
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Proyecto - Visualización de Datos</p>
+        <p class="prev-next-title">Glioma Grading Clinical and Mutation Features - Visualización de Datos 2026</p>
       </div>
     </a>
 </div>
@@ -1222,10 +1320,17 @@ with your book. For more information about this, see <a class="reference externa
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contexto-de-los-datos">Contexto de los datos</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-objetivo">Variable objetivo</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-clinicas">Variables clínicas</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-geneticas">Variables genéticas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estructura">Estructura</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-data">Missing data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division-del-dataset">División del dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-univariado-de-variables">Análisis Univariado de variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-de-la-variable-grade-target">Análisis de la variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code> (Target)</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

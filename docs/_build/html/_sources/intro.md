@@ -1,7 +1,7 @@
 <div align="center">
 
-# Proyecto - Visualización de Datos
-
+# Glioma Grading Clinical and Mutation Features - Visualización de Datos 2026
+**Optimización del Diagnóstico de Gliomas mediante Ciencia de Datos y Aprendizaje Automático**
 <br>
 
 **Autores**
@@ -17,11 +17,9 @@ Joshua Hincapie
 
 ## Introducción
 
-Este proyecto presenta un **Análisis Exploratorio de Datos (Exploratory Data Analysis, EDA)** aplicado a un conjunto de datos relacionado con **gliomas**. El análisis integra información clínica de pacientes y características genéticas, con el propósito de explorar sus principales patrones, relaciones y tendencias.
+Los gliomas representan el tumor cerebral primario más común en adultos y se clasifican principalmente en Gliomas de Bajo Grado (LGG) y Glioblastoma Multiforme (GBM). Si bien los criterios histológicos e imagenológicos tradicionales han sido la base del diagnóstico, la caracterización biomolecular y clínica se ha vuelto imprescindible para determinar el pronóstico y el tratamiento idóneo. Sin embargo, las pruebas de secuenciación genética completa suponen un coste económico elevado para los sistemas de salud y los pacientes.
 
-A través de técnicas de análisis estadístico y **visualización de datos**, se busca comprender la estructura del conjunto de datos, identificar posibles relaciones entre las variables y obtener información relevante que permita caracterizar los datos y facilitar su interpretación.
-
-
+Este proyecto aborda este desafío analítico y médico mediante la integración de Análisis Exploratorio de Datos (EDA), aprendizaje automático y visualización interactiva. Utilizando datos recopilados de los proyectos TCGA-LGG y TCGA-GBM de *The Cancer Genome Atlas*, el objetivo central es construir una solución analítica integral que identifique el subconjunto óptimo de factores clínicos y mutaciones genéticas para clasificar con precisión la severidad del glioma, reduciendo los costos asociados a pruebas moleculares innecesarias.
 
 
 
@@ -63,6 +61,13 @@ El proyecto se desarrollará mediante las siguientes etapas:
 
 1. Análisis Exploratorio de Datos (EDA)
 
+
+**Ficha Técnica del Dataset**
+
+* **Muestra:** 839 registros de pacientes.
+* **Atributos (23):** 20 genes con alta frecuencia de mutación y 3 variables clínicas relevantes.
+* **Variable Objetivo:** Clasificación binaria entre **LGG** (Lower-Grade Glioma) y **GBM** (Glioblastoma Multiforme).
+* **Naturaleza de datos:** Tabular, multivariada (numérica y categórica)
 
 ## Estructura
 
