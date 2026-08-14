@@ -1,12 +1,20 @@
-# Proyecto - Visualización de Datos
-
 <div align="center">
+
+# Proyecto de Visualización de Datos
+
+<br>
 
 **Autores**
 
-Alejandro Cantillo
+Alejandro Cantillo  
+Joshua Hincapie
 
-Joshua Hincapie  
+<br>
+
+---
+
+**Proyecto académico**
+
 </div>
 
 ## Introducción
