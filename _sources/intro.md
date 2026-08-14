@@ -17,103 +17,12 @@ Joshua Hincapie
 
 ## Introducción
 
-<div style="
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.15);
-    background: rgba(255,255,255,0.04);
-">
+Este proyecto presenta un **Análisis Exploratorio de Datos (Exploratory Data Analysis, EDA)** aplicado a un conjunto de datos relacionado con **gliomas**. El análisis integra información clínica de pacientes y características genéticas, con el propósito de explorar sus principales patrones, relaciones y tendencias.
 
-<p style="line-height: 1.7;">
-
-Este proyecto presenta un <strong>Análisis Exploratorio de Datos
-(Exploratory Data Analysis, EDA)</strong> aplicado a un conjunto de datos
-relacionado con <strong>gliomas</strong>, que contiene información clínica
-y características genéticas de pacientes.
-
-</p>
-
-<div style="
-    margin-top: 18px;
-    padding: 12px 16px;
-    border-radius: 6px;
-    background: rgba(77,166,255,0.10);
-">
-
-<strong>🎯 Objetivo</strong>
-
-<p style="margin-top: 8px; margin-bottom: 0; line-height: 1.6;">
-
-Explorar y visualizar las características del conjunto de datos para
-identificar patrones, relaciones y tendencias relevantes, facilitando
-la interpretación de la información clínica y genética.
-
-</p>
-
-</div>
-</div>
+A través de técnicas de análisis estadístico y **visualización de datos**, se busca comprender la estructura del conjunto de datos, identificar posibles relaciones entre las variables y obtener información relevante que permita caracterizar los datos y facilitar su interpretación.
 
 
-## Introduccion 2
-<div style="
-    display: flex;
-    gap: 15px;
-    margin: 25px 0;
-    flex-wrap: wrap;
-">
 
-<div style="
-    flex: 1;
-    min-width: 200px;
-    padding: 20px;
-    border-radius: 10px;
-    background: rgba(77,166,255,0.10);
-    border: 1px solid rgba(77,166,255,0.25);
-">
-
-<h4>🧬 Datos</h4>
-
-<p>
-Información clínica y características genéticas relacionadas con gliomas.
-</p>
-
-</div>
-
-<div style="
-    flex: 1;
-    min-width: 200px;
-    padding: 20px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.15);
-">
-
-<h4>📊 Análisis</h4>
-
-<p>
-Exploración de patrones, relaciones, distribuciones y tendencias.
-</p>
-
-</div>
-
-<div style="
-    flex: 1;
-    min-width: 200px;
-    padding: 20px;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.15);
-">
-
-<h4>🎯 Objetivo</h4>
-
-<p>
-Comunicar los principales hallazgos mediante visualizaciones claras.
-</p>
-
-</div>
-
-</div>
 
 
 ## Objetivo
