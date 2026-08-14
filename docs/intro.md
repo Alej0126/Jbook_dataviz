@@ -18,31 +18,102 @@ Joshua Hincapie
 ## Introducción
 
 <div style="
-    background-color: #1e1e1e;
-    border-left: 5px solid #4da6ff;
-    padding: 20px 25px;
-    margin: 20px 0;
-    border-radius: 8px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.04);
 ">
 
-<p style="font-size: 1.05em; line-height: 1.7;">
+<p style="line-height: 1.7;">
 
 Este proyecto presenta un <strong>Análisis Exploratorio de Datos
 (Exploratory Data Analysis, EDA)</strong> aplicado a un conjunto de datos
 relacionado con <strong>gliomas</strong>, que contiene información clínica
 y características genéticas de pacientes.
 
-<br><br>
+</p>
 
-A través de técnicas de <strong>visualización de datos</strong>, se busca
-explorar las principales características del conjunto de datos, identificar
-patrones y relaciones entre las variables, y comunicar los resultados de
-forma clara e intuitiva.
+<div style="
+    margin-top: 18px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    background: rgba(77,166,255,0.10);
+">
+
+<strong>🎯 Objetivo</strong>
+
+<p style="margin-top: 8px; margin-bottom: 0; line-height: 1.6;">
+
+Explorar y visualizar las características del conjunto de datos para
+identificar patrones, relaciones y tendencias relevantes, facilitando
+la interpretación de la información clínica y genética.
 
 </p>
 
 </div>
+</div>
 
+
+## Introduccion 2
+<div style="
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+">
+
+<div style="
+    flex: 1;
+    min-width: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(77,166,255,0.10);
+    border: 1px solid rgba(77,166,255,0.25);
+">
+
+<h4>🧬 Datos</h4>
+
+<p>
+Información clínica y características genéticas relacionadas con gliomas.
+</p>
+
+</div>
+
+<div style="
+    flex: 1;
+    min-width: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+">
+
+<h4>📊 Análisis</h4>
+
+<p>
+Exploración de patrones, relaciones, distribuciones y tendencias.
+</p>
+
+</div>
+
+<div style="
+    flex: 1;
+    min-width: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+">
+
+<h4>🎯 Objetivo</h4>
+
+<p>
+Comunicar los principales hallazgos mediante visualizaciones claras.
+</p>
+
+</div>
+
+</div>
 
 
 ## Objetivo
@@ -66,6 +137,10 @@ Para el análisis se utilizarán dos archivos:
 
 - `TCGA_GBM_LGG_Mutations_all.csv`
 - `TCGA_InfoWithGrade.csv`
+
+Los datos utilizados en este proyecto proceden de información clínica 
+y molecular asociada al estudio de gliomas dentro de The Cancer Genome 
+Atlas (TCGA).
 
 Estos archivos contienen información clínica y características
 relacionadas con mutaciones genéticas de pacientes con glioma. 
