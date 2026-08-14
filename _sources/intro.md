@@ -1,6 +1,6 @@
 <div align="center">
 
-# Proyecto de Visualización de Datos
+# Proyecto - Visualización de Datos
 
 <br>
 
@@ -13,16 +13,36 @@ Joshua Hincapie
 
 ---
 
-**Proyecto académico**
-
 </div>
 
 ## Introducción
 
-En este proyecto se realizará un Análisis Exploratorio de Datos
-(Exploratory Data Analysis, EDA) sobre un conjunto de datos
-relacionado con gliomas, utilizando información clínica y
-características genéticas obtenidas a partir de datos de pacientes.
+<div style="
+    background-color: #1e1e1e;
+    border-left: 5px solid #4da6ff;
+    padding: 20px 25px;
+    margin: 20px 0;
+    border-radius: 8px;
+">
+
+<p style="font-size: 1.05em; line-height: 1.7;">
+
+Este proyecto presenta un <strong>Análisis Exploratorio de Datos
+(Exploratory Data Analysis, EDA)</strong> aplicado a un conjunto de datos
+relacionado con <strong>gliomas</strong>, que contiene información clínica
+y características genéticas de pacientes.
+
+<br><br>
+
+A través de técnicas de <strong>visualización de datos</strong>, se busca
+explorar las principales características del conjunto de datos, identificar
+patrones y relaciones entre las variables, y comunicar los resultados de
+forma clara e intuitiva.
+
+</p>
+
+</div>
+
 
 
 ## Objetivo
