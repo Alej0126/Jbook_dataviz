@@ -62,18 +62,19 @@ El proyecto se desarrollará mediante las siguientes etapas:
 1. Análisis Exploratorio de Datos (EDA)
 
 
-**Ficha Técnica del Dataset**
-
-* **Muestra:** 839 registros de pacientes.
-* **Atributos (23):** 20 genes con alta frecuencia de mutación y 3 variables clínicas relevantes.
-* **Variable Objetivo:** Clasificación binaria entre **LGG** (Lower-Grade Glioma) y **GBM** (Glioblastoma Multiforme).
-* **Naturaleza de datos:** Tabular, multivariada (numérica y categórica)
 
 ## Estructura
 
 El Jupyter Book está organizado en diferentes secciones para
 presentar de manera progresiva el análisis exploratorio,
 el procesamiento de los datos y las visualizaciones obtenidas.
+
+**Ficha Técnica del Dataset**
+
+* **Muestra:** 839 registros de pacientes.
+* **Atributos (23):** 20 genes con alta frecuencia de mutación y 3 variables clínicas relevantes.
+* **Variable Objetivo:** Clasificación binaria entre **LGG** (Lower-Grade Glioma) y **GBM** (Glioblastoma Multiforme).
+* **Naturaleza de datos:** Tabular, multivariada (numérica y categórica)
 
 
 ```{tableofcontents}
