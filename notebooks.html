@@ -384,8 +384,8 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division-del-dataset">División del dataset</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-univariado-de-variables">Análisis Univariado de variables</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-grade-target">Variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code> (Target)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cuantitativas">Variables cuantitativas:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cualitativas">Variables cualitativas:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cuantitativas">Variables cuantitativas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cualitativas">Variables cualitativas</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gender"><code class="docutils literal notranslate"><span class="pre">Gender</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#race"><code class="docutils literal notranslate"><span class="pre">Race</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">Variables</span> <span class="pre">genéticas</span></code></a></li>
@@ -1031,12 +1031,12 @@ estadísticas descriptivas del conjunto de datos.</p>
 <p>Resumen estadístico de la variable objetivo:</p>
 </section>
 <section id="variables-cuantitativas">
-<h3>Variables cuantitativas:<a class="headerlink" href="#variables-cuantitativas" title="Link to this heading">#</a></h3>
+<h3>Variables cuantitativas<a class="headerlink" href="#variables-cuantitativas" title="Link to this heading">#</a></h3>
 <p>Resumen estadístico de la variable <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code>:</p>
 </section>
 <section id="variables-cualitativas">
-<h3>Variables cualitativas:<a class="headerlink" href="#variables-cualitativas" title="Link to this heading">#</a></h3>
-<p>Para las variables categóricas se analizaron las frecuencias absolutas y relativas de cada una de sus categorías. Las siguientes tablas presentan la distribución de frecuencias y porcentajes para cada variable, permitiendo identificar de forma clara la proporción de las diferentes categorías presentes en el conjunto de datos.</p>
+<h3>Variables cualitativas<a class="headerlink" href="#variables-cualitativas" title="Link to this heading">#</a></h3>
+<p>Para las variables categóricas se realizó un análisis univariado basado en sus frecuencias absolutas y relativas. Para cada variable se presenta una tabla con el número de observaciones y el porcentaje correspondiente a cada categoría, acompañada de su respectivo gráfico de barras de frecuencia. Esta representación permite visualizar y comparar la distribución de las categorías, así como identificar aquellas con mayor o menor presencia dentro del conjunto de datos.</p>
 <section id="gender">
 <h4><code class="docutils literal notranslate"><span class="pre">Gender</span></code><a class="headerlink" href="#gender" title="Link to this heading">#</a></h4>
 <p>La distribución por género muestra un ligero predominio de hombres, correspondientes a la categoría <code class="docutils literal notranslate"><span class="pre">0</span></code>, con 398 registros <strong>(59,31 %)</strong>. Por su parte, las mujeres, representadas por la categoría <code class="docutils literal notranslate"><span class="pre">1</span></code>, corresponden a 273 registros <strong>(40,69 %)</strong>.</p>
@@ -1079,25 +1079,28 @@ estadísticas descriptivas del conjunto de datos.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Frecuencia&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">valor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">frecuencias_gender</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">porcentaje</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tabla_gender</span><span class="p">[</span><span class="s2">&quot;Porcentaje&quot;</span><span class="p">]):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
         <span class="n">i</span><span class="p">,</span>
-        <span class="n">valor</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span>
-        <span class="nb">str</span><span class="p">(</span><span class="n">valor</span><span class="p">),</span>
+        <span class="n">frecuencias_gender</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">porcentaje</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span>
         <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span>
     <span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;div style=&#39;margin-top: 30px;&#39;&gt;&lt;/div&gt;&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 
-<span class="n">tabla_gender</span>
+<span class="n">display</span><span class="p">(</span><span class="n">tabla_gender</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/f0bf08139cc77d84c269114e201d418f1ca662acb17849130ee7da6ed79593e7.png" src="_images/f0bf08139cc77d84c269114e201d418f1ca662acb17849130ee7da6ed79593e7.png" />
-<div class="output text_html"><div>
+<img alt="_images/126add573ba120b834ad78b772bd11340ed0ae233d7c2f998dfad37c94de0c39.png" src="_images/126add573ba120b834ad78b772bd11340ed0ae233d7c2f998dfad37c94de0c39.png" />
+<div class="output text_html"><div style='margin-top: 30px;'></div></div><div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1188,25 +1191,28 @@ estadísticas descriptivas del conjunto de datos.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Frecuencia&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">valor</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">frecuencias_race</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">porcentaje</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tabla_race</span><span class="p">[</span><span class="s2">&quot;Porcentaje&quot;</span><span class="p">]):</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
         <span class="n">i</span><span class="p">,</span>
-        <span class="n">valor</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span>
-        <span class="nb">str</span><span class="p">(</span><span class="n">valor</span><span class="p">),</span>
+        <span class="n">frecuencias_race</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">porcentaje</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span>
         <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span>
     <span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
+<span class="n">display</span><span class="p">(</span>
+    <span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;div style=&#39;margin-top: 30px;&#39;&gt;&lt;/div&gt;&quot;</span><span class="p">)</span>
+<span class="p">)</span>
 
-<span class="n">tabla_race</span>
+<span class="n">display</span><span class="p">(</span><span class="n">tabla_race</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/8bfbec46955b38e3dace06b77f8c960dcb5f9086a0dac2b04f178d99143078dc.png" src="_images/8bfbec46955b38e3dace06b77f8c960dcb5f9086a0dac2b04f178d99143078dc.png" />
-<div class="output text_html"><div>
+<img alt="_images/c9f821cb63762aaddf6960d27012292d3e0ac34863d68aa3f2a88b57d22b3d7f.png" src="_images/c9f821cb63762aaddf6960d27012292d3e0ac34863d68aa3f2a88b57d22b3d7f.png" />
+<div class="output text_html"><div style='margin-top: 30px;'></div></div><div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -1262,7 +1268,8 @@ estadísticas descriptivas del conjunto de datos.</p>
 <section id="id1">
 <h4><code class="docutils literal notranslate"><span class="pre">Variables</span> <span class="pre">genéticas</span></code><a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
 <p>Las variables genéticas presentan una distribución predominantemente concentrada en la categoría <code class="docutils literal notranslate"><span class="pre">0</span></code>, correspondiente a la ausencia de mutación, mientras que la categoría <code class="docutils literal notranslate"><span class="pre">1</span></code> representa su presencia.</p>
-<p>Entre los genes analizados, <strong>IDH1</strong> presenta la mayor proporción de casos con mutación, con 322 registros <strong>(47,99 %)</strong>, seguido de <strong>TP53</strong>, con 270 registros <strong>(40,24 %)</strong>. A continuación se encuentran <strong>ATRX</strong> con <strong>25,63 %</strong>, <strong>PTEN</strong> con <strong>16,84 %</strong>, <strong>CIC</strong> con <strong>13,71 %</strong>, <strong>EGFR</strong> con <strong>11,62 %</strong> y <strong>MUC16</strong> con <strong>11,03 %</strong>. En un nivel intermedio se encuentran <strong>PIK3CA (8,49 %)</strong>, <strong>NF1 (8,35 %)</strong> y <strong>FUBP1 (6,26 %)</strong>, mientras que <strong>PIK3R1 (5,81 %)</strong>, <strong>RB1 (4,92 %)</strong> y <strong>NOTCH1 (4,92 %)</strong> presentan proporciones inferiores al 6 %. Finalmente, genes como <strong>CSMD3 (3,43 %)</strong>, <strong>SMARCA4 (3,43 %)</strong>, <strong>IDH2 (3,13 %)</strong>, <strong>BCOR (3,28 %)</strong>, <strong>GRIN2A (2,83 %)</strong>, <strong>FAT4 (2,68 %)</strong> y <strong>PDGFRA (2,68 %)</strong> muestran una presencia de mutaciones relativamente baja en el conjunto analizado. En términos generales, se observa una alta variabilidad en la frecuencia de las mutaciones entre los genes, con una mayor concentración en IDH1 y TP53 y una presencia considerablemente menor en los genes restantes. Esto evidencia que las alteraciones genéticas no se distribuyen de manera uniforme en la muestra y que algunos genes presentan una representación mutacional mucho mayor que otros.</p>
+<p>Entre los genes analizados, <strong>IDH1</strong> presenta la mayor proporción de casos con mutación, con 322 registros <strong>(47,99 %)</strong>, seguido de <strong>TP53</strong>, con 270 registros <strong>(40,24 %)</strong>. A continuación se encuentran <strong>ATRX</strong> con <strong>25,63 %</strong>, <strong>PTEN</strong> con <strong>16,84 %</strong>, <strong>CIC</strong> con <strong>13,71 %</strong>, <strong>EGFR</strong> con <strong>11,62 %</strong> y <strong>MUC16</strong> con <strong>11,03 %</strong>. En un nivel intermedio se encuentran <strong>PIK3CA (8,49 %)</strong>, <strong>NF1 (8,35 %)</strong> y <strong>FUBP1 (6,26 %)</strong>, mientras que <strong>PIK3R1 (5,81 %)</strong>, <strong>RB1 (4,92 %)</strong> y <strong>NOTCH1 (4,92 %)</strong> presentan proporciones inferiores al 6 %. Finalmente, genes como <strong>CSMD3 (3,43 %)</strong>, <strong>SMARCA4 (3,43 %)</strong>, <strong>IDH2 (3,13 %)</strong>, <strong>BCOR (3,28 %)</strong>, <strong>GRIN2A (2,83 %)</strong>, <strong>FAT4 (2,68 %)</strong> y <strong>PDGFRA (2,68 %)</strong> muestran una presencia de mutaciones relativamente baja en el conjunto analizado.</p>
+<p>En términos generales, se observa una alta variabilidad en la frecuencia de las mutaciones entre los genes, con una mayor concentración en IDH1 y TP53 y una presencia considerablemente menor en los genes restantes. Esto evidencia que las alteraciones genéticas no se distribuyen de manera uniforme en la muestra y que algunos genes presentan una representación mutacional mucho mayor que otros.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variables_categoricas</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span>
@@ -2431,8 +2438,8 @@ with your book. For more information about this, see <a class="reference externa
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division-del-dataset">División del dataset</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-univariado-de-variables">Análisis Univariado de variables</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-grade-target">Variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code> (Target)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cuantitativas">Variables cuantitativas:</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cualitativas">Variables cualitativas:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cuantitativas">Variables cuantitativas</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cualitativas">Variables cualitativas</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#gender"><code class="docutils literal notranslate"><span class="pre">Gender</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#race"><code class="docutils literal notranslate"><span class="pre">Race</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">Variables</span> <span class="pre">genéticas</span></code></a></li>
