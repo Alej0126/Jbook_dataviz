@@ -15,35 +15,122 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from sklearn.model_selection import train_test_split
+variables_categoricas = train_data.select_dtypes(
+    include=["category"]
+).columns.drop(["Grade", "Gender", "Race"])
 
-x = df_info.drop(columns=['Grade'])
-y = df_info['Grade']
+bloques = []
 
-X_train, X_test, y_train, y_test = train_test_split(
-    x, 
-    y, 
-    test_size=0.20, 
-    random_state=42, 
-    stratify=y
-)
+for variable in variables_categoricas:
 
-train_data = pd.concat([X_train, y_train], axis=1)
+    # Tabla de frecuencias
+    tabla = (
+        train_data[variable]
+        .value_counts(dropna=False)
+        .rename_axis("Categoría")
+        .reset_index(name="Frecuencia")
+    )
+
+    tabla["Porcentaje"] = (
+        tabla["Frecuencia"] / tabla["Frecuencia"].sum() * 100
+    ).round(2)
+
+    html_tabla = tabla.to_html(
+        index=False,
+        classes="tabla-categorica"
+    )
+
+    # Gráfico de barras
+    frecuencias = train_data[variable].value_counts(dropna=False)
+
+    fig, ax = plt.subplots(figsize=(5, 3))
+
+    frecuencias.plot(
+        kind="bar",
+        ax=ax
+    )
+
+    ax.set_title(f"Frecuencia de {variable}")
+    ax.set_xlabel("Categoría")
+    ax.set_ylabel("Frecuencia")
+    ax.tick_params(axis="x", rotation=0)
+
+    plt.tight_layout()
+
+    buffer = io.BytesIO()
+    fig.savefig(
+        buffer,
+        format="png",
+        dpi=120,
+        bbox_inches="tight"
+    )
+    plt.close(fig)
+
+    imagen_base64 = base64.b64encode(
+        buffer.getvalue()
+    ).decode()
+
+    bloque = f"""
+    <div style="
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    ">
+
+        <h4 style="margin-bottom: 10px;">
+            {variable}
+        </h4>
+
+        <!-- FILA: TABLA -->
+        <div style="
+            margin-bottom: 15px;
+        ">
+            {html_tabla}
+        </div>
+
+        <!-- FILA: GRÁFICO -->
+        <div style="
+            text-align: center;
+        ">
+            <img
+                src="data:image/png;base64,{imagen_base64}"
+                style="max-width: 100%;"
+            >
+        </div>
+
+    </div>
+    """
+
+    bloques.append(bloque)
+
+html_final = f"""
+<div style="
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 20px;
+">
+    {''.join(bloques)}
+</div>
+"""
+
+display(HTML(html_final))
 ------------------
 
 
 [1;31m---------------------------------------------------------------------------[0m
 [1;31mNameError[0m                                 Traceback (most recent call last)
-Cell [1;32mIn[6], line 3[0m
-[0;32m      1[0m [38;5;28;01mfrom[39;00m[38;5;250m [39m[38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mmodel_selection[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m train_test_split
-[1;32m----> 3[0m x [38;5;241m=[39m [43mdf_info[49m[38;5;241m.[39mdrop(columns[38;5;241m=[39m[[38;5;124m'[39m[38;5;124mGrade[39m[38;5;124m'[39m])
-[0;32m      4[0m y [38;5;241m=[39m df_info[[38;5;124m'[39m[38;5;124mGrade[39m[38;5;124m'[39m]
-[0;32m      6[0m X_train, X_test, y_train, y_test [38;5;241m=[39m train_test_split(
-[0;32m      7[0m     x, 
-[0;32m      8[0m     y, 
-[1;32m   (...)[0m
-[0;32m     11[0m     stratify[38;5;241m=[39my
-[0;32m     12[0m )
+Cell [1;32mIn[9], line 43[0m
+[0;32m     39[0m ax[38;5;241m.[39mtick_params(axis[38;5;241m=[39m[38;5;124m"[39m[38;5;124mx[39m[38;5;124m"[39m, rotation[38;5;241m=[39m[38;5;241m0[39m)
+[0;32m     41[0m plt[38;5;241m.[39mtight_layout()
+[1;32m---> 43[0m buffer [38;5;241m=[39m [43mio[49m[38;5;241m.[39mBytesIO()
+[0;32m     44[0m fig[38;5;241m.[39msavefig(
+[0;32m     45[0m     buffer,
+[0;32m     46[0m     [38;5;28mformat[39m[38;5;241m=[39m[38;5;124m"[39m[38;5;124mpng[39m[38;5;124m"[39m,
+[0;32m     47[0m     dpi[38;5;241m=[39m[38;5;241m120[39m,
+[0;32m     48[0m     bbox_inches[38;5;241m=[39m[38;5;124m"[39m[38;5;124mtight[39m[38;5;124m"[39m
+[0;32m     49[0m )
+[0;32m     50[0m plt[38;5;241m.[39mclose(fig)
 
-[1;31mNameError[0m: name 'df_info' is not defined
+[1;31mNameError[0m: name 'io' is not defined
 
