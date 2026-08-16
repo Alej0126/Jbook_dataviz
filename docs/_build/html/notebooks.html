@@ -1187,34 +1187,22 @@ estadísticas descriptivas del conjunto de datos.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="n">display</span><span class="p">(</span>
-    <span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;div style=&#39;margin-top: 30px;&#39;&gt;&lt;/div&gt;&quot;</span><span class="p">)</span>
+<span class="n">tabla_html</span> <span class="o">=</span> <span class="n">tabla_race</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">tabla_html</span> <span class="o">=</span> <span class="n">tabla_html</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+    <span class="s2">&quot;&lt;table&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;&lt;table style=&quot;margin-top: 30px;&quot;&#39;</span>
 <span class="p">)</span>
 
-<span class="n">display</span><span class="p">(</span><span class="n">tabla_race</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">tabla_html</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/c9f821cb63762aaddf6960d27012292d3e0ac34863d68aa3f2a88b57d22b3d7f.png" src="_images/c9f821cb63762aaddf6960d27012292d3e0ac34863d68aa3f2a88b57d22b3d7f.png" />
-<div class="output text_html"><div style='margin-top: 30px;'></div></div><div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table style="margin-top: 30px;" border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th></th>
       <th>Grupo racial</th>
       <th>Frecuencia</th>
       <th>Porcentaje</th>
@@ -1222,32 +1210,27 @@ estadísticas descriptivas del conjunto de datos.</p>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
       <td>White</td>
       <td>611</td>
       <td>91.06</td>
     </tr>
     <tr>
-      <th>1</th>
       <td>Black or African American</td>
       <td>46</td>
       <td>6.86</td>
     </tr>
     <tr>
-      <th>2</th>
       <td>Asian</td>
       <td>13</td>
       <td>1.94</td>
     </tr>
     <tr>
-      <th>3</th>
       <td>American Indian or Alaska Native</td>
       <td>1</td>
       <td>0.15</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 </section>
 <section id="id1">
