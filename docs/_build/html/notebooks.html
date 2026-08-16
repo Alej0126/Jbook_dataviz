@@ -1090,44 +1090,22 @@ estadísticas descriptivas del conjunto de datos.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="n">display</span><span class="p">(</span>
-    <span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    &lt;div style=&quot;</span>
-<span class="s2">        height: 30px;</span>
-<span class="s2">        background: transparent !important;</span>
-<span class="s2">    &quot;&gt;&lt;/div&gt;</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+<span class="n">tabla_html</span> <span class="o">=</span> <span class="n">tabla_gender</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">tabla_html</span> <span class="o">=</span> <span class="n">tabla_html</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+    <span class="s2">&quot;&lt;table&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;&lt;table style=&quot;margin-top: 30px;&quot;&#39;</span>
 <span class="p">)</span>
 
-<span class="n">display</span><span class="p">(</span><span class="n">tabla_gender</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">tabla_html</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/126add573ba120b834ad78b772bd11340ed0ae233d7c2f998dfad37c94de0c39.png" src="_images/126add573ba120b834ad78b772bd11340ed0ae233d7c2f998dfad37c94de0c39.png" />
-<div class="output text_html">
-    <div style="
-        height: 30px;
-        background: transparent !important;
-    "></div>
-    </div><div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
+<div class="output text_html"><table style="margin-top: 30px;" border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th></th>
       <th>Género</th>
       <th>Frecuencia</th>
       <th>Porcentaje</th>
@@ -1135,20 +1113,17 @@ estadísticas descriptivas del conjunto de datos.</p>
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
       <td>Hombre</td>
       <td>398</td>
       <td>59.31</td>
     </tr>
     <tr>
-      <th>1</th>
       <td>Mujer</td>
       <td>273</td>
       <td>40.69</td>
     </tr>
   </tbody>
-</table>
-</div></div></div>
+</table></div></div>
 </div>
 </section>
 <section id="race">
