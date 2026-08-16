@@ -382,7 +382,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estructura">Estructura</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-data">Missing data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division-del-dataset">División del dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-univariado-de-variables">Análisis Univariado de variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-univariado">Análisis Univariado</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-grade-target">Variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code> (Target)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cuantitativas">Variables cuantitativas</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cualitativas">Variables cualitativas</a><ul class="nav section-nav flex-column">
@@ -394,6 +394,13 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-bivariado">Análisis Bivariado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Análisis bivariado</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-idh1"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">IDH1</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-tp53"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">TP53</span></code></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -1025,8 +1032,8 @@ estadísticas descriptivas del conjunto de datos.</p>
 </div>
 <p>Para asegurar una evaluación rigurosa del modelo y prevenir la fuga de datos, el conjunto original de 839 registros se dividió en una proporción 80/20 mediante una partición estratificada basada en la variable objetivo (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>). De este modo, se reservó un conjunto de prueba (<em>Test set</em>) compuesto por 168 pacientes exclusivamente para la validación final del rendimiento, mientras que las 671 observaciones restantes formaron el conjunto de entrenamiento (<em>Train set</em>), garantizando que el patrón de distribución de las clases —aproximadamente 58% para tumores de bajo grado (LGG) y 42% para glioblastomas (GBM)— se mantuviera perfectamente balanceado entre ambas subdivisiones.</p>
 </section>
-<section id="analisis-univariado-de-variables">
-<h2>Análisis Univariado de variables<a class="headerlink" href="#analisis-univariado-de-variables" title="Link to this heading">#</a></h2>
+<section id="analisis-univariado">
+<h2>Análisis Univariado<a class="headerlink" href="#analisis-univariado" title="Link to this heading">#</a></h2>
 <section id="variable-grade-target">
 <h3>Variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code> (Target)<a class="headerlink" href="#variable-grade-target" title="Link to this heading">#</a></h3>
 <p>Resumen estadístico de la variable objetivo:</p>
@@ -2341,8 +2348,525 @@ estadísticas descriptivas del conjunto de datos.</p>
 </section>
 <section id="analisis-bivariado">
 <h2>Análisis Bivariado<a class="headerlink" href="#analisis-bivariado" title="Link to this heading">#</a></h2>
+</section>
+<section id="id2">
+<h2>Análisis bivariado<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>En esta sección se analiza la relación entre las variables categóricas independientes y la variable objetivo <code class="docutils literal notranslate"><span class="pre">Grade</span></code>. Para cada variable se comparan las frecuencias absolutas y relativas de sus categorías dentro de cada nivel de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, con el propósito de identificar posibles diferencias en su distribución según la variable objetivo. Las comparaciones se complementan mediante gráficos de barras agrupadas, facilitando la interpretación visual de los patrones observados.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analisis_bivariado</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">etiquetas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">titulo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">df_plot</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df</span>
+        <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">target</span><span class="p">,</span> <span class="n">variable</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;categoria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_plot</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span>
+    
+    <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;porcentaje&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">]</span> <span class="o">/</span>
+        <span class="n">df_plot</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">target</span><span class="p">)[</span><span class="s2">&quot;n&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_plot</span><span class="p">[</span>
+        <span class="p">[</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;categoria&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;porcentaje&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">etiquetas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;categoria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;categoria&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">etiquetas</span><span class="p">)</span>
+
+
+
+    <span class="n">categorias</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;categoria&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    <span class="n">grupos</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df_plot</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">categorias</span><span class="p">))</span>
+    <span class="n">ancho</span> <span class="o">=</span> <span class="mf">0.35</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">grupo</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">grupos</span><span class="p">):</span>
+
+        <span class="n">datos</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">df_plot</span><span class="p">[</span><span class="n">df_plot</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">==</span> <span class="n">grupo</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;categoria&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">categorias</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">posiciones</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grupos</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">ancho</span>
+        <span class="p">)</span>
+
+        <span class="n">barras</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+            <span class="n">posiciones</span><span class="p">,</span>
+            <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">],</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">ancho</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">grupo</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">barra</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">porcentaje</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">barras</span><span class="p">,</span>
+            <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">],</span>
+            <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;porcentaje&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                    <span class="n">barra</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">barra</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="n">barra</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">porcentaje</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+                    <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span>
+                <span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="n">titulo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">titulo</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Distribución de </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2"> según </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">if</span> <span class="n">xlabel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xlabel</span> <span class="o">=</span> <span class="n">variable</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titulo</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Cantidad de pacientes&quot;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">categorias</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">df_plot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="grade-gender">
+<h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code><a class="headerlink" href="#grade-gender" title="Link to this heading">#</a></h3>
+<p>La distribución del género presenta diferencias entre los dos niveles de Grade. En Grade 0, se registran 220 hombres (56,6%) y 169 mujeres (43,4%), mientras que en Grade 1 se observan 178 hombres (63,1%) y 104 mujeres (36,9%). En ambos niveles predomina el género masculino; sin embargo, esta predominancia es mayor en Grade 1, donde los hombres representan el 63,1% frente al 56,6% en Grade 0. Por otro lado, la proporción de mujeres disminuye de 43,4% en Grade 0 a 36,9% en Grade 1. En términos descriptivos, estos resultados sugieren una mayor representación masculina en Grade 1, aunque las diferencias observadas no permiten establecer por sí solas una asociación estadísticamente significativa entre el género y Grade.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabla_gender_bivariada</span> <span class="o">=</span> <span class="n">analisis_bivariado</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">,</span>
+    <span class="n">target</span><span class="o">=</span><span class="s2">&quot;Grade&quot;</span><span class="p">,</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Gender&quot;</span><span class="p">,</span>
+    <span class="n">etiquetas</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Hombre&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Mujer&quot;</span>
+    <span class="p">},</span>
+    <span class="n">titulo</span><span class="o">=</span><span class="s2">&quot;Distribución del género según Grade&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Género&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6b77614237261220735fcf33287b9097ba180d7e9c2f63691cf964f0b2028155.png" src="_images/6b77614237261220735fcf33287b9097ba180d7e9c2f63691cf964f0b2028155.png" />
+</div>
+</div>
+</section>
+<section id="grade-race">
+<h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code><a class="headerlink" href="#grade-race" title="Link to this heading">#</a></h3>
+<p>La distribución por grupo racial muestra un predominio marcado de la población blanca en ambos niveles de Grade. En Grade 0, el grupo White concentra 365 pacientes (93,8%), mientras que en Grade 1 representa 246 pacientes (87,2%). El grupo Black or African American constituye el segundo grupo con mayor representación, con 16 pacientes (4,1%) en Grade 0 y 30 pacientes (10,6%) en Grade 1. Por su parte, la población asiática presenta una participación reducida, con 7 casos (1,8%) en Grade 0 y 6 casos (2,1%) en Grade 1, mientras que American Indian or Alaska Native presenta una presencia prácticamente nula, con 1 caso (0,3%) en Grade 0 y ningún caso en Grade 1**.**</p>
+<p>En términos comparativos, se observa que la proporción del grupo White disminuye en Grade 1, pasando de 93,8% a 87,2%, mientras que el grupo Black or African American aumenta de 4,1% a 10,6%.</p>
+<p>Adem’as, si bien existen diferencias en la distribución de los grupos raciales entre los niveles de Grade, estos resultados deben analizarse con precaución, ya que la muestra está fuertemente concentrada en el grupo White y algunas de las demás categorías presentan muy pocas observaciones.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabla_race_bivariada</span> <span class="o">=</span> <span class="n">analisis_bivariado</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">,</span>
+    <span class="n">target</span><span class="o">=</span><span class="s2">&quot;Grade&quot;</span><span class="p">,</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Race&quot;</span><span class="p">,</span>
+    <span class="n">etiquetas</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;White&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Black or African American&quot;</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Asian&quot;</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;American Indian&quot;</span>
+    <span class="p">},</span>
+    <span class="n">titulo</span><span class="o">=</span><span class="s2">&quot;Distribución del grupo racial según Grade&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Grupo racial&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/94d05ddf3a1535cd799a9089eade09028899468f19814cf2dc529086f33b01db.png" src="_images/94d05ddf3a1535cd799a9089eade09028899468f19814cf2dc529086f33b01db.png" />
+</div>
+</div>
+</section>
+<section id="grade-idh1">
+<h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">IDH1</span></code><a class="headerlink" href="#grade-idh1" title="Link to this heading">#</a></h3>
+<p>Al comparar la presencia de la mutación en IDH1 entre los dos niveles de Grade, se observa una diferencia bastante marcada. En los LGG (Grade 0), 303 pacientes (77,9%) presentan la mutación de IDH1, mientras que 86 pacientes (22,1%) no presentan la mutación. En contraste, en los GBM (Grade 1), solamente 19 pacientes (6,7%) presentan la mutación, mientras que 263 pacientes (93,3%) no la presentan.</p>
+<p>Esto muestra un patrón muy marcado donde la mutación de IDH1 es mucho más frecuente en los LGG que en los GBM. En los LGG, aproximadamente 8 de cada 10 pacientes presentan la mutación, mientras que en los GBM ocurre en aproximadamente 7 de cada 100 pacientes. Por el contrario, la ausencia de la mutación predomina ampliamente en los GBM.</p>
+<p>Desde una perspectiva descriptiva, estos resultados sugieren que la presencia de la mutación IDH1 está fuertemente asociada con los LGG en este conjunto de datos, mientras que su ausencia caracteriza en mayor proporción a los GBM.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabla_IDH1_bivariada</span> <span class="o">=</span> <span class="n">analisis_bivariado</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">,</span>
+    <span class="n">target</span><span class="o">=</span><span class="s2">&quot;Grade&quot;</span><span class="p">,</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;IDH1&quot;</span><span class="p">,</span>
+    <span class="n">etiquetas</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Ausencia&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Presencia&quot;</span>
+    <span class="p">},</span>
+    <span class="n">titulo</span><span class="o">=</span><span class="s2">&quot;Distribución de IDH1 según Grade&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Mutación IDH1&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/bfe7c496af8ca8acf6445f9ec550eb6c017890ea73767a0b78f1713ddf4170b4.png" src="_images/bfe7c496af8ca8acf6445f9ec550eb6c017890ea73767a0b78f1713ddf4170b4.png" />
+</div>
+</div>
+</section>
+<section id="grade-tp53">
+<h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">TP53</span></code><a class="headerlink" href="#grade-tp53" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabla_TP53_bivariada</span> <span class="o">=</span> <span class="n">analisis_bivariado</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">,</span>
+    <span class="n">target</span><span class="o">=</span><span class="s2">&quot;Grade&quot;</span><span class="p">,</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;TP53&quot;</span><span class="p">,</span>
+    <span class="n">etiquetas</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Ausencia&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Presencia&quot;</span>
+    <span class="p">},</span>
+    <span class="n">titulo</span><span class="o">=</span><span class="s2">&quot;Distribución de TP53 según Grade&quot;</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Mutación TP53&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9bf8b871a7affa568dc9d808c60f79b0f314ff4f144c1165622e30d9cc490cba.png" src="_images/9bf8b871a7affa568dc9d808c60f79b0f314ff4f144c1165622e30d9cc490cba.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Analisis_bivariado</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span>
+    <span class="n">target</span><span class="p">,</span>
+    <span class="n">variable</span><span class="p">,</span>
+    <span class="n">interpretacion</span><span class="p">,</span>
+    <span class="n">etiquetas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">titulo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Cantidad de pacientes&quot;</span><span class="p">,</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="p">):</span>
+    
+    <span class="c1"># ==========================================</span>
+    <span class="c1"># 1. Tabla de frecuencias</span>
+    <span class="c1"># ==========================================</span>
+
+    <span class="n">df_plot</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df</span>
+        <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">target</span><span class="p">,</span> <span class="n">variable</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;categoria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_plot</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span>
+
+    <span class="c1"># Porcentaje dentro de cada categoría de la variable target</span>
+    <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;porcentaje&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">]</span> <span class="o">/</span>
+        <span class="n">df_plot</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">target</span><span class="p">)[</span><span class="s2">&quot;n&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">df_plot</span> <span class="o">=</span> <span class="n">df_plot</span><span class="p">[</span>
+        <span class="p">[</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;categoria&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;porcentaje&quot;</span><span class="p">]</span>
+    <span class="p">]</span>
+
+    <span class="c1"># ==========================================</span>
+    <span class="c1"># 2. Cambiar etiquetas de las categorías</span>
+    <span class="c1"># ==========================================</span>
+
+    <span class="k">if</span> <span class="n">etiquetas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;categoria&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;categoria&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">etiquetas</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="c1"># ==========================================</span>
+    <span class="c1"># 3. Configuración del gráfico</span>
+    <span class="c1"># ==========================================</span>
+
+    <span class="n">categorias</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_plot</span><span class="p">[</span><span class="s2">&quot;categoria&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    <span class="n">grupos</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df_plot</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">categorias</span><span class="p">))</span>
+
+    <span class="c1"># Ancho automático según cantidad de grupos</span>
+    <span class="n">ancho</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">grupos</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+
+    <span class="c1"># ==========================================</span>
+    <span class="c1"># 4. Crear barras agrupadas</span>
+    <span class="c1"># ==========================================</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">grupo</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">grupos</span><span class="p">):</span>
+
+        <span class="n">datos</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">df_plot</span><span class="p">[</span><span class="n">df_plot</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">==</span> <span class="n">grupo</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;categoria&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">categorias</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">posiciones</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">grupos</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">ancho</span>
+        <span class="p">)</span>
+
+        <span class="n">barras</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+            <span class="n">posiciones</span><span class="p">,</span>
+            <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">],</span>
+            <span class="n">width</span><span class="o">=</span><span class="n">ancho</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">grupo</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Etiquetas de frecuencia + porcentaje</span>
+        <span class="k">for</span> <span class="n">barra</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">porcentaje</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">barras</span><span class="p">,</span>
+            <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;n&quot;</span><span class="p">],</span>
+            <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;porcentaje&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                    <span class="n">barra</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">+</span> <span class="n">barra</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                    <span class="n">barra</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">porcentaje</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+                    <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span>
+                <span class="p">)</span>
+
+    <span class="c1"># ==========================================</span>
+    <span class="c1"># 5. Configuración visual</span>
+    <span class="c1"># ==========================================</span>
+
+    <span class="k">if</span> <span class="n">titulo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">titulo</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Distribución de </span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2"> según </span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">if</span> <span class="n">xlabel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xlabel</span> <span class="o">=</span> <span class="n">variable</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titulo</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">categorias</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="c1"># ==========================================</span>
+    <span class="c1"># 6. Convertir gráfico a imagen</span>
+    <span class="c1"># ==========================================</span>
+
+    <span class="n">buffer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+        <span class="n">buffer</span><span class="p">,</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span>
+        <span class="n">dpi</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+        <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="n">imagen_base64</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span>
+        <span class="n">buffer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+    <span class="c1"># ==========================================</span>
+    <span class="c1"># 7. Crear bloque HTML</span>
+    <span class="c1"># ==========================================</span>
+
+    <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;div style=&quot;</span>
+<span class="s2">        margin: 25px 0;</span>
+<span class="s2">        padding: 20px;</span>
+<span class="s2">        border-radius: 10px;</span>
+<span class="s2">        background-color: rgba(128, 128, 128, 0.08);</span>
+<span class="s2">    &quot;&gt;</span>
+
+<span class="s2">        &lt;h3 style=&quot;</span>
+<span class="s2">            margin-top: 0;</span>
+<span class="s2">            margin-bottom: 20px;</span>
+<span class="s2">        &quot;&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">titulo</span><span class="si">}</span>
+<span class="s2">        &lt;/h3&gt;</span>
+
+<span class="s2">        &lt;div style=&quot;</span>
+<span class="s2">            display: grid;</span>
+<span class="s2">            grid-template-columns: 55% 45%;</span>
+<span class="s2">            gap: 25px;</span>
+<span class="s2">            align-items: center;</span>
+<span class="s2">        &quot;&gt;</span>
+
+<span class="s2">            &lt;!-- GRÁFICO --&gt;</span>
+
+<span class="s2">            &lt;div style=&quot;</span>
+<span class="s2">                text-align: center;</span>
+<span class="s2">            &quot;&gt;</span>
+
+<span class="s2">                &lt;img</span>
+<span class="s2">                    src=&quot;data:image/png;base64,</span><span class="si">{</span><span class="n">imagen_base64</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="s2">                    style=&quot;</span>
+<span class="s2">                        max-width: 100%;</span>
+<span class="s2">                        height: auto;</span>
+<span class="s2">                    &quot;</span>
+<span class="s2">                &gt;</span>
+
+<span class="s2">            &lt;/div&gt;</span>
+
+
+<span class="s2">            &lt;!-- INTERPRETACIÓN --&gt;</span>
+
+<span class="s2">            &lt;div style=&quot;</span>
+<span class="s2">                padding: 15px;</span>
+<span class="s2">                line-height: 1.6;</span>
+<span class="s2">            &quot;&gt;</span>
+
+<span class="s2">                &lt;h4 style=&quot;</span>
+<span class="s2">                    margin-top: 0;</span>
+<span class="s2">                &quot;&gt;</span>
+<span class="s2">                    Interpretación</span>
+<span class="s2">                &lt;/h4&gt;</span>
+
+<span class="s2">                &lt;p&gt;</span>
+<span class="s2">                    </span><span class="si">{</span><span class="n">interpretacion</span><span class="si">}</span>
+<span class="s2">                &lt;/p&gt;</span>
+
+<span class="s2">            &lt;/div&gt;</span>
+
+<span class="s2">        &lt;/div&gt;</span>
+
+<span class="s2">    &lt;/div&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">html</span><span class="p">))</span>
+
+    <span class="c1"># Devolver los datos por si se necesitan posteriormente</span>
+    <span class="k">return</span> <span class="n">df_plot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabla_idh1</span> <span class="o">=</span> <span class="n">Analisis_bivariado</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">,</span>
+    <span class="n">target</span><span class="o">=</span><span class="s2">&quot;Grade&quot;</span><span class="p">,</span>
+    <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;IDH1&quot;</span><span class="p">,</span>
+
+    <span class="n">etiquetas</span><span class="o">=</span><span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Ausencia&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Presencia&quot;</span>
+    <span class="p">},</span>
+
+    <span class="n">titulo</span><span class="o">=</span><span class="s2">&quot;Distribución de IDH1 según Grade&quot;</span><span class="p">,</span>
+
+    <span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Mutación IDH1&quot;</span><span class="p">,</span>
+
+    <span class="n">interpretacion</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    La mutación de IDH1 presenta una distribución marcadamente diferente</span>
+<span class="s2">    entre los LGG y los GBM. En los LGG (Grade 0), el 77,9 </span><span class="si">% d</span><span class="s2">e los pacientes</span>
+<span class="s2">    presenta la mutación, mientras que el 22,1 % no la presenta. En los GBM</span>
+<span class="s2">    (Grade 1), solamente el 6,7 % presenta la mutación, mientras que el</span>
+<span class="s2">    93,3 </span><span class="si">% c</span><span class="s2">orresponde a pacientes sin la mutación. De forma descriptiva,</span>
+<span class="s2">    estos resultados muestran que la presencia de la mutación IDH1 es mucho</span>
+<span class="s2">    más frecuente en los LGG, mientras que su ausencia predomina ampliamente</span>
+<span class="s2">    en los GBM.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+    <div style="
+        margin: 25px 0;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: rgba(128, 128, 128, 0.08);
+    ">
+
+        <h3 style="
+            margin-top: 0;
+            margin-bottom: 20px;
+        ">
+            Distribución de IDH1 según Grade
+        </h3>
+
+        <div style="
+            display: grid;
+            grid-template-columns: 55% 45%;
+            gap: 25px;
+            align-items: center;
+        ">
+
+            <!-- GRÁFICO -->
+
+            <div style="
+                text-align: center;
+            ">
+
+                <img
+                    src="data:image/png;base64,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x927dyEIglinoaEBHx8f7N69W+EgiYiIiIiICkuhpGfLli0YOnQoBg0aBENDQ7n6qlWr4uHDh4pcgoiIiIiISCEKJT2xsbGoXr16jvXKyspISUlR5BJEREREREQKUSjpMTc3x507d3KsP336NGxsbBS5BBERERERkUIUSnp69uyJlStX4uzZs2KZRCIBAPz555/Ytm0b+vbtq1iEREREREREClBoy+opU6bg3LlzaNy4MapWrQqJRIIxY8YgPj4ez549Q+vWrTFmzJiiipWIiIiIiKjAFBrpUVNTw6FDh7B27VpYWVnB3t4eaWlpqFGjBoKDg7F3714oKysXVaxEREREREQFpvDDSSUSCXr37o3evXsXRTxERERERERFSqGRHisrK+zZsyfH+n379sHKykqRSxARERERESlEoaTn0aNHSEpKyrE+KSkJjx8/VuQSREREREREClEo6QH+t1tbdi5evAh9fX1FL0FERERERFRoBV7Ts3jxYixevBjAx4Rn9OjRmDJlily7xMREJCQkoGfPnopHSUREREREVEgFTnpMTEzg4OAA4OP0tgoVKqBChQoybSQSCbS1tVG7dm0MGzasaCIlIiIiIiIqhAInPT169ECPHj0AAE2bNoW/vz+aN29e5IEREREREREVBYW2rD5+/HhRxUFERERERPRFKPycHgC4desWHj58iDdv3kAQBLn6vn37FsVliIiIiIiICkyhpOfBgwfo3bs3Lly4kG2yA3xc38Okh4iIiIiIiotCSc/gwYNx48YN/P7772jUqBEMDAyKKi4iIiIiIqIioVDSc/r0aUyePBkjR44sqniIiIiIiIiKlEIPJzUyMoKenl5RxUJERERERFTkFEp6hgwZgo0bN0IqlRZVPEREREREREVKoelttra2kEqlcHJywoABA2Bubg5lZWW5dp06dVLkMkRERERERIWmUNLTrVs38f+PGzcu2zYSiYQjQUREREREVGz4cFIiIiIiIirVFEp63N3diyoOIiIiIiKiL0KhpCdLWloaLl++jNjYWDRs2BBGRkZF0S0REREREZHCFNq9DQD++OMPmJmZwc3NDZ06dcL169cBAHFxcTAyMsJff/2lcJBERERERESFpVDSs3btWowePRpeXl5Ys2YNBEEQ64yMjNCsWTNs3bpV4SCJiIiIiIgKS6GkZ8GCBWjfvj02b96M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1Qvjx49XPEoiIiIiIqJCUijpyczMhKmpKQBAX18fysrKiI+PF+urV6+OS5cuKRYhERERERGRAhRKeipXroyoqKiPHSkpoXLlyjh27JhYf+bMGejr6ysUIBERERERkSIUSno8PDwQEhIiHg8dOhSrV69GixYt0Lx5c6xbtw49e/ZUOEgiIiIiIqLCUmj3tilTpqBHjx5IT0+HqqoqRo8ejeTkZOzYsQPKysqYOnUqJk+eXFSxEhERERERFZhCSY+BgQFq164tHkskEvj7+8Pf31/hwIiIiIiIiIqCwg8nzRIbG4tHjx4BACwtLWFiYlJUXRMRERERERWaQmt6ACA0NBR16tSBmZkZGjRogAYNGsDMzAx16tSR2dSAiIiIiIioOCg00vPPP//Ax8cHpqam8PPzg62tLQDg7t272LBhA1q1aoVt27ahY8eORRIsERERERFRQSmU9Pj7+8PR0RFhYWHQ1dWVqZs8eTLc3Nzg7+/PpIeIiIiIiIqNQtPbHj58iP79+8slPABQpkwZ/PDDD+JzfIiIiIiIiIqDQkmPvb09YmNjc6x/+fKlOOWNiIiIiIioOCiU9MydOxcrVqzA7t275er++ecfrFy5EvPnz1fkEkRERERERApRaE3PkiVLYGxsjE6dOqF8+fKwsbEBAERGRuL58+ewtbXFH3/8gT/++EM8RyKRZJskERERERERfQkKJT3Xr1+HRCKBhYUFAIjP6VFRUYGFhQVSU1Nx48YNmXMkEokilyQiIiIiIioQhZKerCSHiIiIiIiopFL44aREREREREQlGZMeIiIiIiIq1Zj0EBERERFRqcakh4iIiIiISjUmPUREREREVKox6SEiIiIiolJNoS2rs0RHR+O///5DbGwsOnfujIoVK0IqlSIxMRF6enpQVlYuissQEREREREVmEIjPYIgYOzYsahcuTJ69eqFsWPH4t69ewCApKQkWFpaYsmSJUUSKBERERERUWEolPTMmzcPixcvxrhx43D06FEIgiDW6enpoVOnTtixY4fCQRIRERERERWWQknPn3/+ib59+2L27NlwdnaWq69Ro4Y48kNERERERFQcFEp6nj59CldX1xzrtbW18fbtW0UuQUREREREpBCFkh4TExM8ffo0x/pLly7BwsJCkUsQEREREREpRKGkp1OnTlixYgUePnwolkkkEgDAkSNHEBwcDB8fH8UiJCIiIiIiUoBCSc+MGTNgZmYGZ2dn9O3bFxKJBHPmzIGbmxtatWqFGjVqYPLkyUUVKxERERERUYEplPTo6enh3Llz8PPzQ3R0NDQ0NHDy5EkkJCRg2rRpCAsLg5aWVlHFSkREREREVGAKP5xUU1MT/v7+8Pf3L4p4iIiIiIiIipRCIz1EREREREQlXYFGegYMGFDgC0gkEqxZs6bA5wFAUlIS5s2bh/Pnz+PChQt48+YN1q5dC19fX5l2vr6+WLdundz5dnZ2uHPnjkxZZmYm5s+fj+XLlyMmJga2traYNGkSevToUagYiYiIiIioZCtQ0vPvv/+Ku7NlSUlJwatXrwAABgYGAIA3b94AAIyNjaGtrV3o4OLi4vDrr7/CwsICTk5OOHHiRI5t1dXVsXr1apkyPT09uXZTpkxBYGAgfvzxR9StWxe7d+9Gz549IZFI0L1790LHSkREREREJVOBkp5Hjx7JHN+6dQseHh6YPHkyRo8eDSMjIwAfk5VFixZh/fr12L9/f6GDMzMzQ0xMDMqVK4fw8HDUrVs3x7YqKiro3bt3rv1FR0djwYIFGD58OJYuXQoAGDhwINzd3TF+/Hj4+PhAWVm50PESEREREVHJo9CanpEjR6JVq1aYNWuWmPAAgJGREX777Td4eXlh5MiRhe5fXV0d5cqVy3d7qVSKt2/f5li/e/dupKenY9iwYWKZRCLB0KFD8ezZM5w9e7bQsRIRERERUcmkUNJz7tw51KpVK8f6mjVr4ty5c4pcIt9SUlJQpkwZ6OnpwdDQEMOHD0dSUpJMmytXrkBbWxtVq1aVKXdxcRHriYiIiIiodFFoy2pDQ0McPHgQQ4cOzbb+wIED0NfXV+QS+WJmZgY/Pz/UqlULmZmZOHToEIKCgnDt2jWcOHECKiofbzMmJgampqZy65LMzMwAAM+fP8/xGrGxseLapSyRkZFFfCdERERERFTUFEp6Bg8ejF9++QXt27fHyJEjYWNjAwC4f/8+lixZgoMHD2LGjBlFEmhuAgICZI67d+8OW1tbTJkyBdu3bxc3KHj//j3U1dXlztfQ0BDrcxIUFPRV7oWIiIiIiIqWQkmPv78/0tLSMG/ePOzbt0+2YxUVTJw4sdgeWjpmzBhMnToVx44dE5MeTU1NpKWlybVNTU0V63MybNgw+Pj4yJRFRkaiQ4cORRc0EREREREVOYWSHgCYOXMmfvrpJxw7dgyPHz8GAFSqVAktWrSQ2dzga9PU1ETZsmURHx8vlpmZmeH48eMQBEFmiltMTAwAoHz58jn2Z2JiAhMTky8XMBERERERfREKJz3Ax93aStozbt69e4e4uDgYGxuLZc7Ozli9ejVu376NatWqieXnz58X64mIiIiIqHRRaPe2kiA1NRXv3r2TK585cyYEQYCXl5dY1r59e6iqqiIoKEgsEwQBK1asQIUKFeDq6vpVYiYiIiIioq+nSEZ6vqSlS5ciISFB3Flt7969ePbsGYCPzwl68+YNatasiR49esDe3h4AcPjwYRw4cABeXl5o37692FfFihUxevRozJs3D+np6ahbty527dqFsLAwbNq0iQ8mJSIiIiIqhUp80jN//nxxrRAA7Ny5Ezt37gQA9O7dG/r6+mjTpg2OHj2KdevWQSqVwsbGBrNnz8a4ceOgpCQ7mBUYGAgDAwOsXLkSwcHBqFKlCjZu3IiePXt+1fsiIiIiIqKvo8QnPY8ePcqzzYYNG/Ldn5KSEiZNmoRJkyYpEBUREREREX0rvvk1PURERERERLlh0kNERERERKVagaa3Va5cWeb5NvkhkUjw4MGDAp1DRERERERUVAqU9Li7u8slPeHh4YiIiEC1atVgZ2cHALh79y5u3boFR0dH1K5du+iiJSIiIiIiKqACJT3BwcEyx7t27cKuXbtw9OhRNG/eXKbu6NGj6Nq1K2bOnKlwkERERERERIWl0JqeX375BSNHjpRLeACgZcuWGDFiBPz9/RW5BBERERERkUIUSnru37+PsmXL5lhftmxZruchIiIiIqJipVDSY21tjbVr1yIpKUmu7t27d/jrr79gZWWlyCWIiIiIiIgUotDDSWfNmoUuXbrA3t4evr6+sLGxAfBxBGjdunV4+fIlQkJCiiRQIiIiIiKiwlAo6enQoQMOHDiACRMmYPbs2TJ1zs7OWLNmDTw9PRUKkIiIiIiISBEKJT0A4OHhAQ8PD7x48QKPHz8GAFSqVAnlypVTODgiIiIiIiJFKZz0ZClXrhwTHSIiIiIiKnGKJOl59uwZrly5gsTERGRmZsrV9+3btyguQ0REREREVGAKJT2pqano168fduzYgczMTEgkEgiCAACQSCRiOyY9RERERERUXBTasnry5MnYuXMnfvvtN5w4cQKCIGDdunU4cuQIWrVqBScnJ1y7dq2oYiUiIiIiIiowhZKe7du3o3///pgwYQIcHBwAABUqVECLFi2wb98+6OvrY9myZUUSKBERERERUWEolPTExsbCxcUFAKCpqQkASE5OFus7d+6MnTt3KnIJIiIiIiIihSiU9JiamuL169cAAC0tLRgYGODu3bti/du3b5GamqpYhERERERERApQaCODevXq4dSpU5gwYQIAoG3btpg3bx7MzMyQmZmJRYsWoX79+kUSKBERERERUWEoNNIzatQoWFlZIS0tDQAwc+ZM6Ovro0+fPujXrx/09PTwxx9/FEmgREREREREhaHQSI+bmxvc3NzEY3Nzc9y+fRs3btyAsrIy7O3toaJSZM8/JSIiIiIiKrAiz0iUlJTg5ORU1N0SEREREREVSoGSnv/++69QF2ncuHGhziMiIiIiIlJUgZKeJk2aQCKRiMeCIMgc50QqlRY8MiIiIiIioiJQoKTn+PHjMsdpaWnw8/NDSkoKBg0aBDs7OwDAnTt38Oeff0JbWxtz584tumiJiIiIiIgKqEBJj7u7u8zx2LFjoaamhnPnzkFDQ0Msb9u2LYYPHw53d3ccOnQILVu2LJpoiYiIiIiICkihLas3bdqEPn36yCQ8WbS0tNCnTx9s3LhRkUsQEREREREpRKGkJzk5GTExMTnWx8TEICUlRZFLEBERERERKUShpKdFixZYvHgxdu7cKVe3Y8cOLF68GC1atFDkEkRERERERApR6Dk9y5YtQ7NmzeDj4wMzMzPY2NgAAB48eIDnz5/D2toaS5YsKZJAiYiIiIiICkOhkZ4KFSrg2rVrWLhwIRwdHfHy5Uu8fPkSDg4OWLRoEa5du4aKFSsWVaxEREREREQFptBIDwBoaGjgp59+wk8//VQU8RARERERERUphUZ6iIiIiIiISroCjfQ0bdoUSkpKOHz4MFRUVNCsWbM8z5FIJAgNDS10gERERERERIooUNIjCAIyMzPF48zMTEgkkjzPISIiIiIiKi4FSnpOnDiR6zEREREREVFJo9Canv/++w+vXr3KsT4uLg7//fefIpcgIiIiIiJSiEJJT9OmTXH06NEc60NDQ9G0aVNFLkFERERERKQQhZKevNbrpKWlQVlZWZFLEBERERERKaTAz+l58uQJHj16JB7fuXMn2ylsCQkJWLlyJSpVqqRQ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3Lp1K9d23t7e8PPzQ40aNTB06NBCB0h5404/VNQeaRR3BERERERFp8AjPdu2bUPnzp1hZWWVaztra2v4+Phgy5YthQ6OiIiIiIhIUQVOem7cuAE3N7d8tXV1dcX169cLHBQREREREVFRKXDS8+HDB6ipqeWrrZqaGtLS0gocFBERERERUVEpcNJTvnx53Lx5M19tb968ifLlyxc4KCIiIiIioqJS4KSnRYsWWL9+PWJjY3NtFxsbi/Xr16Nly5aFDo6IiIiIiEhRBU56JkyYgNTUVDRr1gznz5/Pts358+fRvHlzpKamYvz48QoHSUREREREVFgF3rLaysoK27ZtQ48ePeDq6gorKytUr14durq6ePfuHW7evIkHDx5AS0sLW7duhbW19ZeIm4iIiIiIKF8KnPQAH5/Bc/36dcyZMwf79u3Drl27xLry5cvjxx9/hJ+fX57bWhMREREREX1phUp6AMDS0hLLly/H8uXL8e7dO7x9+xZlypSBrq5uUcZHRERERESkkEInPZ/S1dVlskNERERERCVSgTcyICIiIiIi+pYw6SEiIiIiolKNSQ8REREREZVqTHqIiIiIiKhUY9JDRERERESlGpMeIiIiIiIq1Zj0EBERERFRqcakh4iIiIiISjUmPUREREREVKox6SEiIiIiolKNSQ8REREREZVqTHqIiIiIiKhUY9JDRERERESlGpMeIiIiIiIq1Zj0EBERERFRqcakh4iIiIiISjUmPUREREREVKox6SEiIiIiolKNSQ8REREREZVqTHqIiIiIiKhUY9JDRERERESlGpMeIiIiIiIq1Zj0EBERERFRqcakh4iIiIiISrVSkfScOHECEokk259z587JtD1z5gzc3NygpaWFcuXKYdSoUUhKSiqmyImIiIiI6EtTKe4AitKoUaNQt25dmTIbGxvx/1+9ehXNmzdH1apVsXDhQjx79gzz58/H/fv3cfDgwa8dLhERERERfQWlKulp1KgRunTpkmP95MmTYWBggBMnTqBMmTIAAEtLS/z44484cuQIPDw8vlaoRERERET0lZSK6W2fevfuHTIyMuTK3759i6NHj6J3795iwgMAffv2hY6ODrZt2/Y1wyQiIiIioq+kVCU9/fv3R5kyZaChoYGmTZsiPDxcrLtx4wYyMjJQp04dmXPU1NTg7OyMK1eufO1wiYiIiIjoKygV09vU1NTQuXNntG7dGkZGRrh16xbmz5+PRo0a4cyZM6hZsyZiYmIAAGZmZnLnm5mZISwsLNdrxMbG4tWrVzJlkZGRRXcTRERERET0RZSKpMfV1RWurq7icbt27dClSxfUqFEDkyZNwqFDh/D+/XsAgLq6utz5GhoaYn1OgoKCMGPGjKINnIiIiIiIvrhSkfRkx8bGBu3bt8fOnTshlUqhqakJAEhLS5Nrm5qaKtbnZNiwYfDx8ZEpi4yMRIcOHYosZiIiIiIiKnqlNukBAHNzc3z48AHJycnitLasaW6fiomJQfny5XPty8TEBCYmJl8kTiIiIiIi+nJK1UYGn3v48CE0NDSgo6MDR0dHqKioyGxuAAAfPnzA1atX4ezsXDxBEhERERHRF1Uqkp7PNxgAgGvXrmHPnj3w8PCAkpIS9PT00KJFC2zcuBHv3r0T223YsAFJSUlyU9eIiIiIiKh0KBXT27p16wZNTU24urrCxMQEt27dwqpVq6ClpYXAwECx3W+//QZXV1e4u7tj0KBBePbsGRYsWAAPDw94eXkV4x0QEREREdGXUipGejp06IC4uDgsXLgQw4YNw99//41OnTohPDwcVatWFdvVqlULx44dg6amJsaMGYNVq1bhhx9+wPbt24sxeiIiIiIi+pJKxUjPqFGjMGrUqHy1dXNzw+nTp79wREREREREVFKUipEeIiIiIiKinDDpISIiIiKiUo1JDxERERERlWpMeoiIiIiIqFRj0kNERERERKUakx4iIiIiIirVmPQQEREREVGpxqSHiIiIiIhKNSY9RERERERUqjHpISIiIiKiUo1JDxERERF9dZGRkRg8eDBq1KgBZWVlNGnSJNt2CQkJGDBgAAwNDaGjo4NWrVohMjIyX9eIjo6Grq4uHjx4IFN+48YNtGnTBnp6etDV1YWLiwsuXbqUa18SiSTbH3V1dbHNu3fv0LVrV+jp6aF+/fq4d++eTB9v3ryBiYkJwsPDZcrfv38PExMThIWF5eu+qOBUijsAIiIiIvr+RERE4MCBA6hfvz7S09NzbNetWzfcvHkTixcvhp6eHmbNmoXmzZvjxo0bKFOmTK7XmDVrFtq0aQNra2ux7OrVq2jUqBHat2+Pv//+GwBw8eJFvH//Pte+zp49K1fWtm1bNGzYUDz+7bffcO/ePWzbtg3BwcHw9fXFmTNnxPrp06ejTZs2qFOnjkw/mpqaGDlyJKZOnYoTJ07kGgcVDpMeIiIiIvrq2rZti/bt2wMAunTpgri4OLk2Z8+exZEjR3Ds2DE0b94cAFCvXj1UrlwZq1atwrhx43Ls/+3bt1i3bh12794tUz5kyBC0bdsWGzduFMu8vLzyjLd+/foyxxcvXkRcXBx69Oghlh07dgxTpkyBp6cnnJ2dUa5cOSQnJ0NbWxu3b9/Ghg0bcOvWrWz79/X1xbRp03Djxg1Ur149z3ioYDi9jYiIiIi+OiWlvL+GXr16FaqqqjJT30xNTeHk5IT9+/fneu62bdugqamJZs2aiWW3bt3C+fPnMXLkyELHnWXLli3Q1tZG27ZtxbIPHz5AU1MTAKClpSWWAcDYsWPh5+eHcuXKZdufubk56tati/Xr1yscG8lj0kNEREREJVJqaiqUlZWhrKwsU66mpobbt2/nem5oaChcXFxkzj1//jyAj2trnJycoKKiAmtra6xZs6ZAcQmCgG3btqF9+/ZicgMAtWvXxp9//onXr19j8eLFsLKygoGBAfbv34979+5hzJgxufbr6uqKY8eOFSgWyh8mPURERERUItnY2CA1NRU3btwQy96/f4+bN28iPj4+13MvXboER0dHmbIXL14AAPr27YtevXrh6NGj8PLywsCBA3HgwIF8xxUWFobo6Gh0795dpnzatGmIiIiAkZER5syZg+XLlyM9PR0///wz5s+fL7PpQXacnJxw48YNpKam5jsWyh8mPURERERUInl6eqJy5coYPHgw7t69i5iYGAwZMgSJiYl5To978eIFjIyMZMoEQQAADBw4EH5+fmjatCmWLVuGpk2bIiAgIN9xbdmyBQYGBvD09JQpt7S0xN27d3H37l28fPkSHh4eWLJkCSpUqICOHTsiLCwMNWrUgLGxMYYOHSpOfctiZGQEqVSKV69e5TsWyh8mPURERERUIqmpqWHr1q14+fIl7O3tUb58eTx8+BB9+/bNcW1MltTUVLmRFQMDAwBA06ZNZcqbNWuW4wYDn8vIyMCOHTvQuXNnqKmpydUrKyvD1tYWWlpaePXqFWbPno3ff/8daWlp6Nq1K/z9/XH//n1cvnwZq1atkjk3K16O9BQ9Jj1EREREVGK5uLggMjISd+7cQWRkJMLCwhAbGyu3m9rnDA0NkZCQIFNWtWpVAP8b8ckiCEK+NlYAPq4VevXqlcyubTmZOnUqfHx8UL16ddy5cwfp6eno2rUr9PX10adPHxw/flymfVa8hoaG+YqF8o9bVhMRERFRiSaRSGBnZwcAuH//Po4dO4a9e/fmeo6dnR2ioqJkylxdXWFgYIB///1XZpvq0NBQODk55SuWLVu2wMzMLMeHqWa5du0atm/fjjt37ohlHz58gFQqhbKyMpKTk+WSr0ePHqFs2bIoW7ZsvmKh/GPSQ0RERERfXUpKirh5QHR0NN6+fYvt27cDAFq3bi3uijZz5kzY29vDyMgIN27cwMyZM9G9e3e0bNky1/4bNmyIPXv2yJSpqanhl19+gZ+fH/T19VG3bl3s2LED//33H06ePCm2W79+PQYMGIAHDx6gUqVKYnlaWhp27doFX1/fPEeGRo8eDX9/f3FdkZ2dHbS0tODn54dmzZph2bJlcs8ZCg8Ph6ura679UuEw6SEiIiKiry42NhY+Pj4yZVnHUVFRsLS0BAC8fv0ao0ePRlxcHMzNzTFu3Dj8/PPPefbfqVMnBAYG4smTJ7CwsBDLR48ejczMTCxZsgTTp0+HnZ0dtm/fjkaNGoltMjMzIZVK5UZiDh48iMTERLld2z63c+dOxMTEYPjw4WKZhoYGtm7diqFDh2LNmjXo0qULhgwZItZnZGQgNDQUCxYsyPPeqOAkwufvJuVbREQEHB0dcfPmTTg4OBRbHJYTc384F1FBPdLoWdwhUGkzPbG4I/hm8Hc6FbVHgd7FHUKxcXJyQu/evTF+/PjiDiVPhw8fRteuXfH8+XNoa2sXdzglWmG+g3MjAyIiIiIqlfz9/bFs2TJkZGQUdyh5WrRoEcaMGcOE5wvh9DYiIiIiKpW6dOmChw8fIjo6WmZtTknz/v17NGjQAGPGjCnuUEotJj1EREREVCpJJBJMmDChuMPIk6amJqZNm1bcYZRqnN5GRERERESlGpMeIiIiIiIq1Ti9jYiIiKg0m65X3BFQafMN7sjJkR4iIiIiIirVmPQQEREREVGpxqSHiIiIiIhKNSY9RERERERUqjHpISIiIiKiUo1JDxERERERlWpMeoiIiIiIqFRj0kNERERERKUakx4iIiIiIirVmPQQEREREVGpxqSHiIiIiIhKNSY9RERERERUqjHpISIiIiKiUo1JDxERERERlWpMeoiIiIiIqFT77pKetLQ0TJgwAeXLl4empibq1auHo0ePFndYRERERET0hXx3SY+vry8WLlyIXr16YfHixVBWVkbr1q1x6tSp4g6NiIiIiIi+AJXiDuBrunDhArZu3Yp58+Zh3LhxAIC+ffvC0dERfn5+OHPmTDFHSERERERERe27GunZvn07lJWVMWjQILFMQ0MDP/zwA86ePYunT58WY3RERERERPQlfFdJz5UrV2Bra4syZcrIlLu4uAAArl69WgxRERERERHRl/RdTW+LiYmBmZmZXHlW2fPnz3M8NzY2Fq9evZIpu3XrFgAgMjKyCKMsuA+vHhfr9an0iVCXFncIVNpERBR3BN8M/k6nosbf6VTkivl3etZ377S0tHyf810lPe/fv4e6urpcuYaGhlifk6CgIMyYMSPbug4dOhRJfEQlhWNxB0Clz3J+qoiKC//royJXQn6nP336FLVq1cpX2+8q6dHU1Mw2I0xNTRXrczJs2DD4+PjIlL19+xb37t1D9erVs02miL5FkZGR6NChA3bt2gUbG5viDoeIiBTA3+lUGqWlpeHp06dwd3fP9znfVdJjZmaG6OhoufKYmBgAQPny5XM818TEBCYmJnLlDRo0KLoAiUoQGxsbODg4FHcYRERUBPg7nUqb/I7wZPmuNjJwdnbGvXv38PbtW5ny8+fPi/VERERERFS6fFdJT5cuXSCVSrFq1SqxLC0tDWvXrkW9evVgbm5ejNEREREREdGX8F1Nb6tXrx58fHwwadIkxMbGwsbGBuvWrcOjR4+wZs2a4g6PiIiIiIi+gO8q6QGA9evXY+rUqdiwYQPevHmDGjVqYN++fWjcuHFxh0ZUIhgbG2PatGkwNjYu7lCIiEhB/J1O9JFEEAShuIMgIiIiIiL6Ur6rNT1ERERERPT9YdJDRERERESlGpMeIiIiIiIq1Zj0ENFXZ2lpCV9f3+IOg4iIisijR48gkUgQHBxc3KEQZYtJD1EJExQUBIlEgnr16hV3KERElE/BwcGQSCTij4aGBmxtbTFixAi8fPmyuMMj+u59d1tWE5V0mzZtgqWlJS5cuIDIyEjY2NgUd0hF7u7du1BS4t9ciKj0+fXXX1G5cmWkpqbi1KlTWL58OQ4cOICbN29CS0uruMP7YipVqoT3799DVVW1uEMhyha/dRCVIFFRUThz5gwWLlwIY2NjbNq0qbhD+iLU1dX5DyMRlUqtWrVC7969MXDgQAQHB2P06NGIiorC7t27s22fnJz8lSP8MrJGt5SVlYs7FKJsMekhKkE2bdoEAwMDeHt7o0uXLnJJz4kTJyCRSHDixAmZ8uzmUr948QL9+/dHxYoVoa6uDjMzM7Rv3x6PHj2SOffgwYNo1KgRtLW1oaurC29vb0RERMi08fX1hY6ODqKjo9GhQwfo6OjA2NgY48aNg1QqlWmbmZmJxYsXo3r16tDQ0ICxsTG8vLwQHh4utvl8TU98fDzGjRuH6tWrQ0dHB2XKlEGrVq1w7dq1gr+IREQlSLNmzQB8/KNW1u/SBw8eoHXr1tDV1UWvXr0AfPzd+fvvv8PBwQEaGhowNTXF4MGD8ebNG5n+wsPD4enpCSMjI2hqaqJy5coYMGCATJv89mVpaYk2bdrg1KlTcHFxgYaGBqysrLB+/Xq5+0hISMCYMWNgaWkJdXV1VKxYEX379kVcXByA7P8dun79Onx9fWFlZQUNDQ2UK1cOAwYMwOvXrxV+XYkKitPbiEqQTZs2oVOnTlBTU0OPHj2wfPlyXLx4EXXr1i1wX507d0ZERARGjhwJS0tLxMbG4ujRo3jy5AksLS0BABs2bEC/fv3g6emJOXPmICUlBcuXL4ebmxuuXLkitgMAqVQKT09P1KtXD/Pnz8exY8ewYMECWFtbY+jQoWK7H374AcHBwWjVqhUGDhyIjIwMhIWF4dy5c6hTp062sT58+BC7du2Cj48PKleujJcvX2LlypVwd3fHrVu3UL58+QLfPxFRSfDgwQMAQNmyZQEAGRkZ8PT0hJubG+bPny9OeRs8eDCCg4PRv39/jBo1ClFRUVi6dCmuXLmC06dPQ1VVFbGxsfDw8ICxsTEmTpwIfX19PHr0CDt37pS5Zn76yhIZGYkuXbrghx9+QL9+/fDXX3/B19cXtWvXhoODAwAgKSkJjRo1wu3btzFgwADUqlULcXFx2LNnD549ewYjI6Ns7/3o0aN4+PAh+vfvj3LlyiEiIgKrVq1CREQEzp07B4lEUuSvN1GOBCIqEcLDwwUAwtGjRwVBEITMzEzh/9q785gm7z8O4O9yWHAVRAc4EIFVZTOe4IEaLkUQRSciCCgT2Zz+4UFCTDwG2uLPY6hTGYcuDgkUq6A4hjpEK8K2mJkZdcs0dio6lykiyFDRITy/Pwwd9WkdKF7d+5U08fneDyZf8un3oHfv3sKSJUt0ZY4fPy4AEI4fP65X98qVKwIAITs7WxAEQairqxMACKmpqUb7a2hoELp37y7MmzdPL/3GjRuCra2tXvqcOXMEAIJSqdQrO2zYMMHLy0v3rNFoBADC4sWLRf21tLTo/u3q6irMmTNH9/zgwQOhublZ9E5SqVTUJxHR6yg7O1sAIBw9elS4deuW8PvvvwtqtVro2bOnYG1tLVy/fl03ly5btkyvbmVlpQBAUKlUeunffvutXnpRUZEAQDh16pTRcbS3LUF4PBcDECoqKnRp1dXVglQqFRITE3VpycnJAgBh//79ov5a5/Ynfw8JgiDcv39fVH737t2iPoleBm5vI3pNqFQqODo6IiAgAMDj/dEzZ86EWq0WbSH7N9bW1ujSpQvKy8tF2xlalZWV4c6dO4iOjkZNTY3uY25ujlGjRuH48eOiOgsWLNB79vHxweXLl3XP+/btg0QiwapVq0R1n/aNnlQq1V1s0NzcjNu3b0Mmk8HDwwOnT59u1zsTEb0OAgMDYW9vDxcXF0RFRUEmk6GoqAjOzs66Mm1XxwGgoKAAtra2mDBhgt587OXlBZlMppuPu3fvDgAoKSlBU1OTwf7b21arAQMGwMfHR/dsb28PDw8P0dw+ZMgQhIWFifp72txubW2t+/eDBw9QU1MDb29vAODcTi8dt7cRvQaam5uhVqsREBCAK1eu6NJHjRqFTZs24dixYwgKCmp3e1KpFBs2bEBiYiIcHR3h7e2N0NBQfPjhh+jVqxcAQKvVAvhnv/mTbGxs9J5bz+e0ZWdnpxdUXbp0CU5OTujRo0e7xwr8cw4oIyMDV65c0QvyWreEEBG9CdLT09G/f39YWFjA0dERHh4eerdVWlhYoHfv3np1tFot6uvr4eDgYLDN6upqAICfnx/Cw8OhUCjw+eefw9/fH9OmTUNMTAykUmmH2mrVp08fURlDc3t4eHg73l5fbW0tFAoF1Gq1qN/6+voOt0f0PBj0EL0GNBoN/vzzT6jVaqjValG+SqVCUFCQ0W/UDK0EJSQkYMqUKThw4ABKS0uRlJSEdevWQaPRYNiwYWhpaQHw+FxPayDUloWF/vTwIm/kWbt2LZKSkhAfH4+UlBT06NEDZmZmSEhI0I2TiOhNMHLkSKPnFwH9le1WLS0tcHBwMHpjZ+sXThKJBIWFhTh58iS++eYblJaWIj4+Hps2bcLJkychk8na3VYrY3O7IAhG36G9IiMj8cMPP2Dp0qUYOnSobnwTJ07k3E4vHYMeoteASqWCg4MD0tPTRXn79+9HUVERsrKyYGdnB+DxLTptXb161WC7crkciYmJSExMhFarxdChQ7Fp0ybk5eVBLpcDABwcHBAYGNgp7yGXy1FaWora2toOrfYUFhYiICAAO3fu1Eu/c+eO0QOyRESmQi6X4+jRoxg7dqzeljBjvL294e3tjf/973/Iz8/HrFmzoFar8fHHH3e4rfaO75dffulQnbq6Ohw7dgwKhQLJycm69NZdBkQvG8/0EL1ijY2N2L9/P0JDQzFjxgzRZ+HChWhoaEBxcTFcXV1hbm6OiooKvTYyMjL0nu/fv48HDx7opcnlcnTr1g0PHz4EAAQHB8PGxgZr1641uDf81q1bHX6X8PBwCIIAhUIhynvat4bm5uai/IKCAvzxxx8dHgMR0ZsmMjISzc3NSElJEeU9evRI90VXXV2daK4cOnQoAOjm9va21RHh4eE4e/YsioqKRHnG5vbWFaQn87ds2dLh/ok6A1d6iF6x4uJiNDQ0YOrUqQbzvb29dX+odObMmYiIiEBaWhokEgnkcjlKSkpEe6UvXryI8ePHIzIyEgMGDICFhQWKiopw8+ZNREVFAXh8ZiczMxOxsbHw9PREVFQU7O3tce3aNRw8eBBjx47FF1980aF3CQgIQGxsLLZt2watVqvbwlBZWYmAgAAsXLjQYL3Q0FAolUrMnTsXY8aMwc8//wyVSoV33323Q/0TEb2J/Pz8MH/+fKxbtw5nzpxBUFAQLC0todVqUVBQgK1bt2LGjBnIyclBRkYGwsLCIJfL0dDQgC+//BI2NjaYNGlSh9rqiKVLl6KwsBARERGIj4+Hl5cXamtrUVxcjKysLAwZMkRUx8bGBr6+vvjss8/Q1NQEZ2dnHDlyRO/cKtHLxKCH6BVTqVSwsrLChAkTDOabmZlh8uTJUKlUuH37NtLS0tDU1ISsrCxIpVJERkYiNTUVAwcO1NVxcXFBdHQ0jh07htzcXFhYWOC9997D3r179Q6jxsTEwMnJCevXr0dqaioePnwIZ2dn+Pj4YO7cuc/0PtnZ2Rg8eDB27tyJpUuXwtbWFsOHD8eYMWOM1lmxYgXu3buH/Px87NmzB56enjh48CCWLVv2TGMgInrTZGVlwcvLC9u3b8eKFStgYWEBNzc3zJ49G2PHjgXwOKD58ccfoVarcfPmTdja2mLkyJFQqVRwd3fvUFsdIZPJUFlZiVWrVqGoqAg5OTlwcHDA+PHjRZcytJWfn49FixYhPT0dgiAgKCgIhw8f5t9eo1dCInTGSTUiIiIiIqLXFM/0EBERERGRSWPQQ0REREREJo1BDxERERERmTQGPUREREREZNIY9BARERERkUlj0ENERERERCaNQQ8REREREZk0Bj1ERERERGTSGPQQEREREZFJY9BDRET/WV999RW2b9/+qodBREQvGIMeIiIySf7+/vD39zeaX1BQgCVLlmDEiBEvb1BERPRKMOghIiKdXbt2QSKRQCKR4LvvvhPlC4IAFxcXSCQShIaGPlMfhw4dwurVq59zpM9Hq9ViwYIF2Lt3Lzw9PTu17fLyckgkEhQWFurS2v5cJRIJrKys4OTkhODgYGzbtg0NDQ2idlavXg2JRIKamhqD/bi5uYn+D/bs2YPZs2ejX79+kEgkTw36iIj+Sxj0EBGRiJWVFfLz80XpJ06cwPXr1yGVSp+57UOHDkGhUDzP8NrlyJEjOHLkiMG8s2fPIjs7GyEhIS98HG0plUrk5uYiMzMTixYtAgAkJCRg0KBBOHfu3HO3n5mZia+//houLi6ws7N77vaIiEyFxaseABERvX4mTZqEgoICbNu2DRYW//yqyM/Ph5eXl9HVh9dJly5djObNmDHjJY7kHyEhIRg+fLjuefny5dBoNAgNDcXUqVNx/vx5WFtbP3P7ubm5cHZ2hpmZGQYOHNgZQyYiMglc6SEiIpHo6Gjcvn0bZWVlurS///4bhYWFiImJEZVv3dJVXl6ul15VVQWJRIJdu3YBAOLi4pCeng4Aetu9Wm3cuBFjxoxBz549YW1tDS8vL71tYm3l5eVh5MiR6Nq1K+zs7ODr66u3smPoTE91dTU++ugjODo6wsrKCkOGDEFOTo7BMW/cuBE7duyAXC6HVCrFiBEjcOrUqX/92XXUuHHjkJSUhKtXryIvL++52nJxcYGZGX+1ExE9iTMjERGJuLm5YfTo0di9e7cu7fDhw6ivr0dUVNQztzt//nxMmDABwONVidZPq61bt2LYsGFQKpVYu3YtLCwsEBERgYMHD+q1o1AoEBsbC0tLSyiVSigUCri4uECj0Rjtu7GxEf7+/sjNzcWsWbOQmpoKW1tbxMXFYevWraLy+fn5SE1Nxfz587FmzRpUVVVh+vTpaGpqeub3NyY2NhYADG7Hq62tRU1NjejT0tLS6eMgIjJV3N5GREQGxcTEYPny5WhsbIS1tTVUKhX8/Pzg5OT0zG2OHj0a/fv3R1lZGWbPni3Kv3jxot72roULF8LT0xObN2/G5MmTAQC//fYblEolwsLCUFhYqLeyIQiC0b537NiB8+fPIy8vD7NmzQIALFiwAH5+fvj0008RHx+Pbt266cpfu3YNWq1WdzbGw8MDH3zwAUpLS5/5EgdjevfuDVtbW1y6dEmU5+HhYbTe4MGDO3UcRESmiis9RERkUGRkJBobG1FSUoKGhgaUlJQY3NrWmdoGPHV1daivr4ePjw9Onz6tSz9w4ABaWlqQnJws2srVdqvckw4dOoRevXohOjpal2ZpaYnFixfj7t27OHHihF75mTNn6l0G4OPjAwC4fPnys73cv5DJZAZvcdu3bx/KyspEH0dHxxcyDiIiU8SVHiIiMsje3h6BgYHIz8/H/fv30dzc/MIvACgpKcGaNWtw5swZPHz4UJfeNpi5dOkSzMzMMGDAgA61ffXqVfTr108UKL3//vu6/Lb69Omj99waANXV1XWo3/a6e/cuHBwcROm+vr54++23RelWVlYvZBxERKaIQQ8RERkVExODefPm4caNGwgJCUH37t0NljO2wtLc3NzuviorKzF16lT4+voiIyMD77zzDiwtLZGdnW3w+uwXzdzc3GD607bQPavr16+jvr4effv27fS2iYiI29uIiOgpwsLCYGZmhpMnTz51a1vrKsidO3f00p9cPQGMB0j79u2DlZUVSktLER8fj5CQEAQGBorKyeVytLS04Ndff+3AmwCurq7QarWiCwAuXLigy39VWi9zCA4OfmVjICIyZQx6iIjIKJlMhszMTKxevRpTpkwxWs7V1RXm5uaoqKjQS8/IyBCVfeuttwCIAyRzc3NIJBK91aGqqiocOHBAr9y0adNgZmYGpVIpCmCetgozadIk3LhxA3v27NGlPXr0CGlpaZDJZPDz8zNa90XSaDRISUmBu7u77oIFIiLqXNzeRkRETzVnzpx/LWNra4uIiAikpaVBIpFALpejpKQE1dXVorJeXl4AgMWLFyM4OBjm5uaIiorC5MmTsXnzZkycOBExMTGorq5Geno6+vbti3Pnzunq9+3bFytXrkRKSgp8fHwwffp0SKVSnDp1Ck5OTli3bp3BMX7yySfYvn074uLi8NNPP8HNzQ2FhYX4/vvvsWXLFr2b216Uw4cP48KFC3j06BFu3rwJjUaDsrIyuLq6ori4+LnP6VRUVOgCz1u3buHevXtYs2YNgMdng3x9fZ/7HYiI3kQMeoiIqFOkpaWhqakJWVlZkEqliIyMRGpqKgYOHKhXbvr06Vi0aBHUajXy8vIgCAKioqIwbtw47Ny5E+vXr0dCQgLc3d2xYcMGVFVV6QU9AKBUKuHu7o60tDSsXLkSXbt2xeDBg3V/78YQa2trlJeXY9myZcjJycFff/0FDw8PZGdnIy4u7kX8SESSk5MBAF26dEGPHj0waNAgbNmyBXPnzu2UoEuj0UChUOilJSUlAQBWrVrFoIeI/rMkwos4kUlERERERPSa4JkeIiIiIiIyaQx6iIiIiIjIpDHoISIiIiIik8agh4iIiIiITBqDHiIiIiIiMmkMeoiIiIiIyKQx6CEiIiIiIpPGoIeIiIiIiEwagx4iIiIiIjJpDHqIiIiIiMikMeghIiIiIiKTxqCHiIiIiIhMGoMeIiIiIiIyaQx6iIiIiIjIpDHoISIiIiIik/Z/X1xOf5Z92ZgAAAAASUVORK5CYII="
+                    style="
+                        max-width: 100%;
+                        height: auto;
+                    "
+                >
+
+            </div>
+
+
+            <!-- INTERPRETACIÓN -->
+
+            <div style="
+                padding: 15px;
+                line-height: 1.6;
+            ">
+
+                <h4 style="
+                    margin-top: 0;
+                ">
+                    Interpretación
+                </h4>
+
+                <p>
+                    
+    La mutación de IDH1 presenta una distribución marcadamente diferente
+    entre los LGG y los GBM. En los LGG (Grade 0), el 77,9 % de los pacientes
+    presenta la mutación, mientras que el 22,1 % no la presenta. En los GBM
+    (Grade 1), solamente el 6,7 % presenta la mutación, mientras que el
+    93,3 % corresponde a pacientes sin la mutación. De forma descriptiva,
+    estos resultados muestran que la presencia de la mutación IDH1 es mucho
+    más frecuente en los LGG, mientras que su ausencia predomina ampliamente
+    en los GBM.
+    
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+    </div></div>
+</div>
 <p>There is a lot more that you can do with outputs (such as including interactive outputs)
 with your book. For more information about this, see <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a></p>
+</section>
 </section>
 </section>
 
@@ -2408,7 +2932,7 @@ with your book. For more information about this, see <a class="reference externa
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estructura">Estructura</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-data">Missing data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#division-del-dataset">División del dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-univariado-de-variables">Análisis Univariado de variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-univariado">Análisis Univariado</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variable-grade-target">Variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code> (Target)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cuantitativas">Variables cuantitativas</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#variables-cualitativas">Variables cualitativas</a><ul class="nav section-nav flex-column">
@@ -2420,6 +2944,13 @@ with your book. For more information about this, see <a class="reference externa
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-bivariado">Análisis Bivariado</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Análisis bivariado</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-idh1"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">IDH1</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-tp53"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">TP53</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
