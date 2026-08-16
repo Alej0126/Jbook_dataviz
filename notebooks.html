@@ -2722,7 +2722,12 @@ estadísticas descriptivas del conjunto de datos.</p>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">html_idh1</span> <span class="o">=</span> <span class="n">crear_menu_gen</span><span class="p">(</span>
     <span class="n">train_data</span><span class="p">,</span>
@@ -2735,19 +2740,26 @@ estadísticas descriptivas del conjunto de datos.</p>
     <span class="p">},</span>
 
     <span class="n">interpretacion</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    Al comparar la presencia de la mutación en IDH1 entre los dos niveles</span>
-<span class="s2">    de Grade, se observa una diferencia marcada. En los LGG (Grade 0),</span>
-<span class="s2">    303 pacientes (77,9 %) presentan la mutación, mientras que 86 pacientes</span>
-<span class="s2">    (22,1 %) no la presentan. En contraste, en los GBM (Grade 1), solamente</span>
-<span class="s2">    19 pacientes (6,7 %) presentan la mutación, mientras que 263 pacientes</span>
-<span class="s2">    (93,3 %) no la presentan. Esto muestra que la mutación de IDH1 es mucho</span>
-<span class="s2">    más frecuente en los LGG, mientras que su ausencia predomina ampliamente</span>
-<span class="s2">    en los GBM.</span>
+<span class="s2">    Al comparar la presencia de la mutación en IDH1 entre los dos niveles de Grade, </span>
+<span class="s2">    se observa una diferencia bastante marcada. En los LGG (Grade 0), 303 pacientes (77,9%) </span>
+<span class="s2">    presentan la mutación de IDH1, mientras que 86 pacientes (22,1%) no presentan la mutación. </span>
+<span class="s2">    En contraste, en los GBM (Grade 1), solamente 19 pacientes (6,7%) presentan la mutación, </span>
+<span class="s2">    mientras que 263 pacientes (93,3%) no la presentan.</span>
+
+<span class="s2">    Esto muestra un patrón muy marcado donde la mutación de IDH1 es mucho más frecuente en </span>
+<span class="s2">    los LGG que en los GBM. En los LGG, aproximadamente 8 de cada 10 pacientes presentan la </span>
+<span class="s2">    mutación, mientras que en los GBM ocurre en aproximadamente 7 de cada 100 pacientes.</span>
+<span class="s2">    Por el contrario, la ausencia de la mutación predomina ampliamente en los GBM.</span>
+
+<span class="s2">    Desde una perspectiva descriptiva, estos resultados sugieren que la presencia de la mutación </span>
+<span class="s2">    IDH1 está fuertemente asociada con los LGG en este conjunto de datos, mientras que su ausencia </span>
+<span class="s2">    caracteriza en mayor proporción a los GBM.</span>
 <span class="s2">    &quot;&quot;&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2821,14 +2833,20 @@ estadísticas descriptivas del conjunto de datos.</p>
                 margin-top: 0;
             ">
                 
-    Al comparar la presencia de la mutación en IDH1 entre los dos niveles
-    de Grade, se observa una diferencia marcada. En los LGG (Grade 0),
-    303 pacientes (77,9 %) presentan la mutación, mientras que 86 pacientes
-    (22,1 %) no la presentan. En contraste, en los GBM (Grade 1), solamente
-    19 pacientes (6,7 %) presentan la mutación, mientras que 263 pacientes
-    (93,3 %) no la presentan. Esto muestra que la mutación de IDH1 es mucho
-    más frecuente en los LGG, mientras que su ausencia predomina ampliamente
-    en los GBM.
+    Al comparar la presencia de la mutación en IDH1 entre los dos niveles de Grade, 
+    se observa una diferencia bastante marcada. En los LGG (Grade 0), 303 pacientes (77,9%) 
+    presentan la mutación de IDH1, mientras que 86 pacientes (22,1%) no presentan la mutación. 
+    En contraste, en los GBM (Grade 1), solamente 19 pacientes (6,7%) presentan la mutación, 
+    mientras que 263 pacientes (93,3%) no la presentan.
+
+    Esto muestra un patrón muy marcado donde la mutación de IDH1 es mucho más frecuente en 
+    los LGG que en los GBM. En los LGG, aproximadamente 8 de cada 10 pacientes presentan la 
+    mutación, mientras que en los GBM ocurre en aproximadamente 7 de cada 100 pacientes.
+    Por el contrario, la ausencia de la mutación predomina ampliamente en los GBM.
+
+    Desde una perspectiva descriptiva, estos resultados sugieren que la presencia de la mutación 
+    IDH1 está fuertemente asociada con los LGG en este conjunto de datos, mientras que su ausencia 
+    caracteriza en mayor proporción a los GBM.
     
             </p>
 
