@@ -403,7 +403,10 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-bivariado">Análisis Bivariado</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia-chi-2">Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-variables-geneticas"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">variables</span> <span class="pre">genéticas</span></code></a></li>
 </ul>
@@ -1184,7 +1187,8 @@ Valores faltantes: 0
 </table>
 </div></div></div>
 </div>
-<p>El conjunto de datos presenta una estructura limpia y estructurada, compuesta por <strong>839 registros</strong> (pacientes) y <strong>24 variables</strong>, sin presencia de valores nulos o faltantes. Aunque se presente un registro duplicado representa a dos pacientes distintos que casualmente comparten el mismo fenotipo y perfil genético, ya que su ID es distinto en el dataset original. Las variables binarias, originalmente codificadas mediante valores enteros <code class="docutils literal notranslate"><span class="pre">0</span></code> y <code class="docutils literal notranslate"><span class="pre">1</span></code>, fueron transformadas al tipo categórico (<code class="docutils literal notranslate"><span class="pre">category</span></code>) para representar adecuadamente su naturaleza y facilitar su análisis exploratorio.</p>
+<p>El conjunto de datos presenta una estructura limpia y estructurada, compuesta por <strong>839 registros</strong> (pacientes) y <strong>24 variables</strong>, sin presencia de valores nulos o faltantes. Aunque se presente un registro duplicado representa a dos pacientes distintos que casualmente comparten el mismo fenotipo y perfil genético, ya que su ID es distinto en el dataset original.</p>
+<p>Las variables binarias, originalmente codificadas mediante valores enteros <code class="docutils literal notranslate"><span class="pre">0</span></code> y <code class="docutils literal notranslate"><span class="pre">1</span></code>, fueron transformadas al tipo categórico (<code class="docutils literal notranslate"><span class="pre">category</span></code>) para representar adecuadamente su naturaleza y facilitar su análisis exploratorio.</p>
 </section>
 </section>
 <section id="contexto-de-los-datos">
@@ -3018,6 +3022,39 @@ crecimiento y proliferación celular.</p></li>
 </div>
 </div>
 <p>La distribución del género presenta diferencias entre los dos niveles de Grade. En Grade 0, se registran 220 hombres (56,6%) y 169 mujeres (43,4%), mientras que en Grade 1 se observan 178 hombres (63,1%) y 104 mujeres (36,9%). En ambos niveles predomina el género masculino; sin embargo, esta predominancia es mayor en Grade 1, donde los hombres representan el 63,1% frente al 56,6% en Grade 0. Por otro lado, la proporción de mujeres disminuye de 43,4% en Grade 0 a 36,9% en Grade 1. En términos descriptivos, estos resultados sugieren una mayor representación masculina en Grade 1, aunque las diferencias observadas no permiten establecer por sí solas una asociación estadísticamente significativa entre el género y Grade.</p>
+<section id="prueba-de-independencia-chi-2">
+<h4>Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span><a class="headerlink" href="#prueba-de-independencia-chi-2" title="Link to this heading">#</a></h4>
+<p>En este caso, se analiza la relación entre <code class="docutils literal notranslate"><span class="pre">Gender</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code> mediante una prueba de independencia de Chi-cuadrado (<span class="math notranslate nohighlight">\(\chi^2\)</span>).</p>
+<p>Se utiliza un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>:</p>
+<ul class="simple">
+<li><p><strong>Hipótesis nula (<span class="math notranslate nohighlight">\(H_0\)</span>):</strong> <code class="docutils literal notranslate"><span class="pre">Gender</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code> son independientes; no existe una asociación estadísticamente significativa entre ambas variables.</p></li>
+<li><p><strong>Hipótesis alternativa (<span class="math notranslate nohighlight">\(H_1\)</span>):</strong> <code class="docutils literal notranslate"><span class="pre">Gender</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code> no son independientes; existe una asociación estadísticamente significativa entre ambas variables.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabla_gender_grade</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Gender&quot;</span><span class="p">],</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Grade&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">chi2</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">tabla_gender_grade</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Estadístico χ²: </span><span class="si">{</span><span class="n">chi2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p-value: </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Grados de libertad: </span><span class="si">{</span><span class="n">dof</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadístico χ²: 2.6543
+p-value: 0.1033
+Grados de libertad: 1
+</pre></div>
+</div>
+</div>
+</div>
+<p>Con un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>, el estadístico de Chi-cuadrado obtenido fue <span class="math notranslate nohighlight">\(\chi^2(1) = 2.6543\)</span>, con un p-value de <span class="math notranslate nohighlight">\(0.1033\)</span>. Debido a que <span class="math notranslate nohighlight">\(p = 0.1033 &gt; 0.05\)</span>, no se rechaza la hipótesis nula (<span class="math notranslate nohighlight">\(H_0\)</span>). Por lo tanto, no se encuentra evidencia estadísticamente significativa de una asociación entre Gender y Grade en el conjunto de datos analizado; es decir, los resultados son compatibles con la independencia entre ambas variables.</p>
+</section>
 </section>
 <section id="grade-race">
 <h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code><a class="headerlink" href="#grade-race" title="Link to this heading">#</a></h3>
@@ -4956,7 +4993,10 @@ with your book. For more information about this, see <a class="reference externa
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-bivariado">Análisis Bivariado</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia-chi-2">Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-variables-geneticas"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">variables</span> <span class="pre">genéticas</span></code></a></li>
 </ul>
