@@ -15,122 +15,45 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-variables_categoricas = train_data.select_dtypes(
-    include=["category"]
-).columns.drop(["Grade", "Gender", "Race"])
+#| echo: false
+# Configuracion visual
 
-bloques = []
+sns.set_theme(context="notebook", style="whitegrid", font_scale=1.05)
+plt.rcParams.update({
+    "figure.dpi": 120,
+    "savefig.dpi": 300,
+    "font.family": "DejaVu Sans",
+    "axes.titlesize": 13,
+    "axes.titleweight": "bold",
+    "axes.labelsize": 11,
+    "axes.edgecolor": "0.3",
+    "axes.grid": True,
+    "grid.alpha": 0.3,
+    "legend.frameon": False,
+    "figure.facecolor": "white",
+})
 
-for variable in variables_categoricas:
+PALETTE_GRADE = {0: "#2E86AB", 1: "#C1443C"}
+PALETTE_SEQ   = sns.color_palette("mako", as_cmap=False)
 
-    # Tabla de frecuencias
-    tabla = (
-        train_data[variable]
-        .value_counts(dropna=False)
-        .rename_axis("Categoría")
-        .reset_index(name="Frecuencia")
-    )
-
-    tabla["Porcentaje"] = (
-        tabla["Frecuencia"] / tabla["Frecuencia"].sum() * 100
-    ).round(2)
-
-    html_tabla = tabla.to_html(
-        index=False,
-        classes="tabla-categorica"
-    )
-
-    # Gráfico de barras
-    frecuencias = train_data[variable].value_counts(dropna=False)
-
-    fig, ax = plt.subplots(figsize=(5, 3))
-
-    frecuencias.plot(
-        kind="bar",
-        ax=ax
-    )
-
-    ax.set_title(f"Frecuencia de {variable}")
-    ax.set_xlabel("Categoría")
-    ax.set_ylabel("Frecuencia")
-    ax.tick_params(axis="x", rotation=0)
-
-    plt.tight_layout()
-
-    buffer = io.BytesIO()
-    fig.savefig(
-        buffer,
-        format="png",
-        dpi=120,
-        bbox_inches="tight"
-    )
-    plt.close(fig)
-
-    imagen_base64 = base64.b64encode(
-        buffer.getvalue()
-    ).decode()
-
-    bloque = f"""
-    <div style="
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-    ">
-
-        <h4 style="margin-bottom: 10px;">
-            {variable}
-        </h4>
-
-        <!-- FILA: TABLA -->
-        <div style="
-            margin-bottom: 15px;
-        ">
-            {html_tabla}
-        </div>
-
-        <!-- FILA: GRÁFICO -->
-        <div style="
-            text-align: center;
-        ">
-            <img
-                src="data:image/png;base64,{imagen_base64}"
-                style="max-width: 100%;"
-            >
-        </div>
-
-    </div>
-    """
-
-    bloques.append(bloque)
-
-html_final = f"""
-<div style="
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    margin-top: 20px;
-">
-    {''.join(bloques)}
-</div>
-"""
-
-display(HTML(html_final))
+pd.set_option("display.max_columns", 30)
+pd.set_option("display.width", 120)
 ------------------
 
 
 [1;31m---------------------------------------------------------------------------[0m
 [1;31mNameError[0m                                 Traceback (most recent call last)
-Cell [1;32mIn[9], line 43[0m
-[0;32m     39[0m ax[38;5;241m.[39mtick_params(axis[38;5;241m=[39m[38;5;124m"[39m[38;5;124mx[39m[38;5;124m"[39m, rotation[38;5;241m=[39m[38;5;241m0[39m)
-[0;32m     41[0m plt[38;5;241m.[39mtight_layout()
-[1;32m---> 43[0m buffer [38;5;241m=[39m [43mio[49m[38;5;241m.[39mBytesIO()
-[0;32m     44[0m fig[38;5;241m.[39msavefig(
-[0;32m     45[0m     buffer,
-[0;32m     46[0m     [38;5;28mformat[39m[38;5;241m=[39m[38;5;124m"[39m[38;5;124mpng[39m[38;5;124m"[39m,
-[0;32m     47[0m     dpi[38;5;241m=[39m[38;5;241m120[39m,
-[0;32m     48[0m     bbox_inches[38;5;241m=[39m[38;5;124m"[39m[38;5;124mtight[39m[38;5;124m"[39m
-[0;32m     49[0m )
-[0;32m     50[0m plt[38;5;241m.[39mclose(fig)
+Cell [1;32mIn[1], line 4[0m
+[0;32m      1[0m [38;5;66;03m#| echo: false[39;00m
+[0;32m      2[0m [38;5;66;03m# Configuracion visual[39;00m
+[1;32m----> 4[0m [43msns[49m[38;5;241m.[39mset_theme(context[38;5;241m=[39m[38;5;124m"[39m[38;5;124mnotebook[39m[38;5;124m"[39m, style[38;5;241m=[39m[38;5;124m"[39m[38;5;124mwhitegrid[39m[38;5;124m"[39m, font_scale[38;5;241m=[39m[38;5;241m1.05[39m)
+[0;32m      5[0m plt[38;5;241m.[39mrcParams[38;5;241m.[39mupdate({
+[0;32m      6[0m     [38;5;124m"[39m[38;5;124mfigure.dpi[39m[38;5;124m"[39m: [38;5;241m120[39m,
+[0;32m      7[0m     [38;5;124m"[39m[38;5;124msavefig.dpi[39m[38;5;124m"[39m: [38;5;241m300[39m,
+[1;32m   (...)[0m
+[0;32m     16[0m     [38;5;124m"[39m[38;5;124mfigure.facecolor[39m[38;5;124m"[39m: [38;5;124m"[39m[38;5;124mwhite[39m[38;5;124m"[39m,
+[0;32m     17[0m })
+[0;32m     19[0m PALETTE_GRADE [38;5;241m=[39m {[38;5;241m0[39m: [38;5;124m"[39m[38;5;124m#2E86AB[39m[38;5;124m"[39m, [38;5;241m1[39m: [38;5;124m"[39m[38;5;124m#C1443C[39m[38;5;124m"[39m}
 
-[1;31mNameError[0m: name 'io' is not defined
+[1;31mNameError[0m: name 'sns' is not defined
 
