@@ -403,11 +403,18 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-bivariado">Análisis Bivariado</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-age-at-diagnosis"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia-chi-2">Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia">Prueba de independencia:</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-supuestos-de-prueba-chi-2">Evaluación supuestos de prueba <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-variables-geneticas"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">variables</span> <span class="pre">genéticas</span></code></a></li>
 </ul>
 </li>
@@ -432,21 +439,34 @@ gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Librerias</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="c1">## Librerías estándar de Python</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="c1">## Librerías de terceros: NumPy y Pandas</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1">## Visualización</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.ticker</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mticker</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="c1">## Estadística</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span><span class="p">,</span> <span class="n">fisher_exact</span><span class="p">,</span> <span class="n">ttest_ind</span>
+
+<span class="c1">## Machine Learning</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span><span class="p">,</span> <span class="n">ttest_ind</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="c1">## Jupyter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="c1">## Configuración de warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1336,6 +1356,7 @@ crecimiento y proliferación celular.</p></li>
 </section>
 <section id="analisis-univariado">
 <h2>Análisis Univariado<a class="headerlink" href="#analisis-univariado" title="Link to this heading">#</a></h2>
+<p>En esta sección se analiza la distribución individual de las variables del conjunto de datos, con el propósito de caracterizar sus principales patrones y detectar posibles particularidades en sus valores. Para cada variable se examinan medidas descriptivas y la distribución de sus observaciones, considerando aspectos como tendencia central, dispersión y frecuencia de las categorías. Las distribuciones se complementan mediante representaciones gráficas, facilitando la identificación de patrones, valores extremos y posibles anomalías en los datos.</p>
 <section id="variable-grade-target">
 <h3>Variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code> (Target)<a class="headerlink" href="#variable-grade-target" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
@@ -2902,7 +2923,141 @@ crecimiento y proliferación celular.</p></li>
 </section>
 <section id="analisis-bivariado">
 <h2>Análisis Bivariado<a class="headerlink" href="#analisis-bivariado" title="Link to this heading">#</a></h2>
-<p>En esta sección se analiza la relación entre las variables categóricas independientes y la variable objetivo <code class="docutils literal notranslate"><span class="pre">Grade</span></code>. Para cada variable se comparan las frecuencias absolutas y relativas de sus categorías dentro de cada nivel de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, con el propósito de identificar posibles diferencias en su distribución según la variable objetivo. Las comparaciones se complementan mediante gráficos de barras agrupadas, facilitando la interpretación visual de los patrones observados.</p>
+<p>En esta sección se analiza la relación entre las variables categóricas independientes y la variable objetivo <code class="docutils literal notranslate"><span class="pre">Grade</span></code>. Para cada variable se comparan las frecuencias absolutas y relativas de sus categorías dentro de cada nivel de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, con el propósito de identificar posibles diferencias en su distribución según la variable objetivo. Las comparaciones se complementan mediante gráficos de barras agrupadas, facilitando la interpretación visual de los patrones observados. (cambiar)</p>
+<section id="grade-age-at-diagnosis">
+<h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code><a class="headerlink" href="#grade-age-at-diagnosis" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">train_data</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Grade&quot;</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Age_at_diagnosis&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#1E90FF&quot;</span><span class="p">,</span>
+    <span class="n">boxprops</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;facecolor&quot;</span><span class="p">:</span> <span class="s2">&quot;#1E90FF&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">,</span> <span class="s2">&quot;edgecolor&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># Medias</span>
+<span class="n">medias</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Grade&quot;</span><span class="p">)[</span><span class="s2">&quot;Age_at_diagnosis&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">medias</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="n">medias</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+    <span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">zorder</span><span class="o">=</span><span class="mi">5</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribución de la edad según el grado del tumor&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Grado del tumor (Grade)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Edad al diagnóstico&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e7eb5e915ca938f6046596cdeb5707ec9d792811de4896473849a86ef5dd371f.png" src="_images/e7eb5e915ca938f6046596cdeb5707ec9d792811de4896473849a86ef5dd371f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">age_grade</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">train_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Grade&quot;</span><span class="p">)[</span><span class="s2">&quot;Age_at_diagnosis&quot;</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">n</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">,</span>
+        <span class="n">media</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+        <span class="n">ds</span><span class="o">=</span><span class="s2">&quot;std&quot;</span><span class="p">,</span>
+        <span class="n">mediana</span><span class="o">=</span><span class="s2">&quot;median&quot;</span><span class="p">,</span>
+        <span class="n">minimo</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="n">maximo</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span>
+        <span class="n">Q1</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">),</span>
+        <span class="n">Q3</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">),</span>
+        <span class="n">IQR</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+        <span class="n">variable</span><span class="o">=</span><span class="s2">&quot;Age_at_diagnosis&quot;</span><span class="p">,</span>
+        <span class="n">niveles</span><span class="o">=</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;Grade&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="p">[[</span><span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="s2">&quot;niveles&quot;</span><span class="p">,</span> <span class="s2">&quot;Grade&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;media&quot;</span><span class="p">,</span> <span class="s2">&quot;ds&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;mediana&quot;</span><span class="p">,</span> <span class="s2">&quot;minimo&quot;</span><span class="p">,</span> <span class="s2">&quot;maximo&quot;</span><span class="p">,</span> <span class="s2">&quot;Q1&quot;</span><span class="p">,</span> <span class="s2">&quot;Q3&quot;</span><span class="p">,</span> <span class="s2">&quot;IQR&quot;</span><span class="p">]]</span>
+<span class="p">)</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">age_grade</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>variable</th>
+      <th>niveles</th>
+      <th>Grade</th>
+      <th>n</th>
+      <th>media</th>
+      <th>ds</th>
+      <th>mediana</th>
+      <th>minimo</th>
+      <th>maximo</th>
+      <th>Q1</th>
+      <th>Q3</th>
+      <th>IQR</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Age_at_diagnosis</td>
+      <td>0</td>
+      <td>0</td>
+      <td>389</td>
+      <td>44.104344</td>
+      <td>13.200986</td>
+      <td>41.89</td>
+      <td>14.42</td>
+      <td>87.00</td>
+      <td>33.9100</td>
+      <td>54.27</td>
+      <td>20.3600</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Age_at_diagnosis</td>
+      <td>1</td>
+      <td>1</td>
+      <td>282</td>
+      <td>60.748759</td>
+      <td>13.450750</td>
+      <td>61.49</td>
+      <td>21.73</td>
+      <td>89.29</td>
+      <td>52.7525</td>
+      <td>69.88</td>
+      <td>17.1275</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analisis_bivariado</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">etiquetas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
@@ -2999,6 +3154,7 @@ crecimiento y proliferación celular.</p></li>
 </div>
 </div>
 </div>
+</section>
 <section id="grade-gender">
 <h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code><a class="headerlink" href="#grade-gender" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
@@ -3080,13 +3236,125 @@ Grados de libertad: 1
 <img alt="_images/b590022b90f39addc1d32d5692543d97b9424d8b6743e22b86258d7f8099f0d9.png" src="_images/b590022b90f39addc1d32d5692543d97b9424d8b6743e22b86258d7f8099f0d9.png" />
 </div>
 </div>
-<p>La distribución por grupo racial muestra un predominio marcado de la población blanca en ambos niveles de Grade. En Grade 0, el grupo White concentra 365 pacientes (93,8%), mientras que en Grade 1 representa 246 pacientes (87,2%). El grupo Black or African American constituye el segundo grupo con mayor representación, con 16 pacientes (4,1%) en Grade 0 y 30 pacientes (10,6%) en Grade 1. Por su parte, la población asiática presenta una participación reducida, con 7 casos (1,8%) en Grade 0 y 6 casos (2,1%) en Grade 1, mientras que American Indian or Alaska Native presenta una presencia prácticamente nula, con 1 caso (0,3%) en Grade 0 y ningún caso en Grade 1**.**</p>
+<p>La distribución por grupo racial muestra un predominio marcado de la población blanca en ambos niveles de Grade. En Grade 0, el grupo White concentra 365 pacientes (93,8%), mientras que en Grade 1 representa 246 pacientes (87,2%). El grupo Black or African American constituye el segundo grupo con mayor representación, con 16 pacientes (4,1%) en Grade 0 y 30 pacientes (10,6%) en Grade 1. Por su parte, la población asiática presenta una participación reducida, con 7 casos (1,8%) en Grade 0 y 6 casos (2,1%) en Grade 1, mientras que American Indian or Alaska Native presenta una presencia prácticamente nula, con 1 caso (0,3%) en Grade 0 y ningún caso en Grade 1.</p>
 <p>En términos comparativos, se observa que la proporción del grupo White disminuye en Grade 1, pasando de 93,8% a 87,2%, mientras que el grupo Black or African American aumenta de 4,1% a 10,6%.</p>
 <p>Adem’as, si bien existen diferencias en la distribución de los grupos raciales entre los niveles de Grade, estos resultados deben analizarse con precaución, ya que la muestra está fuertemente concentrada en el grupo White y algunas de las demás categorías presentan muy pocas observaciones.</p>
+<section id="prueba-de-independencia">
+<h4>Prueba de independencia:<a class="headerlink" href="#prueba-de-independencia" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabla_race_grade</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Race&quot;</span><span class="p">],</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Grade&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">chi2</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">tabla_race_grade</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Frecuencias esperadas:&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">expected</span><span class="p">,</span>
+    <span class="n">index</span><span class="o">=</span><span class="n">tabla_race_grade</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="n">tabla_race_grade</span><span class="o">.</span><span class="n">columns</span>
+<span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Frecuencias esperadas:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Grade</th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+    <tr>
+      <th>Race</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>354.216095</td>
+      <td>256.783905</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>26.667660</td>
+      <td>19.332340</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7.536513</td>
+      <td>5.463487</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.579732</td>
+      <td>0.420268</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="evaluacion-supuestos-de-prueba-chi-2">
+<h5>Evaluación supuestos de prueba <span class="math notranslate nohighlight">\(\chi^2\)</span><a class="headerlink" href="#evaluacion-supuestos-de-prueba-chi-2" title="Link to this heading">#</a></h5>
+<p>Se construyó la tabla de contingencia entre <code class="docutils literal notranslate"><span class="pre">Race</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code> y se calcularon las frecuencias esperadas para evaluar si se cumplen las condiciones necesarias para aplicar la prueba de independencia de Chi-cuadrado. Se encontró que existen frecuencias esperadas menores que 5. En particular, para la categoría <code class="docutils literal notranslate"><span class="pre">Race</span> <span class="pre">=</span> <span class="pre">3</span></code>, las frecuencias esperadas son <span class="math notranslate nohighlight">\(0.5797\)</span> para <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">0</span></code> y <span class="math notranslate nohighlight">\(0.4203\)</span> para `Grade = 1$.</p>
+<p>Debido a que existen frecuencias esperadas muy pequeñas, no se recomienda utilizar la aproximación de Chi-cuadrado de Pearson para evaluar la independencia entre <code class="docutils literal notranslate"><span class="pre">Race</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code>. En su lugar,</p>
+</section>
+</section>
 </section>
 <section id="grade-variables-geneticas">
 <h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">variables</span> <span class="pre">genéticas</span></code><a class="headerlink" href="#grade-variables-geneticas" title="Link to this heading">#</a></h3>
 <p>Se analiza la distribución de las variables genéticas según los niveles de Grade, diferenciando entre pacientes con glioma de bajo grado (LGG, Grade 0) y glioblastoma (GBM, Grade 1). Esta comparación permite identificar diferencias descriptivas en la presencia o ausencia de mutaciones entre ambos grupos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">prueba_independencia</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+
+    <span class="n">tabla</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">target</span><span class="p">])</span>
+
+    <span class="n">chi2</span><span class="p">,</span> <span class="n">p_chi2</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">esperadas</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">tabla</span><span class="p">)</span>
+
+    <span class="n">usar_fisher</span> <span class="o">=</span> <span class="n">tabla</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">esperadas</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">usar_fisher</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">p_valor</span> <span class="o">=</span> <span class="n">fisher_exact</span><span class="p">(</span><span class="n">tabla</span><span class="p">)</span>
+        <span class="n">test_usado</span> <span class="o">=</span> <span class="s2">&quot;Fisher exacto&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p_valor</span> <span class="o">=</span> <span class="n">p_chi2</span>
+        <span class="n">test_usado</span> <span class="o">=</span> <span class="s2">&quot;Chi-cuadrado&quot;</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
+        <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">test_usado</span><span class="p">,</span>
+        <span class="s2">&quot;chi2&quot;</span><span class="p">:</span> <span class="n">chi2</span><span class="p">,</span>
+        <span class="s2">&quot;dof&quot;</span><span class="p">:</span> <span class="n">dof</span><span class="p">,</span>
+        <span class="s2">&quot;p_value&quot;</span><span class="p">:</span> <span class="n">p_valor</span><span class="p">,</span>
+        <span class="s2">&quot;expected_min&quot;</span><span class="p">:</span> <span class="n">esperadas</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+        <span class="s2">&quot;significativo&quot;</span><span class="p">:</span> <span class="n">p_valor</span> <span class="o">&lt;</span> <span class="n">alpha</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">crear_menu_gen</span><span class="p">(</span>
@@ -3121,6 +3389,37 @@ Grados de libertad: 1
         <span class="n">buffer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
     <span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 
+    <span class="n">resultado_test</span> <span class="o">=</span> <span class="n">prueba_independencia</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">variable</span><span class="p">)</span>
+
+    <span class="n">color_resultado</span> <span class="o">=</span> <span class="s2">&quot;#1a7f37&quot;</span> <span class="k">if</span> <span class="n">resultado_test</span><span class="p">[</span><span class="s2">&quot;significativo&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;#6e7781&quot;</span>
+    <span class="n">conclusion</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;se rechaza H₀: existe asociación estadísticamente significativa&quot;</span>
+        <span class="k">if</span> <span class="n">resultado_test</span><span class="p">[</span><span class="s2">&quot;significativo&quot;</span><span class="p">]</span>
+        <span class="k">else</span> <span class="s2">&quot;no se rechaza H₀: no hay evidencia de asociación significativa&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">resultado_test</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Chi-cuadrado&quot;</span><span class="p">:</span>
+        <span class="n">estadistico_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;χ²(</span><span class="si">{</span><span class="n">resultado_test</span><span class="p">[</span><span class="s1">&#39;dof&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">) = </span><span class="si">{</span><span class="n">resultado_test</span><span class="p">[</span><span class="s1">&#39;chi2&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">estadistico_str</span> <span class="o">=</span> <span class="s2">&quot;Fisher exacto (frecuencia esperada &lt; 5)&quot;</span>
+
+    <span class="n">html_test</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;div style=&quot;</span>
+<span class="s2">        margin-top: 16px;</span>
+<span class="s2">        padding: 10px 14px;</span>
+<span class="s2">        border-left: 4px solid </span><span class="si">{</span><span class="n">color_resultado</span><span class="si">}</span><span class="s2">;</span>
+<span class="s2">        background-color: rgba(110, 119, 129, 0.08);</span>
+<span class="s2">        border-radius: 4px;</span>
+<span class="s2">        font-size: 14px;</span>
+<span class="s2">    &quot;&gt;</span>
+<span class="s2">        &lt;b&gt;Prueba de independencia (</span><span class="si">{</span><span class="n">resultado_test</span><span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">):&lt;/b&gt;</span>
+<span class="s2">        </span><span class="si">{</span><span class="n">estadistico_str</span><span class="si">}</span><span class="s2">, p-value = </span><span class="si">{</span><span class="n">resultado_test</span><span class="p">[</span><span class="s1">&#39;p_value&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> →</span>
+<span class="s2">        &lt;span style=&quot;color:</span><span class="si">{</span><span class="n">color_resultado</span><span class="si">}</span><span class="s2">; font-weight:600;&quot;&gt;</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">conclusion</span><span class="si">}</span>
+<span class="s2">        &lt;/span&gt;</span>
+<span class="s2">        (α = 0.05)</span>
+<span class="s2">    &lt;/div&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="n">html</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    &lt;details style=&quot;</span>
@@ -3152,6 +3451,8 @@ Grados de libertad: 1
 <span class="s2">            &quot;&gt;</span>
 <span class="s2">                </span><span class="si">{</span><span class="n">interpretacion</span><span class="si">}</span>
 <span class="s2">            &lt;/p&gt;</span>
+
+<span class="s2">            </span><span class="si">{</span><span class="n">html_test</span><span class="si">}</span>
 
 <span class="s2">            &lt;div style=&quot;</span>
 <span class="s2">                text-align: center;</span>
@@ -3771,6 +4072,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 328.7778, p-value = 0.0000 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -3830,6 +4149,24 @@ Grados de libertad: 1
     de TP53 es relativamente mayor en los LGG que en los GBM.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 10.1466, p-value = 0.0014 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -3892,6 +4229,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 70.2383, p-value = 0.0000 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -3951,6 +4306,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 88.4847, p-value = 0.0000 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -4008,6 +4381,24 @@ Grados de libertad: 1
     13,6 puntos porcentuales.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 28.0868, p-value = 0.0000 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -4070,6 +4461,24 @@ Grados de libertad: 1
     podría ser una variable con un alto poder discriminativo para diferenciar ambas categorías.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 63.9316, p-value = 0.0000 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -4136,6 +4545,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 8.1018, p-value = 0.0044 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -4192,6 +4619,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #6e7781;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 0.5096, p-value = 0.4753 →
+        <span style="color:#6e7781; font-weight:600;">
+            no se rechaza H₀: no hay evidencia de asociación significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -4247,6 +4692,24 @@ Grados de libertad: 1
     ampliamente, no se observa una separación marcada entre los grados a partir de esta variable.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #6e7781;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 2.8453, p-value = 0.0916 →
+        <span style="color:#6e7781; font-weight:600;">
+            no se rechaza H₀: no hay evidencia de asociación significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -4306,6 +4769,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 5.6477, p-value = 0.0175 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -4362,6 +4843,24 @@ Grados de libertad: 1
     entre ambos grupos.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 23.9313, p-value = 0.0000 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -4423,6 +4922,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 20.8699, p-value = 0.0000 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -4478,6 +4995,24 @@ Grados de libertad: 1
     grado tumoral y podría ser una característica útil para distinguir entre ambos grupos.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 23.3788, p-value = 0.0000 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -4539,6 +5074,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #6e7781;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 0.0000, p-value = 1.0000 →
+        <span style="color:#6e7781; font-weight:600;">
+            no se rechaza H₀: no hay evidencia de asociación significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -4594,6 +5147,24 @@ Grados de libertad: 1
     entre Grade 0 y Grade 1 a partir de CSMD3.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #6e7781;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 0.6214, p-value = 0.4305 →
+        <span style="color:#6e7781; font-weight:600;">
+            no se rechaza H₀: no hay evidencia de asociación significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -4652,6 +5223,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 4.9318, p-value = 0.0264 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -4708,6 +5297,24 @@ Grados de libertad: 1
     del Grade dentro del modelo de machine learning.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 6.7615, p-value = 0.0093 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -4768,6 +5375,24 @@ Grados de libertad: 1
     
             </p>
 
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #1a7f37;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 8.0732, p-value = 0.0045 →
+        <span style="color:#1a7f37; font-weight:600;">
+            se rechaza H₀: existe asociación estadísticamente significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
+
             <div style="
                 text-align: center;
                 margin-top: 20px;
@@ -4823,6 +5448,24 @@ Grados de libertad: 1
     discriminativa reducida por sí sola en este análisis bivariado.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #6e7781;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 0.2049, p-value = 0.6508 →
+        <span style="color:#6e7781; font-weight:600;">
+            no se rechaza H₀: no hay evidencia de asociación significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -4882,6 +5525,24 @@ Grados de libertad: 1
     iguales, PDGFRA muestra una separación algo más evidente entre los grupos.
     
             </p>
+
+            
+    <div style="
+        margin-top: 16px;
+        padding: 10px 14px;
+        border-left: 4px solid #6e7781;
+        background-color: rgba(110, 119, 129, 0.08);
+        border-radius: 4px;
+        font-size: 14px;
+    ">
+        <b>Prueba de independencia (Chi-cuadrado):</b>
+        χ²(1) = 3.6284, p-value = 0.0568 →
+        <span style="color:#6e7781; font-weight:600;">
+            no se rechaza H₀: no hay evidencia de asociación significativa
+        </span>
+        (α = 0.05)
+    </div>
+    
 
             <div style="
                 text-align: center;
@@ -4993,11 +5654,18 @@ with your book. For more information about this, see <a class="reference externa
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-bivariado">Análisis Bivariado</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-age-at-diagnosis"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia-chi-2">Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia">Prueba de independencia:</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-supuestos-de-prueba-chi-2">Evaluación supuestos de prueba <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-variables-geneticas"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">variables</span> <span class="pre">genéticas</span></code></a></li>
 </ul>
 </li>
