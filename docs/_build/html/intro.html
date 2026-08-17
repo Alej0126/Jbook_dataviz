@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Glioma Grading Clinical and Mutation Features - Visualización de Datos 2026 &#8212; My sample book</title>
+    <title>Caracterización Clínico-Molecular del Grado Tumoral en Gliomas - Visualización de Datos 2026 &#8212; My sample book</title>
   
   
   
@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Análisis Exploratorio de Datos (EDA)" href="notebooks.html" />
+    <link rel="next" title="Análisis exploratorio de variables clínicas y mutacionales asociadas a la clasificación histológica (LGG vs. GBM)" href="notebooks.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -176,7 +176,7 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
                 <a class="reference internal" href="#">
-                    Glioma Grading Clinical and Mutation Features - Visualización de Datos 2026
+                    Caracterización Clínico-Molecular del Grado Tumoral en Gliomas - Visualización de Datos 2026
                 </a>
             </li>
         </ul>
@@ -354,9 +354,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -367,23 +365,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Glioma Grading Clinical and Mutation Features - Visualización de Datos 2026</h1>
+    <h1>Caracterización Clínico-Molecular del Grado Tumoral en Gliomas - Visualización de Datos 2026</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo">Objetivo</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datos">Datos</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">Metodología</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estructura">Estructura</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -394,77 +380,30 @@ document.write(`
                 <article class="bd-article">
                   
   <div align="center">
-<section class="tex2jax_ignore mathjax_ignore" id="glioma-grading-clinical-and-mutation-features-visualizacion-de-datos-2026">
-<h1>Glioma Grading Clinical and Mutation Features - Visualización de Datos 2026<a class="headerlink" href="#glioma-grading-clinical-and-mutation-features-visualizacion-de-datos-2026" title="Link to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="caracterizacion-clinico-molecular-del-grado-tumoral-en-gliomas-visualizacion-de-datos-2026">
+<h1>Caracterización Clínico-Molecular del Grado Tumoral en Gliomas - Visualización de Datos 2026<a class="headerlink" href="#caracterizacion-clinico-molecular-del-grado-tumoral-en-gliomas-visualizacion-de-datos-2026" title="Link to this heading">#</a></h1>
 <p><strong>Optimización del Diagnóstico de Gliomas mediante Ciencia de Datos y Aprendizaje Automático</strong>
 <br></p>
 <p><strong>Autores</strong></p>
-<p>Alejandro Cantillo<br />
-Joshua Hincapie</p>
+<p>Alejandro Cantillo Escorcia
+Joshua Hincapie LLorente</p>
 <br>
 <hr class="docutils" />
 </div>
-<section id="introduccion">
-<h2>Introducción<a class="headerlink" href="#introduccion" title="Link to this heading">#</a></h2>
-<p>Los gliomas representan el tumor cerebral primario más común en adultos y se clasifican principalmente en Gliomas de Bajo Grado (LGG) y Glioblastoma Multiforme (GBM). Si bien los criterios histológicos e imagenológicos tradicionales han sido la base del diagnóstico, la caracterización biomolecular y clínica se ha vuelto imprescindible para determinar el pronóstico y el tratamiento idóneo. Sin embargo, las pruebas de secuenciación genética completa suponen un coste económico elevado para los sistemas de salud y los pacientes.</p>
-<p>Este proyecto aborda este desafío analítico y médico mediante la integración de Análisis Exploratorio de Datos (EDA), aprendizaje automático y visualización interactiva. Utilizando datos recopilados de los proyectos TCGA-LGG y TCGA-GBM de <em>The Cancer Genome Atlas</em>, el objetivo central es construir una solución analítica integral que identifique el subconjunto óptimo de factores clínicos y mutaciones genéticas para clasificar con precisión la severidad del glioma, reduciendo los costos asociados a pruebas moleculares innecesarias.</p>
-</section>
-<section id="objetivo">
-<h2>Objetivo<a class="headerlink" href="#objetivo" title="Link to this heading">#</a></h2>
-<p>El objetivo principal es realizar un análisis exploratorio de
-las variables clínicas y genéticas disponibles y estudiar su
-relación con la variable objetivo <code class="docutils literal notranslate"><span class="pre">Grade</span></code>.</p>
-<p>A través del análisis exploratorio y la visualización de datos,
-se buscará identificar patrones, distribuciones y relaciones que
-permitan comprender mejor las características de los pacientes
-y su posible asociación con el grado del glioma.</p>
-<blockquote>
-<div><p><strong>Pregunta:</strong> ¿Qué patrones y relaciones pueden
-identificarse en las características clínicas y genéticas
-de los pacientes según el grado del glioma (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>)?</p>
-</div></blockquote>
-</section>
-<section id="datos">
-<h2>Datos<a class="headerlink" href="#datos" title="Link to this heading">#</a></h2>
-<p>Para el análisis se utilizarán dos archivos:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">TCGA_GBM_LGG_Mutations_all.csv</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">TCGA_InfoWithGrade.csv</span></code></p></li>
-</ul>
-<p>Los datos utilizados en este proyecto proceden de información clínica
-y molecular asociada al estudio de gliomas dentro de The Cancer Genome
-Atlas (TCGA).</p>
-<p>Estos archivos contienen información clínica y características
-relacionadas con mutaciones genéticas de pacientes con glioma.
-El análisis de ambos conjuntos de datos permitirá explorar sus
-estructuras, características y variables disponibles antes de
-realizar análisis más específicos.</p>
-</section>
-<section id="metodologia">
-<h2>Metodología<a class="headerlink" href="#metodologia" title="Link to this heading">#</a></h2>
-<p>El proyecto se desarrollará mediante las siguientes etapas:</p>
-<ol class="arabic simple">
-<li><p>Análisis Exploratorio de Datos (EDA)</p></li>
-</ol>
-</section>
-<section id="estructura">
-<h2>Estructura<a class="headerlink" href="#estructura" title="Link to this heading">#</a></h2>
-<p>El Jupyter Book está organizado en diferentes secciones para
-presentar de manera progresiva el análisis exploratorio,
-el procesamiento de los datos y las visualizaciones obtenidas.</p>
 <p><strong>Ficha Técnica del Dataset</strong></p>
 <ul class="simple">
+<li><p><strong>Nombre:</strong> Glioma Grading Clinical and Mutation Features</p></li>
+<li><p><strong>Fuente:</strong> <a class="reference external" href="https://archive.ics.uci.edu/dataset/759/glioma+grading+clinical+and+mutation+features+dataset">Glioma Grading Clinical and Mutation Features</a></p></li>
 <li><p><strong>Muestra:</strong> 839 registros de pacientes.</p></li>
 <li><p><strong>Atributos (23):</strong> 20 genes con alta frecuencia de mutación y 3 variables clínicas relevantes.</p></li>
 <li><p><strong>Variable Objetivo:</strong> Clasificación binaria entre <strong>LGG</strong> (Lower-Grade Glioma) y <strong>GBM</strong> (Glioblastoma Multiforme).</p></li>
-<li><p><strong>Naturaleza de datos:</strong> Tabular, multivariada (numérica y categórica)</p></li>
+<li><p><strong>Naturaleza de datos:</strong> Tabular, multivariada (numérica y categórica).</p></li>
 </ul>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="notebooks.html">Análisis Exploratorio de Datos (EDA)</a></li>
 </ul>
 </div>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -502,7 +441,7 @@ el procesamiento de los datos y las visualizaciones obtenidas.</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Análisis Exploratorio de Datos (EDA)</p>
+        <p class="prev-next-title">Análisis exploratorio de variables clínicas y mutacionales asociadas a la clasificación histológica (LGG vs. GBM)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -512,25 +451,6 @@ el procesamiento de los datos y las visualizaciones obtenidas.</p>
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduccion">Introducción</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objetivo">Objetivo</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datos">Datos</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metodologia">Metodología</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estructura">Estructura</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
