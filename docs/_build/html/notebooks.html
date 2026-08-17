@@ -403,19 +403,20 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-bivariado">Análisis Bivariado</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-age-at-diagnosis"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-age-at-diagnosis"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-u-de-mannwhitney">Prueba U de Mann–Whitney</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia-chi-2">Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia">Prueba de independencia:</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-supuestos-de-prueba-chi-2">Evaluación supuestos de prueba <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
-</ul>
-</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-variables-geneticas"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">variables</span> <span class="pre">genéticas</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multicolinealidad">Multicolinealidad</a></li>
 </ul>
 </li>
 </ul>
@@ -455,7 +456,7 @@ gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
 
 <span class="c1">## Estadística</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span><span class="p">,</span> <span class="n">fisher_exact</span><span class="p">,</span> <span class="n">ttest_ind</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span><span class="p">,</span> <span class="n">fisher_exact</span><span class="p">,</span> <span class="n">ttest_ind</span><span class="p">,</span> <span class="n">mannwhitneyu</span>
 
 <span class="c1">## Machine Learning</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
@@ -2923,7 +2924,7 @@ crecimiento y proliferación celular.</p></li>
 </section>
 <section id="analisis-bivariado">
 <h2>Análisis Bivariado<a class="headerlink" href="#analisis-bivariado" title="Link to this heading">#</a></h2>
-<p>En esta sección se analiza la relación entre las variables categóricas independientes y la variable objetivo <code class="docutils literal notranslate"><span class="pre">Grade</span></code>. Para cada variable se comparan las frecuencias absolutas y relativas de sus categorías dentro de cada nivel de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, con el propósito de identificar posibles diferencias en su distribución según la variable objetivo. Las comparaciones se complementan mediante gráficos de barras agrupadas, facilitando la interpretación visual de los patrones observados. (cambiar)</p>
+<p>En esta sección se analiza la relación entre las variables independientes y la variable objetivo <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, considerando tanto variables categóricas como numéricas. Para las variables categóricas se examinan las frecuencias absolutas y relativas de sus categorías según cada nivel de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, complementando las comparaciones mediante gráficos de barras agrupadas. Para la variable numérica <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code>, se analiza y compara su distribución entre los grupos de <code class="docutils literal notranslate"><span class="pre">Grade</span></code> mediante estadísticos descriptivos y gráficos de caja. Finalmente, se realiza un análisis de correlación entre las variables numéricas para evaluar la intensidad y dirección de las relaciones entre ellas.</p>
 <section id="grade-age-at-diagnosis">
 <h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code><a class="headerlink" href="#grade-age-at-diagnosis" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
@@ -3058,6 +3059,58 @@ crecimiento y proliferación celular.</p></li>
 </table>
 </div></div></div>
 </div>
+<p>El análisis bivariado de la edad al diagnóstico (Age_at_diagnosis) según el grado del tumor (Grade) muestra una clara separación clínico-demográfica entre Gliomas de Bajo Grado (LGG / Grado 0) y Glioblastoma Multiforme (GBM / Grado 1).</p>
+<p><strong>Distribución Estadística</strong></p>
+<ul class="simple">
+<li><p><em>Glioma de Bajo Grado (LGG / Grado 0):</em> En la muestra de 389 pacientes, la edad promedio al diagnóstico es de 44.10 ± 13.20 años y la mediana alcanza los 41.89 años. El <strong>50%</strong> central de los pacientes se concentra entre los 33.91 (<span class="math notranslate nohighlight">\(Q_1\)</span>) y 54.27 años (<span class="math notranslate nohighlight">\(Q_3\)</span>), registrando un rango intercuartílico (IQR) de 20.36 años.</p></li>
+<li><p><em>Glioblastoma Multiforme (GBM / Grado 1):</em> En el grupo de 282 pacientes, la media asciende a 60.75 ± 13.45 años con una mediana de 61.49 años. Su intervalo intercuartílico se ubica entre los 52.75 (<span class="math notranslate nohighlight">\(Q_1\)</span>) y 69.88 años (<span class="math notranslate nohighlight">\(Q_3\)</span>), representando un IQR de 17.13 años.</p></li>
+</ul>
+<p>Se confirma una brecha etaria promedio de <strong>16.65 años</strong> entre ambos diagnósticos (<span class="math notranslate nohighlight">\(t = -15.99\)</span>, <span class="math notranslate nohighlight">\(p = 5.37 \times 10^{-49}\)</span>), lo que corresponde a un tamaño del efecto marcadamente alto (d de Cohen = <em>1.25</em>).</p>
+<p><strong>Separación de Poblaciones y Análisis de Outliers</strong></p>
+<p>Existe una baja superposición en el núcleo de ambas distribuciones. El 75% de los pacientes diagnosticados con LGG tiene 54.27 años o menos, mientras que el 75% de los casos de GBM ocurre por encima de los 52.75 años.</p>
+<ul class="simple">
+<li><p><em>Valores Atípicos en Grado 0:</em> Se identifica un valor atípico (outlier) superior en los 87.00 años, lo que representa un caso inusual de tumor de bajo grado en etapa senil.</p></li>
+<li><p><em>Valores Atípicos en Grado 1:</em> El grupo GBM presenta outliers inferiores entre los 21.73 y 25.20 años, reflejando la manifestación poco frecuente de glioblastoma en adultos jóvenes.</p></li>
+</ul>
+<section id="prueba-u-de-mannwhitney">
+<h4>Prueba U de Mann–Whitney<a class="headerlink" href="#prueba-u-de-mannwhitney" title="Link to this heading">#</a></h4>
+<p>Para evaluar si existen diferencias estadísticamente significativas en la edad al diagnóstico entre los grupos de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, se utiliza la prueba U de Mann–Whitney, debido a que la variable <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> no presenta una distribución normal según la prueba de Shapiro-Wilk.</p>
+<ul class="simple">
+<li><p><strong>Hipótesis nula (<span class="math notranslate nohighlight">\(H_0\)</span>):</strong> no existen diferencias estadísticamente significativas en la distribución de <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> entre los grupos <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">0</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p></li>
+<li><p><strong>Hipótesis alternativa (<span class="math notranslate nohighlight">\(H_1\)</span>):</strong> existen diferencias estadísticamente significativas en la distribución de <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> entre los grupos <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">0</span></code> y `Grade = 1$.</p></li>
+</ul>
+<p>Se utiliza un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grupo_0</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Grade&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">&quot;Age_at_diagnosis&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="n">grupo_1</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Grade&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;Age_at_diagnosis&quot;</span>
+<span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="n">statistic</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">mannwhitneyu</span><span class="p">(</span>
+    <span class="n">grupo_0</span><span class="p">,</span>
+    <span class="n">grupo_1</span><span class="p">,</span>
+    <span class="n">alternative</span><span class="o">=</span><span class="s2">&quot;two-sided&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Estadístico U: </span><span class="si">{</span><span class="n">statistic</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;p-value: </span><span class="si">{</span><span class="n">p_value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Estadístico U: 21042.5000
+p-value: 0.0000
+</pre></div>
+</div>
+</div>
+</div>
+<p>El resultado obtenido fue un estadístico U de <strong>21,042.5</strong> y un <strong>p-value &lt; 0.0001</strong>, por lo que, considerando un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>, se rechaza la hipótesis nula. Esto indica que existe una <strong>diferencia estadísticamente significativa en la distribución de la variable entre los grupos LGG y GBM</strong>. Por lo tanto, los resultados sugieren que esta variable presenta un comportamiento diferente según el grado del glioma, aunque la prueba por sí sola no permite establecer una relación causal.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analisis_bivariado</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">etiquetas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
@@ -3155,6 +3208,7 @@ crecimiento y proliferación celular.</p></li>
 </div>
 </div>
 </section>
+</section>
 <section id="grade-gender">
 <h3><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code><a class="headerlink" href="#grade-gender" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
@@ -3238,31 +3292,31 @@ Grados de libertad: 1
 </div>
 <p>La distribución por grupo racial muestra un predominio marcado de la población blanca en ambos niveles de Grade. En Grade 0, el grupo White concentra 365 pacientes (93,8%), mientras que en Grade 1 representa 246 pacientes (87,2%). El grupo Black or African American constituye el segundo grupo con mayor representación, con 16 pacientes (4,1%) en Grade 0 y 30 pacientes (10,6%) en Grade 1. Por su parte, la población asiática presenta una participación reducida, con 7 casos (1,8%) en Grade 0 y 6 casos (2,1%) en Grade 1, mientras que American Indian or Alaska Native presenta una presencia prácticamente nula, con 1 caso (0,3%) en Grade 0 y ningún caso en Grade 1.</p>
 <p>En términos comparativos, se observa que la proporción del grupo White disminuye en Grade 1, pasando de 93,8% a 87,2%, mientras que el grupo Black or African American aumenta de 4,1% a 10,6%.</p>
-<p>Adem’as, si bien existen diferencias en la distribución de los grupos raciales entre los niveles de Grade, estos resultados deben analizarse con precaución, ya que la muestra está fuertemente concentrada en el grupo White y algunas de las demás categorías presentan muy pocas observaciones.</p>
-<section id="prueba-de-independencia">
-<h4>Prueba de independencia:<a class="headerlink" href="#prueba-de-independencia" title="Link to this heading">#</a></h4>
+<p>Además, si bien existen diferencias en la distribución de los grupos raciales entre los niveles de Grade, estos resultados deben analizarse con precaución, ya que la muestra está fuertemente concentrada en el grupo White y algunas de las demás categorías presentan muy pocas observaciones.</p>
+<section id="id2">
+<h4>Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span><a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>Para realizar la prueba de independencia entre <code class="docutils literal notranslate"><span class="pre">Grade</span></code> y <code class="docutils literal notranslate"><span class="pre">Race</span></code>, se decidió reagrupar las categorías de la variable racial debido a las bajas frecuencias observadas en algunos grupos. En particular, las categorías <strong>Asian</strong> y <strong>American Indian or Alaska Native</strong> presentan un número reducido de observaciones, lo que puede generar frecuencias esperadas demasiado bajas y afectar la validez de la prueba estadística.</p>
+<p>Por esta razón, se mantuvo la categoría <strong>White</strong>, que representa la mayoría de los registros, y se agruparon <strong>Black or African American</strong>, <strong>Asian</strong> y <strong>American Indian or Alaska Native</strong> en una nueva categoría denominada <strong>Other racial groups</strong>.</p>
+<p>De esta manera, la variable <code class="docutils literal notranslate"><span class="pre">Race</span></code> queda conformada por dos categorías: <strong>White</strong> y <strong>Other racial groups</strong>, permitiendo realizar la prueba de independencia con una distribución de frecuencias más adecuada.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabla_race_grade</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span>
-    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Race&quot;</span><span class="p">],</span>
-    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Grade&quot;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">race_agrupada</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Race&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;White&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Other racial groups&quot;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Other racial groups&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Other racial groups&quot;</span>
+<span class="p">})</span>
+
+<span class="n">tabla_race</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Grade&quot;</span><span class="p">],</span>
+    <span class="n">race_agrupada</span>
 <span class="p">)</span>
 
-<span class="n">chi2</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">tabla_race_grade</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Frecuencias esperadas:&quot;</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
-    <span class="n">expected</span><span class="p">,</span>
-    <span class="n">index</span><span class="o">=</span><span class="n">tabla_race_grade</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
-    <span class="n">columns</span><span class="o">=</span><span class="n">tabla_race_grade</span><span class="o">.</span><span class="n">columns</span>
-<span class="p">))</span>
+<span class="n">tabla_race</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Frecuencias esperadas:
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -3280,12 +3334,12 @@ Grados de libertad: 1
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
-      <th>Grade</th>
-      <th>0</th>
-      <th>1</th>
+      <th>Race</th>
+      <th>Other racial groups</th>
+      <th>White</th>
     </tr>
     <tr>
-      <th>Race</th>
+      <th>Grade</th>
       <th></th>
       <th></th>
     </tr>
@@ -3293,33 +3347,46 @@ Grados de libertad: 1
   <tbody>
     <tr>
       <th>0</th>
-      <td>354.216095</td>
-      <td>256.783905</td>
+      <td>24</td>
+      <td>365</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>26.667660</td>
-      <td>19.332340</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>7.536513</td>
-      <td>5.463487</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0.579732</td>
-      <td>0.420268</td>
+      <td>36</td>
+      <td>246</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
 </div>
-<section id="evaluacion-supuestos-de-prueba-chi-2">
-<h5>Evaluación supuestos de prueba <span class="math notranslate nohighlight">\(\chi^2\)</span><a class="headerlink" href="#evaluacion-supuestos-de-prueba-chi-2" title="Link to this heading">#</a></h5>
-<p>Se construyó la tabla de contingencia entre <code class="docutils literal notranslate"><span class="pre">Race</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code> y se calcularon las frecuencias esperadas para evaluar si se cumplen las condiciones necesarias para aplicar la prueba de independencia de Chi-cuadrado. Se encontró que existen frecuencias esperadas menores que 5. En particular, para la categoría <code class="docutils literal notranslate"><span class="pre">Race</span> <span class="pre">=</span> <span class="pre">3</span></code>, las frecuencias esperadas son <span class="math notranslate nohighlight">\(0.5797\)</span> para <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">0</span></code> y <span class="math notranslate nohighlight">\(0.4203\)</span> para `Grade = 1$.</p>
-<p>Debido a que existen frecuencias esperadas muy pequeñas, no se recomienda utilizar la aproximación de Chi-cuadrado de Pearson para evaluar la independencia entre <code class="docutils literal notranslate"><span class="pre">Race</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code>. En su lugar,</p>
-</section>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tabla_race</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="s2">&quot;Grade&quot;</span><span class="p">],</span>
+    <span class="n">race_agrupada</span>
+<span class="p">)</span>
+
+<span class="n">chi2</span><span class="p">,</span> <span class="n">p_valor</span><span class="p">,</span> <span class="n">grados_libertad</span><span class="p">,</span> <span class="n">frecuencias_esperadas</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span>
+    <span class="n">tabla_race</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Chi-cuadrado: </span><span class="si">{</span><span class="n">chi2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Grados de libertad: </span><span class="si">{</span><span class="n">grados_libertad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Valor p: </span><span class="si">{</span><span class="n">p_valor</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Chi-cuadrado: 7.9450
+Grados de libertad: 1
+Valor p: 0.0048
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dado que el valor <strong>p = 0.0048</strong> es menor que el nivel de significancia de 0.05, se rechaza la hipótesis nula de independencia. Por lo tanto, existe evidencia estadísticamente significativa de una asociación entre <code class="docutils literal notranslate"><span class="pre">Grade</span></code> y <code class="docutils literal notranslate"><span class="pre">Race</span></code> en el conjunto de datos.</p>
+<p>Esto indica que la distribución de los pacientes entre <strong>LGG (Grade 0)</strong> y <strong>GBM (Grade 1)</strong> presenta diferencias según el grupo racial considerado. Sin embargo, este resultado debe interpretarse con cautela, ya que la variable <code class="docutils literal notranslate"><span class="pre">Race</span></code> fue previamente agrupada en <strong>White</strong> y <strong>Other racial groups</strong> debido a las bajas frecuencias de algunas categorías originales.</p>
+<p>Es importante señalar que la prueba de independencia permite identificar una asociación estadística, pero no implica que el grupo racial sea la causa de las diferencias observadas en el grado tumoral.</p>
 </section>
 </section>
 <section id="grade-variables-geneticas">
@@ -5567,8 +5634,386 @@ Grados de libertad: 1
 </div>
 </div></div>
 </div>
-<p>There is a lot more that you can do with outputs (such as including interactive outputs)
-with your book. For more information about this, see <a class="reference external" href="https://jupyterbook.org">the Jupyter Book documentation</a></p>
+</section>
+<section id="multicolinealidad">
+<h3>Multicolinealidad<a class="headerlink" href="#multicolinealidad" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spearman_corr</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">spearman_corr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span>
+    <span class="n">spearman_corr</span><span class="p">,</span> 
+    <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;vlag&#39;</span><span class="p">,</span> 
+    <span class="n">vmax</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> 
+    <span class="n">vmin</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> 
+    <span class="n">center</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">annot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+    <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Coeficiente de Correlación de Spearman (r)&#39;</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Matriz de Correlación de Spearman (Train Set - 24 Variables)&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">target_corr</span> <span class="o">=</span> <span class="n">spearman_corr</span><span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Grade&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">PALETTE_GRADE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">PALETTE_GRADE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">target_corr</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+
+<span class="n">bars</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">target_corr</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">target_corr</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Correlación de Spearman de cada Atributo con la Severidad (Grade)&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Coeficiente de Correlación (r)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">0.85</span><span class="p">,</span> <span class="mf">0.65</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">bar</span> <span class="ow">in</span> <span class="n">bars</span><span class="p">:</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="k">if</span> <span class="n">width</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="mf">0.06</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+        <span class="n">width</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> 
+        <span class="n">bar</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span> <span class="o">+</span> <span class="n">bar</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span><span class="o">/</span><span class="mf">2.0</span><span class="p">,</span> 
+        <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">width</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> 
+        <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> 
+        <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> 
+        <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span>
+    <span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/48becdc0114a489c1fcdee8c43f97de22ab76449b03f71acea9fbb25faa10827.png" src="_images/48becdc0114a489c1fcdee8c43f97de22ab76449b03f71acea9fbb25faa10827.png" />
+<img alt="_images/bc732227839fd8c5767eaf494868d393aba74d5e965733898e8bfddda7dac0d0.png" src="_images/bc732227839fd8c5767eaf494868d393aba74d5e965733898e8bfddda7dac0d0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">calcular_asociacion</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+  <span class="n">confusion_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">crosstab</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+  <span class="n">chi2</span><span class="p">,</span> <span class="n">p_val</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">)</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+  <span class="n">phi2</span> <span class="o">=</span> <span class="n">chi2</span> <span class="o">/</span> <span class="n">n</span>
+  <span class="n">r</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="o">.</span><span class="n">shape</span>
+
+  <span class="n">phi2corr</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">phi2</span> <span class="o">-</span> <span class="p">((</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="n">rcorr</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="p">((</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">kcorr</span> <span class="o">=</span> <span class="n">k</span> <span class="o">-</span> <span class="p">((</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">denominator</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">kcorr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">rcorr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="n">v_cramer</span> <span class="o">=</span> <span class="p">(</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">phi2corr</span> <span class="o">/</span> <span class="n">denominator</span><span class="p">)</span> <span class="k">if</span> <span class="n">denominator</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span>
+  <span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">chi2</span><span class="p">,</span> <span class="n">p_val</span><span class="p">,</span> <span class="n">v_cramer</span>
+
+
+<span class="n">cat_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">train_data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s1">&#39;Age_at_diagnosis&#39;</span><span class="p">]</span>
+<span class="n">n_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cat_cols</span><span class="p">)</span>
+
+<span class="n">cramer_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="mf">1.0</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">cat_cols</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cat_cols</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+<span class="p">)</span>
+<span class="n">chi2_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">pares_asociados</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cols</span><span class="p">):</span>
+  <span class="n">var1</span> <span class="o">=</span> <span class="n">cat_cols</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="n">var2</span> <span class="o">=</span> <span class="n">cat_cols</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">chi2</span><span class="p">,</span> <span class="n">p_val</span><span class="p">,</span> <span class="n">v_val</span> <span class="o">=</span> <span class="n">calcular_asociacion</span><span class="p">(</span>
+        <span class="n">train_data</span><span class="p">[</span><span class="n">var1</span><span class="p">],</span> <span class="n">train_data</span><span class="p">[</span><span class="n">var2</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">cramer_matrix</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_val</span>
+    <span class="n">cramer_matrix</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_val</span>
+
+    <span class="k">if</span> <span class="n">var2</span> <span class="o">==</span> <span class="s1">&#39;Grade&#39;</span><span class="p">:</span>
+      <span class="n">chi2_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+          <span class="s1">&#39;Variable&#39;</span><span class="p">:</span> <span class="n">var1</span><span class="p">,</span>
+          <span class="s1">&#39;Chi2 Stat&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">chi2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+          <span class="s1">&#39;p-value&#39;</span><span class="p">:</span> <span class="n">p_val</span><span class="p">,</span>
+          <span class="s1">&#39;V de Cramer&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+      <span class="p">})</span>
+    <span class="k">elif</span> <span class="n">var1</span> <span class="o">==</span> <span class="s1">&#39;Grade&#39;</span><span class="p">:</span>
+      <span class="n">chi2_results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+          <span class="s1">&#39;Variable&#39;</span><span class="p">:</span> <span class="n">var2</span><span class="p">,</span>
+          <span class="s1">&#39;Chi2 Stat&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">chi2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+          <span class="s1">&#39;p-value&#39;</span><span class="p">:</span> <span class="n">p_val</span><span class="p">,</span>
+          <span class="s1">&#39;V de Cramer&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+      <span class="p">})</span>
+
+    <span class="k">if</span> <span class="n">var1</span> <span class="o">!=</span> <span class="s1">&#39;Grade&#39;</span> <span class="ow">and</span> <span class="n">var2</span> <span class="o">!=</span> <span class="s1">&#39;Grade&#39;</span> <span class="ow">and</span> <span class="n">v_val</span> <span class="o">&gt;</span> <span class="mf">0.4</span><span class="p">:</span>
+      <span class="n">pares_asociados</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">var1</span><span class="p">,</span> <span class="n">var2</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">v_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">)))</span>
+
+<span class="n">df_asociacion</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">chi2_results</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+    <span class="n">by</span><span class="o">=</span><span class="s1">&#39;V de Cramer&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ASOCIACIÓN CATEGÓRICA CON GRADE (CHI-CUADRADO Y V DE CRAMER)&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_asociacion</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">))</span>
+
+<span class="n">df_pares_asociados</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="n">pares_asociados</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Variable 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Variable 2&#39;</span><span class="p">,</span> <span class="s1">&#39;V de Cramer (V)&#39;</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;V de Cramer (V)&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ASOCIACIÓN CATEGÓRICA CON GRADE (CHI-CUADRADO Y V DE CRAMER)
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_7a829">
+  <thead>
+    <tr>
+      <th id="T_7a829_level0_col0" class="col_heading level0 col0" >Variable</th>
+      <th id="T_7a829_level0_col1" class="col_heading level0 col1" >Chi2 Stat</th>
+      <th id="T_7a829_level0_col2" class="col_heading level0 col2" >p-value</th>
+      <th id="T_7a829_level0_col3" class="col_heading level0 col3" >V de Cramer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_7a829_row0_col0" class="data row0 col0" >IDH1</td>
+      <td id="T_7a829_row0_col1" class="data row0 col1" >328.780000</td>
+      <td id="T_7a829_row0_col2" class="data row0 col2" >0.000000</td>
+      <td id="T_7a829_row0_col3" class="data row0 col3" >0.699400</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row1_col0" class="data row1 col0" >PTEN</td>
+      <td id="T_7a829_row1_col1" class="data row1 col1" >88.480000</td>
+      <td id="T_7a829_row1_col2" class="data row1 col2" >0.000000</td>
+      <td id="T_7a829_row1_col3" class="data row1 col3" >0.361300</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row2_col0" class="data row2 col0" >ATRX</td>
+      <td id="T_7a829_row2_col1" class="data row2 col1" >70.240000</td>
+      <td id="T_7a829_row2_col2" class="data row2 col2" >0.000000</td>
+      <td id="T_7a829_row2_col3" class="data row2 col3" >0.321500</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row3_col0" class="data row3 col0" >CIC</td>
+      <td id="T_7a829_row3_col1" class="data row3 col1" >63.930000</td>
+      <td id="T_7a829_row3_col2" class="data row3 col2" >0.000000</td>
+      <td id="T_7a829_row3_col3" class="data row3 col3" >0.306500</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row4_col0" class="data row4 col0" >EGFR</td>
+      <td id="T_7a829_row4_col1" class="data row4 col1" >28.090000</td>
+      <td id="T_7a829_row4_col2" class="data row4 col2" >0.000000</td>
+      <td id="T_7a829_row4_col3" class="data row4 col3" >0.201100</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row5_col0" class="data row5 col0" >FUBP1</td>
+      <td id="T_7a829_row5_col1" class="data row5 col1" >23.930000</td>
+      <td id="T_7a829_row5_col2" class="data row5 col2" >0.000001</td>
+      <td id="T_7a829_row5_col3" class="data row5 col3" >0.185000</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row6_col0" class="data row6 col0" >NOTCH1</td>
+      <td id="T_7a829_row6_col1" class="data row6 col1" >23.380000</td>
+      <td id="T_7a829_row6_col2" class="data row6 col2" >0.000001</td>
+      <td id="T_7a829_row6_col3" class="data row6 col3" >0.182800</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row7_col0" class="data row7 col0" >RB1</td>
+      <td id="T_7a829_row7_col1" class="data row7 col1" >20.870000</td>
+      <td id="T_7a829_row7_col2" class="data row7 col2" >0.000005</td>
+      <td id="T_7a829_row7_col3" class="data row7 col3" >0.172200</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row8_col0" class="data row8 col0" >TP53</td>
+      <td id="T_7a829_row8_col1" class="data row8 col1" >10.150000</td>
+      <td id="T_7a829_row8_col2" class="data row8 col2" >0.001446</td>
+      <td id="T_7a829_row8_col3" class="data row8 col3" >0.116800</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row9_col0" class="data row9 col0" >Race</td>
+      <td id="T_7a829_row9_col1" class="data row9 col1" >11.750000</td>
+      <td id="T_7a829_row9_col2" class="data row9 col2" >0.008288</td>
+      <td id="T_7a829_row9_col3" class="data row9 col3" >0.114300</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row10_col0" class="data row10 col0" >MUC16</td>
+      <td id="T_7a829_row10_col1" class="data row10 col1" >8.100000</td>
+      <td id="T_7a829_row10_col2" class="data row10 col2" >0.004422</td>
+      <td id="T_7a829_row10_col3" class="data row10 col3" >0.102900</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row11_col0" class="data row11 col0" >IDH2</td>
+      <td id="T_7a829_row11_col1" class="data row11 col1" >8.070000</td>
+      <td id="T_7a829_row11_col2" class="data row11 col2" >0.004493</td>
+      <td id="T_7a829_row11_col3" class="data row11 col3" >0.102700</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row12_col0" class="data row12 col0" >GRIN2A</td>
+      <td id="T_7a829_row12_col1" class="data row12 col1" >6.760000</td>
+      <td id="T_7a829_row12_col2" class="data row12 col2" >0.009315</td>
+      <td id="T_7a829_row12_col3" class="data row12 col3" >0.092700</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row13_col0" class="data row13 col0" >PIK3R1</td>
+      <td id="T_7a829_row13_col1" class="data row13 col1" >5.650000</td>
+      <td id="T_7a829_row13_col2" class="data row13 col2" >0.017479</td>
+      <td id="T_7a829_row13_col3" class="data row13 col3" >0.083300</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row14_col0" class="data row14 col0" >SMARCA4</td>
+      <td id="T_7a829_row14_col1" class="data row14 col1" >4.930000</td>
+      <td id="T_7a829_row14_col2" class="data row14 col2" >0.026367</td>
+      <td id="T_7a829_row14_col3" class="data row14 col3" >0.076600</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row15_col0" class="data row15 col0" >PDGFRA</td>
+      <td id="T_7a829_row15_col1" class="data row15 col1" >3.630000</td>
+      <td id="T_7a829_row15_col2" class="data row15 col2" >0.056803</td>
+      <td id="T_7a829_row15_col3" class="data row15 col3" >0.062600</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row16_col0" class="data row16 col0" >NF1</td>
+      <td id="T_7a829_row16_col1" class="data row16 col1" >2.850000</td>
+      <td id="T_7a829_row16_col2" class="data row16 col2" >0.091643</td>
+      <td id="T_7a829_row16_col3" class="data row16 col3" >0.052500</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row17_col0" class="data row17 col0" >Gender</td>
+      <td id="T_7a829_row17_col1" class="data row17 col1" >2.650000</td>
+      <td id="T_7a829_row17_col2" class="data row17 col2" >0.103271</td>
+      <td id="T_7a829_row17_col3" class="data row17 col3" >0.049700</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row18_col0" class="data row18 col0" >CSMD3</td>
+      <td id="T_7a829_row18_col1" class="data row18 col1" >0.620000</td>
+      <td id="T_7a829_row18_col2" class="data row18 col2" >0.430521</td>
+      <td id="T_7a829_row18_col3" class="data row18 col3" >0.000000</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row19_col0" class="data row19 col0" >BCOR</td>
+      <td id="T_7a829_row19_col1" class="data row19 col1" >0.000000</td>
+      <td id="T_7a829_row19_col2" class="data row19 col2" >1.000000</td>
+      <td id="T_7a829_row19_col3" class="data row19 col3" >0.000000</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row20_col0" class="data row20 col0" >PIK3CA</td>
+      <td id="T_7a829_row20_col1" class="data row20 col1" >0.510000</td>
+      <td id="T_7a829_row20_col2" class="data row20 col2" >0.475326</td>
+      <td id="T_7a829_row20_col3" class="data row20 col3" >0.000000</td>
+    </tr>
+    <tr>
+      <td id="T_7a829_row21_col0" class="data row21 col0" >FAT4</td>
+      <td id="T_7a829_row21_col1" class="data row21 col1" >0.200000</td>
+      <td id="T_7a829_row21_col2" class="data row21 col2" >0.650786</td>
+      <td id="T_7a829_row21_col3" class="data row21 col3" >0.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">PARES DE GENES CON ALTA ASOCIACIÓN MUTUA (V &gt; 0.4)&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">df_pares_asociados</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No se detectaron pares de genes con alta redundancia mutua (V &gt; 0.4).&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="n">display</span><span class="p">(</span><span class="n">df_pares_asociados</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PARES DE GENES CON ALTA ASOCIACIÓN MUTUA (V &gt; 0.4)
+</pre></div>
+</div>
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_ffaa4">
+  <thead>
+    <tr>
+      <th id="T_ffaa4_level0_col0" class="col_heading level0 col0" >Variable 1</th>
+      <th id="T_ffaa4_level0_col1" class="col_heading level0 col1" >Variable 2</th>
+      <th id="T_ffaa4_level0_col2" class="col_heading level0 col2" >V de Cramer (V)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_ffaa4_row0_col0" class="data row0 col0" >ATRX</td>
+      <td id="T_ffaa4_row0_col1" class="data row0 col1" >TP53</td>
+      <td id="T_ffaa4_row0_col2" class="data row0 col2" >0.544000</td>
+    </tr>
+    <tr>
+      <td id="T_ffaa4_row1_col0" class="data row1 col0" >FUBP1</td>
+      <td id="T_ffaa4_row1_col1" class="data row1 col1" >CIC</td>
+      <td id="T_ffaa4_row1_col2" class="data row1 col2" >0.459200</td>
+    </tr>
+    <tr>
+      <td id="T_ffaa4_row2_col0" class="data row2 col0" >ATRX</td>
+      <td id="T_ffaa4_row2_col1" class="data row2 col1" >IDH1</td>
+      <td id="T_ffaa4_row2_col2" class="data row2 col2" >0.456200</td>
+    </tr>
+    <tr>
+      <td id="T_ffaa4_row3_col0" class="data row3 col0" >PTEN</td>
+      <td id="T_ffaa4_row3_col1" class="data row3 col1" >IDH1</td>
+      <td id="T_ffaa4_row3_col2" class="data row3 col2" >0.402800</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IDENTIFICACIÓN DE PARES REDUNDANTES (|r| &gt; 0.7)&quot;</span><span class="p">)</span>
+<span class="n">pares_altos</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">columnas</span> <span class="o">=</span> <span class="n">spearman_corr</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columnas</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">r_val</span> <span class="o">=</span> <span class="n">spearman_corr</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">r_val</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.7</span><span class="p">:</span>
+            <span class="n">pares_altos</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">columnas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">columnas</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="nb">round</span><span class="p">(</span><span class="n">r_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">)))</span>
+
+<span class="n">df_redundancias</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pares_altos</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Variable 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Variable 2&#39;</span><span class="p">,</span> <span class="s1">&#39;Coeficiente (r)&#39;</span><span class="p">])</span>
+
+<span class="n">df_predictores_red</span> <span class="o">=</span> <span class="n">df_redundancias</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">df_redundancias</span><span class="p">[</span><span class="s1">&#39;Variable 1&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Grade&#39;</span><span class="p">)</span> <span class="o">&amp;</span> 
+    <span class="p">(</span><span class="n">df_redundancias</span><span class="p">[</span><span class="s1">&#39;Variable 2&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Grade&#39;</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="k">if</span> <span class="n">df_predictores_red</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;• No se detectaron pares de variables independientes con correlación |r| &gt; 0.7.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;• Conclusión: No existen redundancias severas ni riesgo de multicolinealidad entre los predictores.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;• Advertencia: Se encontraron los siguientes pares con alta redundancia que justifican exclusión:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df_predictores_red</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IDENTIFICACIÓN DE PARES REDUNDANTES (|r| &gt; 0.7)
+• No se detectaron pares de variables independientes con correlación |r| &gt; 0.7.
+• Conclusión: No existen redundancias severas ni riesgo de multicolinealidad entre los predictores.
+</pre></div>
+</div>
+</div>
+</div>
+<p>El análisis bivariado y de correlación de Spearman sobre el conjunto de entrenamiento (<span class="math notranslate nohighlight">\(n = 671\)</span>) revela asociaciones clínico-moleculares altamente discriminantes entre Gliomas de Bajo Grado (LGG) y Glioblastoma Multiforme (GBM):</p>
+<p><strong>Asociaciones Individuales con la Severidad Tumoral (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>):</strong></p>
+<ul class="simple">
+<li><p><strong>Biomarcadores Protectores (Asociados a LGG):</strong> La mutación en el gen <strong><code class="docutils literal notranslate"><span class="pre">IDH1</span></code></strong> constituye el factor molecular con mayor capacidad discriminativa e inversa respecto a la malignidad (<span class="math notranslate nohighlight">\(r = -0.70\)</span>, <span class="math notranslate nohighlight">\(V \approx 0.70\)</span>, <span class="math notranslate nohighlight">\(p &lt; 0.001\)</span>), seguida por alteraciones en <strong><code class="docutils literal notranslate"><span class="pre">ATRX</span></code></strong> (<span class="math notranslate nohighlight">\(r = -0.33\)</span>, <span class="math notranslate nohighlight">\(V \approx 0.32\)</span>) y <strong><code class="docutils literal notranslate"><span class="pre">CIC</span></code></strong> (<span class="math notranslate nohighlight">\(r = -0.31\)</span>, <span class="math notranslate nohighlight">\(V \approx 0.31\)</span>).</p></li>
+<li><p><strong>Indicadores de Riesgo (Asociados a GBM):</strong> La variable <strong><code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></strong> representa el principal correlato clínico directo con la severidad (<span class="math notranslate nohighlight">\(r = +0.53\)</span>), confirmando la mayor prevalencia de GBM en edades avanzadas. A nivel genómico, <strong><code class="docutils literal notranslate"><span class="pre">PTEN</span></code></strong> destaca como el marcador de riesgo más sólido (<span class="math notranslate nohighlight">\(V = 0.3613\)</span>, <span class="math notranslate nohighlight">\(r = +0.37\)</span>), seguido por <strong><code class="docutils literal notranslate"><span class="pre">EGFR</span></code></strong> (<span class="math notranslate nohighlight">\(V = 0.2011\)</span>, <span class="math notranslate nohighlight">\(r = +0.21\)</span>) y <strong><code class="docutils literal notranslate"><span class="pre">RB1</span></code></strong> (<span class="math notranslate nohighlight">\(V = 0.1722\)</span>, <span class="math notranslate nohighlight">\(r = +0.18\)</span>).</p></li>
+<li><p><strong>Variables No Significativas:</strong> Las variables con <span class="math notranslate nohighlight">\(p &gt; 0.05\)</span> en Chi-cuadrado, valores de <span class="math notranslate nohighlight">\(V &lt; 0.08\)</span> y magnitudes de <span class="math notranslate nohighlight">\(\vert{}r\vert{} &lt; 0.10\)</span> (como <code class="docutils literal notranslate"><span class="pre">PDGFRA</span></code>, <code class="docutils literal notranslate"><span class="pre">NF1</span></code>, <code class="docutils literal notranslate"><span class="pre">Gender</span></code>, <code class="docutils literal notranslate"><span class="pre">CSMD3</span></code>, <code class="docutils literal notranslate"><span class="pre">BCOR</span></code>, <code class="docutils literal notranslate"><span class="pre">PIK3CA</span></code> y <code class="docutils literal notranslate"><span class="pre">FAT4</span></code>) aportan una varianza explicativa insignificante, respaldando su eliminación para simplificar el modelo predictivo y reducir costos diagnósticos.</p></li>
+</ul>
+<p><strong>Arquitectura de Interacción Inter-Genómica (<span class="math notranslate nohighlight">\(V &gt; 0.40\)</span>):</strong></p>
+<ul class="simple">
+<li><p><strong>Patrones de Co-ocurrencia:</strong> El par **<code class="docutils literal notranslate"><span class="pre">ATRX</span></code>–<code class="docutils literal notranslate"><span class="pre">TP53**</span></code> presenta la mayor fuerza de asociación mutua (<span class="math notranslate nohighlight">\(V = 0.5440\)</span>, <span class="math notranslate nohighlight">\(r \approx 0.35\)</span>), reflejando el eje de co-mutación clásico en la astrocitogénesis. Las interacciones **<code class="docutils literal notranslate"><span class="pre">FUBP1</span></code>–<code class="docutils literal notranslate"><span class="pre">CIC**</span></code> (<span class="math notranslate nohighlight">\(V = 0.4592\)</span>) y **<code class="docutils literal notranslate"><span class="pre">ATRX</span></code>–<code class="docutils literal notranslate"><span class="pre">IDH1**</span></code> (<span class="math notranslate nohighlight">\(V = 0.4562\)</span>) reafirman las firmas genómicas del linaje oligodendroglial y de gliomas de bajo grado.</p></li>
+<li><p><strong>Exclusión Mutua:</strong> La relación entre <strong><code class="docutils literal notranslate"><span class="pre">PTEN</span></code></strong> e <strong><code class="docutils literal notranslate"><span class="pre">IDH1</span></code></strong> (<span class="math notranslate nohighlight">\(V = 0.4028\)</span>) responde a una regla de incompatibilidad biológica asociada al grado tumoral (<code class="docutils literal notranslate"><span class="pre">IDH1</span></code> mutado en LGG vs. <code class="docutils literal notranslate"><span class="pre">PTEN</span></code> alterado en GBM).</p></li>
+</ul>
+<p><strong>Diagnóstico de Multicolinealidad para el Modelado Predictivo:</strong>
+Dado que ningún par de variables independientes superó el umbral crítico de redundancia (<span class="math notranslate nohighlight">\(V &gt; 0.70\)</span> o <span class="math notranslate nohighlight">\(\vert{}r\vert{} &gt; 0.70\)</span>), se confirma la <strong>ausencia de multicolinealidad estructural</strong> en la muestra de entrenamiento. Este resultado valida la retención de este subconjunto de biomarcadores, permitiendo a los algoritmos de clasificación explotar estas interacciones complejas sin generar inestabilidad en la estimación de parámetros.</p>
 </section>
 </section>
 </section>
@@ -5654,19 +6099,20 @@ with your book. For more information about this, see <a class="reference externa
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-bivariado">Análisis Bivariado</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-age-at-diagnosis"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-age-at-diagnosis"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-u-de-mannwhitney">Prueba U de Mann–Whitney</a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-gender"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Gender</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia-chi-2">Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-race"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">Race</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prueba-de-independencia">Prueba de independencia:</a><ul class="nav section-nav flex-column">
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-supuestos-de-prueba-chi-2">Evaluación supuestos de prueba <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
-</ul>
-</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-variables-geneticas"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">variables</span> <span class="pre">genéticas</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multicolinealidad">Multicolinealidad</a></li>
 </ul>
 </li>
 </ul>
