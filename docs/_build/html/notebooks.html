@@ -416,7 +416,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-variables-geneticas"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">variables</span> <span class="pre">genéticas</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multicolinealidad">Multicolinealidad</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multicolinealidad-y-correlacion">Multicolinealidad y correlación</a></li>
 </ul>
 </li>
 </ul>
@@ -456,7 +456,7 @@ gliomas del proyecto The Cancer Genome Atlas (TCGA).</p>
 
 <span class="c1">## Estadística</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">stats</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span><span class="p">,</span> <span class="n">fisher_exact</span><span class="p">,</span> <span class="n">ttest_ind</span><span class="p">,</span> <span class="n">mannwhitneyu</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">chi2_contingency</span><span class="p">,</span> <span class="n">fisher_exact</span><span class="p">,</span> <span class="n">mannwhitneyu</span>
 
 <span class="c1">## Machine Learning</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
@@ -1208,7 +1208,7 @@ Valores faltantes: 0
 </table>
 </div></div></div>
 </div>
-<p>El conjunto de datos presenta una estructura limpia y estructurada, compuesta por <strong>839 registros</strong> (pacientes) y <strong>24 variables</strong>, sin presencia de valores nulos o faltantes. Aunque se presente un registro duplicado representa a dos pacientes distintos que casualmente comparten el mismo fenotipo y perfil genético, ya que su ID es distinto en el dataset original.</p>
+<p>El conjunto de datos presenta una estructura limpia y estructurada, compuesta por <strong>839 registros</strong> (pacientes) y <strong>24 variables</strong>, sin presencia de valores nulos o faltantes. Aunque se presente un registro duplicado, este representa a dos pacientes distintos que casualmente comparten el mismo fenotipo y perfil genético, ya que su ID es distinto en el dataset original.</p>
 <p>Las variables binarias, originalmente codificadas mediante valores enteros <code class="docutils literal notranslate"><span class="pre">0</span></code> y <code class="docutils literal notranslate"><span class="pre">1</span></code>, fueron transformadas al tipo categórico (<code class="docutils literal notranslate"><span class="pre">category</span></code>) para representar adecuadamente su naturaleza y facilitar su análisis exploratorio.</p>
 </section>
 </section>
@@ -1616,7 +1616,7 @@ crecimiento y proliferación celular.</p></li>
 </div>
 <p>La detección de valores atípicos para la variable continua <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> se evaluó tanto matemáticamente mediante la regla del Rango Intercuartílico (<span class="math notranslate nohighlight">\(1.5 \times \text{IQR}\)</span>) como mediante inspección visual con diagramas de caja. Con un <span class="math notranslate nohighlight">\(Q_1\)</span> de <span class="math notranslate nohighlight">\(37.84\)</span> años y un <span class="math notranslate nohighlight">\(Q_3\)</span> de <span class="math notranslate nohighlight">\(62.62\)</span> años (<span class="math notranslate nohighlight">\(\text{IQR} = 24.79\)</span> años), los límites teóricos de corte se establecieron en <span class="math notranslate nohighlight">\(0.66\)</span> y <span class="math notranslate nohighlight">\(99.82\)</span> años. Al contrastar estos umbrales con el rango real de los pacientes (<span class="math notranslate nohighlight">\(14.42\)</span> a <span class="math notranslate nohighlight">\(89.29\)</span> años), se determinó la ausencia total de outliers o registros anómalos en la muestra de entrenamiento (<span class="math notranslate nohighlight">\(n = 671\)</span>).</p>
 <p>La evaluación de normalidad para la variable <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> revela una distribución <strong>altamente simétrica</strong> con un coeficiente de asimetría (<em>skewness</em>) de <strong><span class="math notranslate nohighlight">\(0.0547\)</span></strong>, lo que ubica a la media (<span class="math notranslate nohighlight">\(51.10\)</span> años) y a la mediana (<span class="math notranslate nohighlight">\(51.99\)</span> años) prácticamente en el mismo punto central. Sin embargo, el contraste formal de <strong>Shapiro-Wilk</strong> (<span class="math notranslate nohighlight">\(W \approx 0.985\)</span>, <span class="math notranslate nohighlight">\(p &lt; 0.05\)</span>) rechaza la hipótesis nula de normalidad estricta, un comportamiento explicado tanto por la sensibilidad de la prueba ante el tamaño muestral (<span class="math notranslate nohighlight">\(n = 671\)</span>) como por el <strong>patrón bimodal de la variable</strong> (concentración de casos en torno a los <span class="math notranslate nohighlight">\(35\)</span> y <span class="math notranslate nohighlight">\(55\)</span> años). A pesar de esta desviación, <strong>no es necesario aplicar transformaciones no lineales</strong> (tales como <code class="docutils literal notranslate"><span class="pre">log</span></code> o <code class="docutils literal notranslate"><span class="pre">Box-Cox</span></code>) en etapas posteriores de preprocesamiento, dado que la variable carece de asimetría pronunciada o valores atípicos que distorsionen su escala; bastará con aplicar una estandarización convencional (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>) para algoritmos sensibles a la escala o mantener la variable en su escala original continua para modelos basados en árboles de decisión.</p>
-<p>La variable registra una media de 51.10 años (<span class="math notranslate nohighlight">\(\pm 15.63\)</span>) y una mediana de 51.99 años en el conjunto de entrenamiento, abarcando un rango de edad desde los 14.42 hasta los 89.29 años. El análisis exploratorio revela una distribución simétrica con comportamiento bimodal (picos poblacionales cerca de los 35 y 55 años). Este patrón sugiere la presencia de subgrupos demográficos diferenciados que posteriormente se contrastarán con el grado de severidad del tumoral (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>).</p>
+<p>La variable registra una media de 51.10 años (<span class="math notranslate nohighlight">\(\pm 15.63\)</span>) y una mediana de 51.99 años en el conjunto de entrenamiento, abarcando un rango de edad desde los 14.42 hasta los 89.29 años. El análisis exploratorio revela una distribución simétrica con comportamiento bimodal (picos poblacionales cerca de los 35 y 55 años). Este patrón sugiere la presencia de subgrupos demográficos diferenciados que posteriormente se contrastarán con el grado de severidad tumoral (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>).</p>
 </section>
 </section>
 <section id="variables-cualitativas">
@@ -3059,25 +3059,25 @@ crecimiento y proliferación celular.</p></li>
 </table>
 </div></div></div>
 </div>
-<p>El análisis bivariado de la edad al diagnóstico (Age_at_diagnosis) según el grado del tumor (Grade) muestra una clara separación clínico-demográfica entre Gliomas de Bajo Grado (LGG / Grado 0) y Glioblastoma Multiforme (GBM / Grado 1).</p>
+<p>El análisis bivariado de la edad al diagnóstico (<code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code>) según el grado del tumor (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>) muestra una clara separación clínico-demográfica entre los Gliomas de Bajo Grado (LGG / Grado 0) y el Glioblastoma Multiforme (GBM / Grado 1).</p>
 <p><strong>Distribución Estadística</strong></p>
 <ul class="simple">
 <li><p><em>Glioma de Bajo Grado (LGG / Grado 0):</em> En la muestra de 389 pacientes, la edad promedio al diagnóstico es de 44.10 ± 13.20 años y la mediana alcanza los 41.89 años. El <strong>50%</strong> central de los pacientes se concentra entre los 33.91 (<span class="math notranslate nohighlight">\(Q_1\)</span>) y 54.27 años (<span class="math notranslate nohighlight">\(Q_3\)</span>), registrando un rango intercuartílico (IQR) de 20.36 años.</p></li>
-<li><p><em>Glioblastoma Multiforme (GBM / Grado 1):</em> En el grupo de 282 pacientes, la media asciende a 60.75 ± 13.45 años con una mediana de 61.49 años. Su intervalo intercuartílico se ubica entre los 52.75 (<span class="math notranslate nohighlight">\(Q_1\)</span>) y 69.88 años (<span class="math notranslate nohighlight">\(Q_3\)</span>), representando un IQR de 17.13 años.</p></li>
+<li><p><em>Glioblastoma Multiforme (GBM / Grado 1):</em> En el grupo de 282 pacientes, la media asciende a 60.75 ± 13.45 años, con una mediana de 61.49 años. Su intervalo intercuartílico se ubica entre los 52.75 (<span class="math notranslate nohighlight">\(Q_1\)</span>) y 69.88 años (<span class="math notranslate nohighlight">\(Q_3\)</span>), representando un IQR de 17.13 años.</p></li>
 </ul>
-<p>Se confirma una brecha etaria promedio de <strong>16.65 años</strong> entre ambos diagnósticos (<span class="math notranslate nohighlight">\(t = -15.99\)</span>, <span class="math notranslate nohighlight">\(p = 5.37 \times 10^{-49}\)</span>), lo que corresponde a un tamaño del efecto marcadamente alto (d de Cohen = <em>1.25</em>).</p>
 <p><strong>Separación de Poblaciones y Análisis de Outliers</strong></p>
-<p>Existe una baja superposición en el núcleo de ambas distribuciones. El 75% de los pacientes diagnosticados con LGG tiene 54.27 años o menos, mientras que el 75% de los casos de GBM ocurre por encima de los 52.75 años.</p>
+<p>Existe una baja superposición en el núcleo de ambas distribuciones. El 75% de los pacientes diagnosticados con LGG tiene 54.27 años o menos, mientras que el 75% de los casos de GBM presenta una edad de diagnóstico igual o superior a 52.75 años. Esto evidencia una diferencia importante en la edad de diagnóstico entre ambos niveles de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, con una mayor concentración de edades en los pacientes con GBM.</p>
+<p>En el <strong>análisis univariado</strong> de <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code>, considerando la distribución global de todos los pacientes, <strong>no se identificaron valores atípicos mediante el criterio del rango intercuartílico (IQR)</strong>. Sin embargo, al analizar la edad de manera bivariada según <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, sí aparecen observaciones que pueden clasificarse como outliers dentro de los grupos individuales. Esto ocurre porque cada nivel de <code class="docutils literal notranslate"><span class="pre">Grade</span></code> presenta su propia distribución, con diferentes valores de <span class="math notranslate nohighlight">\(Q_1\)</span>, <span class="math notranslate nohighlight">\(Q_3\)</span> e IQR; por lo tanto, una edad que se encuentra dentro del rango esperado de la población total puede resultar extrema cuando se compara únicamente con la distribución de su grupo.</p>
 <ul class="simple">
-<li><p><em>Valores Atípicos en Grado 0:</em> Se identifica un valor atípico (outlier) superior en los 87.00 años, lo que representa un caso inusual de tumor de bajo grado en etapa senil.</p></li>
-<li><p><em>Valores Atípicos en Grado 1:</em> El grupo GBM presenta outliers inferiores entre los 21.73 y 25.20 años, reflejando la manifestación poco frecuente de glioblastoma en adultos jóvenes.</p></li>
+<li><p><em>Valores Atípicos en Grado 0:</em> Se identifica un valor atípico superior de <strong>87.00 años</strong>, que resulta inusual dentro de la distribución de edades de los pacientes con LGG.</p></li>
+<li><p><em>Valores Atípicos en Grado 1:</em> El grupo GBM presenta valores atípicos inferiores entre <strong>21.73 y 25.20 años</strong>, correspondientes a edades considerablemente menores que las habituales dentro de este grupo y que representan casos poco frecuentes de glioblastoma en adultos jóvenes.</p></li>
 </ul>
 <section id="prueba-u-de-mannwhitney">
 <h4>Prueba U de Mann–Whitney<a class="headerlink" href="#prueba-u-de-mannwhitney" title="Link to this heading">#</a></h4>
 <p>Para evaluar si existen diferencias estadísticamente significativas en la edad al diagnóstico entre los grupos de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, se utiliza la prueba U de Mann–Whitney, debido a que la variable <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> no presenta una distribución normal según la prueba de Shapiro-Wilk.</p>
 <ul class="simple">
 <li><p><strong>Hipótesis nula (<span class="math notranslate nohighlight">\(H_0\)</span>):</strong> no existen diferencias estadísticamente significativas en la distribución de <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> entre los grupos <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">0</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p></li>
-<li><p><strong>Hipótesis alternativa (<span class="math notranslate nohighlight">\(H_1\)</span>):</strong> existen diferencias estadísticamente significativas en la distribución de <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> entre los grupos <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">0</span></code> y `Grade = 1$.</p></li>
+<li><p><strong>Hipótesis alternativa (<span class="math notranslate nohighlight">\(H_1\)</span>):</strong> existen diferencias estadísticamente significativas en la distribución de <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> entre los grupos <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">0</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p></li>
 </ul>
 <p>Se utiliza un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>.</p>
 <div class="cell docutils container">
@@ -3290,7 +3290,7 @@ Grados de libertad: 1
 <img alt="_images/b590022b90f39addc1d32d5692543d97b9424d8b6743e22b86258d7f8099f0d9.png" src="_images/b590022b90f39addc1d32d5692543d97b9424d8b6743e22b86258d7f8099f0d9.png" />
 </div>
 </div>
-<p>La distribución por grupo racial muestra un predominio marcado de la población blanca en ambos niveles de Grade. En Grade 0, el grupo White concentra 365 pacientes (93,8%), mientras que en Grade 1 representa 246 pacientes (87,2%). El grupo Black or African American constituye el segundo grupo con mayor representación, con 16 pacientes (4,1%) en Grade 0 y 30 pacientes (10,6%) en Grade 1. Por su parte, la población asiática presenta una participación reducida, con 7 casos (1,8%) en Grade 0 y 6 casos (2,1%) en Grade 1, mientras que American Indian or Alaska Native presenta una presencia prácticamente nula, con 1 caso (0,3%) en Grade 0 y ningún caso en Grade 1.</p>
+<p>La distribución por grupo racial muestra un predominio marcado de la población blanca en ambos niveles de Grade. En Grade 0, el grupo White concentra 365 pacientes (93,8%), mientras que en Grade 1 representa 246 pacientes (87,2%). El grupo Black or African American constituye el segundo grupo con mayor representación, con 16 pacientes (4,1%) en Grade 0 y 30 pacientes (10,6%) en Grade 1. Por su parte, la población asiática presenta una participación reducida, con 7 casos (1,8%) en Grade 0 y 6 casos (2,1%) en Grade 1, mientras que American Indian or Alaska Native presenta una ocurrencia prácticamente nula, con 1 caso (0,3%) en Grade 0 y ningún caso en Grade 1.</p>
 <p>En términos comparativos, se observa que la proporción del grupo White disminuye en Grade 1, pasando de 93,8% a 87,2%, mientras que el grupo Black or African American aumenta de 4,1% a 10,6%.</p>
 <p>Además, si bien existen diferencias en la distribución de los grupos raciales entre los niveles de Grade, estos resultados deben analizarse con precaución, ya que la muestra está fuertemente concentrada en el grupo White y algunas de las demás categorías presentan muy pocas observaciones.</p>
 <section id="id2">
@@ -3626,7 +3626,7 @@ Valor p: 0.0048
 <span class="s2">    de glioma. En el Grado 0, la ausencia de mutación de ATRX es mayoritaria ya que se observa en 242 pacientes </span>
 <span class="s2">    (62,2%), mientras que la presencia de la mutación aparece en 147 pacientes (37,8%).</span>
 
-<span class="s2">    En contraste, en el Grado 1, la ausencia de mutación deATRX es todavía más predominante, con 257 pacientes (91,1%), </span>
+<span class="s2">    En contraste, en el Grado 1, la ausencia de mutación de ATRX es todavía más predominante, con 257 pacientes (91,1%), </span>
 <span class="s2">    mientras que únicamente 25 pacientes (8,9%) presentan la mutación.</span>
 
 <span class="s2">    Esto indica que la presencia de una mutación en ATRX está considerablemente más representada en el Grado 0 que </span>
@@ -3967,12 +3967,12 @@ Valor p: 0.0048
     <span class="p">},</span>
 
     <span class="n">interpretacion</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    En general, los datos muestran que la presencia de mutación de GRIN2A es más frecuente en los pacientes de Grade 1 que en los </span>
-<span class="s2">    de Grade 0, mientras que la ausencia predomina ampliamente en ambos grupos. La diferencia de 3,7 puntos porcentuales </span>
-<span class="s2">    sugiere una posible relación entre alteración del gen GRIN2A y el grado tumoral, aunque la baja frecuencia de presencia de esta variable </span>
-<span class="s2">    hace que la diferencia deba interpretarse con cautela. Por ello, será necesario comprobar mediante pruebas estadísticas </span>
-<span class="s2">    si esta variación es significativa y determinar posteriormente si GRIN2A aporta información útil para la clasificación </span>
-<span class="s2">    del Grade dentro del modelo de machine learning.</span>
+<span class="s2">    La distribución de GRIN2A muestra que la ausencia de mutación es predominante tanto en los pacientes de Grade 0 como en </span>
+<span class="s2">    los de Grade 1, con 98.7% y 95.0</span><span class="si">% d</span><span class="s2">e los casos, respectivamente. En contraste, la presencia de la mutación es poco </span>
+<span class="s2">    frecuente en ambos grupos, aunque presenta una mayor proporción en Grade 1 (5.0%) frente a Grade 0 (1.3%), lo que </span>
+<span class="s2">    representa una diferencia de 3.7 puntos porcentuales. Esta diferencia descriptiva indica una mayor frecuencia relativa </span>
+<span class="s2">    de mutaciones en GRIN2A entre los pacientes de Grade 1; sin embargo, debido a la baja cantidad de casos con presencia </span>
+<span class="s2">    de la mutación, no es suficiente para establecer por sí sola una asociación con el grado tumoral.</span>
 <span class="s2">    &quot;&quot;&quot;</span>
 <span class="p">)</span>
 
@@ -3997,7 +3997,7 @@ Valor p: 0.0048
 
 <span class="s2">    La diferencia en la presencia de IDH2 es de 4,2 puntos porcentuales, lo que indica que esta característica aparece </span>
 <span class="s2">    con mayor frecuencia en Grade 0. Además, la distribución resulta especialmente interesante porque en Grade 1 </span>
-<span class="s2">    prácticamente todos los pacientes presentan ausencia de alteracaión en el gen IDH2.</span>
+<span class="s2">    prácticamente todos los pacientes presentan ausencia de alteración en el gen IDH2.</span>
 <span class="s2">    &quot;&quot;&quot;</span>
 <span class="p">)</span>
 
@@ -4287,7 +4287,7 @@ Valor p: 0.0048
     de glioma. En el Grado 0, la ausencia de mutación de ATRX es mayoritaria ya que se observa en 242 pacientes 
     (62,2%), mientras que la presencia de la mutación aparece en 147 pacientes (37,8%).
 
-    En contraste, en el Grado 1, la ausencia de mutación deATRX es todavía más predominante, con 257 pacientes (91,1%), 
+    En contraste, en el Grado 1, la ausencia de mutación de ATRX es todavía más predominante, con 257 pacientes (91,1%), 
     mientras que únicamente 25 pacientes (8,9%) presentan la mutación.
 
     Esto indica que la presencia de una mutación en ATRX está considerablemente más representada en el Grado 0 que 
@@ -5356,12 +5356,12 @@ Valor p: 0.0048
                 margin-top: 0;
             ">
                 
-    En general, los datos muestran que la presencia de mutación de GRIN2A es más frecuente en los pacientes de Grade 1 que en los 
-    de Grade 0, mientras que la ausencia predomina ampliamente en ambos grupos. La diferencia de 3,7 puntos porcentuales 
-    sugiere una posible relación entre alteración del gen GRIN2A y el grado tumoral, aunque la baja frecuencia de presencia de esta variable 
-    hace que la diferencia deba interpretarse con cautela. Por ello, será necesario comprobar mediante pruebas estadísticas 
-    si esta variación es significativa y determinar posteriormente si GRIN2A aporta información útil para la clasificación 
-    del Grade dentro del modelo de machine learning.
+    La distribución de GRIN2A muestra que la ausencia de mutación es predominante tanto en los pacientes de Grade 0 como en 
+    los de Grade 1, con 98.7% y 95.0% de los casos, respectivamente. En contraste, la presencia de la mutación es poco 
+    frecuente en ambos grupos, aunque presenta una mayor proporción en Grade 1 (5.0%) frente a Grade 0 (1.3%), lo que 
+    representa una diferencia de 3.7 puntos porcentuales. Esta diferencia descriptiva indica una mayor frecuencia relativa 
+    de mutaciones en GRIN2A entre los pacientes de Grade 1; sin embargo, debido a la baja cantidad de casos con presencia 
+    de la mutación, no es suficiente para establecer por sí sola una asociación con el grado tumoral.
     
             </p>
 
@@ -5438,7 +5438,7 @@ Valor p: 0.0048
 
     La diferencia en la presencia de IDH2 es de 4,2 puntos porcentuales, lo que indica que esta característica aparece 
     con mayor frecuencia en Grade 0. Además, la distribución resulta especialmente interesante porque en Grade 1 
-    prácticamente todos los pacientes presentan ausencia de alteracaión en el gen IDH2.
+    prácticamente todos los pacientes presentan ausencia de alteración en el gen IDH2.
     
             </p>
 
@@ -5635,11 +5635,12 @@ Valor p: 0.0048
 </div></div>
 </div>
 </section>
-<section id="multicolinealidad">
-<h3>Multicolinealidad<a class="headerlink" href="#multicolinealidad" title="Link to this heading">#</a></h3>
+<section id="multicolinealidad-y-correlacion">
+<h3>Multicolinealidad y correlación<a class="headerlink" href="#multicolinealidad-y-correlacion" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spearman_corr</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cols_spearman</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">train_data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s1">&#39;Race&#39;</span><span class="p">]</span>
+<span class="n">spearman_corr</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="n">cols_spearman</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;spearman&#39;</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">spearman_corr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">))</span>
@@ -5655,7 +5656,7 @@ Valor p: 0.0048
     <span class="n">linewidths</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
     <span class="n">cbar_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Coeficiente de Correlación de Spearman (r)&#39;</span><span class="p">}</span>
 <span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Matriz de Correlación de Spearman (Train Set - 24 Variables)&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Matriz de Correlación de Spearman (Train Set - 23 Variables)&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -5690,8 +5691,8 @@ Valor p: 0.0048
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/48becdc0114a489c1fcdee8c43f97de22ab76449b03f71acea9fbb25faa10827.png" src="_images/48becdc0114a489c1fcdee8c43f97de22ab76449b03f71acea9fbb25faa10827.png" />
-<img alt="_images/bc732227839fd8c5767eaf494868d393aba74d5e965733898e8bfddda7dac0d0.png" src="_images/bc732227839fd8c5767eaf494868d393aba74d5e965733898e8bfddda7dac0d0.png" />
+<img alt="_images/aa4fe0d9bc2bfdff598cf0c147d9a13d61ddbd0766b8c028b0b2e5e3ea4de8a0.png" src="_images/aa4fe0d9bc2bfdff598cf0c147d9a13d61ddbd0766b8c028b0b2e5e3ea4de8a0.png" />
+<img alt="_images/e6244d71a2d7db22f7764ec54c120d11c673714512c5f02c6e422b99902ab3c1.png" src="_images/e6244d71a2d7db22f7764ec54c120d11c673714512c5f02c6e422b99902ab3c1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -5769,147 +5770,147 @@ Valor p: 0.0048
 </div>
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_7a829">
+<table id="T_3e237">
   <thead>
     <tr>
-      <th id="T_7a829_level0_col0" class="col_heading level0 col0" >Variable</th>
-      <th id="T_7a829_level0_col1" class="col_heading level0 col1" >Chi2 Stat</th>
-      <th id="T_7a829_level0_col2" class="col_heading level0 col2" >p-value</th>
-      <th id="T_7a829_level0_col3" class="col_heading level0 col3" >V de Cramer</th>
+      <th id="T_3e237_level0_col0" class="col_heading level0 col0" >Variable</th>
+      <th id="T_3e237_level0_col1" class="col_heading level0 col1" >Chi2 Stat</th>
+      <th id="T_3e237_level0_col2" class="col_heading level0 col2" >p-value</th>
+      <th id="T_3e237_level0_col3" class="col_heading level0 col3" >V de Cramer</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_7a829_row0_col0" class="data row0 col0" >IDH1</td>
-      <td id="T_7a829_row0_col1" class="data row0 col1" >328.780000</td>
-      <td id="T_7a829_row0_col2" class="data row0 col2" >0.000000</td>
-      <td id="T_7a829_row0_col3" class="data row0 col3" >0.699400</td>
+      <td id="T_3e237_row0_col0" class="data row0 col0" >IDH1</td>
+      <td id="T_3e237_row0_col1" class="data row0 col1" >328.780000</td>
+      <td id="T_3e237_row0_col2" class="data row0 col2" >0.000000</td>
+      <td id="T_3e237_row0_col3" class="data row0 col3" >0.699400</td>
     </tr>
     <tr>
-      <td id="T_7a829_row1_col0" class="data row1 col0" >PTEN</td>
-      <td id="T_7a829_row1_col1" class="data row1 col1" >88.480000</td>
-      <td id="T_7a829_row1_col2" class="data row1 col2" >0.000000</td>
-      <td id="T_7a829_row1_col3" class="data row1 col3" >0.361300</td>
+      <td id="T_3e237_row1_col0" class="data row1 col0" >PTEN</td>
+      <td id="T_3e237_row1_col1" class="data row1 col1" >88.480000</td>
+      <td id="T_3e237_row1_col2" class="data row1 col2" >0.000000</td>
+      <td id="T_3e237_row1_col3" class="data row1 col3" >0.361300</td>
     </tr>
     <tr>
-      <td id="T_7a829_row2_col0" class="data row2 col0" >ATRX</td>
-      <td id="T_7a829_row2_col1" class="data row2 col1" >70.240000</td>
-      <td id="T_7a829_row2_col2" class="data row2 col2" >0.000000</td>
-      <td id="T_7a829_row2_col3" class="data row2 col3" >0.321500</td>
+      <td id="T_3e237_row2_col0" class="data row2 col0" >ATRX</td>
+      <td id="T_3e237_row2_col1" class="data row2 col1" >70.240000</td>
+      <td id="T_3e237_row2_col2" class="data row2 col2" >0.000000</td>
+      <td id="T_3e237_row2_col3" class="data row2 col3" >0.321500</td>
     </tr>
     <tr>
-      <td id="T_7a829_row3_col0" class="data row3 col0" >CIC</td>
-      <td id="T_7a829_row3_col1" class="data row3 col1" >63.930000</td>
-      <td id="T_7a829_row3_col2" class="data row3 col2" >0.000000</td>
-      <td id="T_7a829_row3_col3" class="data row3 col3" >0.306500</td>
+      <td id="T_3e237_row3_col0" class="data row3 col0" >CIC</td>
+      <td id="T_3e237_row3_col1" class="data row3 col1" >63.930000</td>
+      <td id="T_3e237_row3_col2" class="data row3 col2" >0.000000</td>
+      <td id="T_3e237_row3_col3" class="data row3 col3" >0.306500</td>
     </tr>
     <tr>
-      <td id="T_7a829_row4_col0" class="data row4 col0" >EGFR</td>
-      <td id="T_7a829_row4_col1" class="data row4 col1" >28.090000</td>
-      <td id="T_7a829_row4_col2" class="data row4 col2" >0.000000</td>
-      <td id="T_7a829_row4_col3" class="data row4 col3" >0.201100</td>
+      <td id="T_3e237_row4_col0" class="data row4 col0" >EGFR</td>
+      <td id="T_3e237_row4_col1" class="data row4 col1" >28.090000</td>
+      <td id="T_3e237_row4_col2" class="data row4 col2" >0.000000</td>
+      <td id="T_3e237_row4_col3" class="data row4 col3" >0.201100</td>
     </tr>
     <tr>
-      <td id="T_7a829_row5_col0" class="data row5 col0" >FUBP1</td>
-      <td id="T_7a829_row5_col1" class="data row5 col1" >23.930000</td>
-      <td id="T_7a829_row5_col2" class="data row5 col2" >0.000001</td>
-      <td id="T_7a829_row5_col3" class="data row5 col3" >0.185000</td>
+      <td id="T_3e237_row5_col0" class="data row5 col0" >FUBP1</td>
+      <td id="T_3e237_row5_col1" class="data row5 col1" >23.930000</td>
+      <td id="T_3e237_row5_col2" class="data row5 col2" >0.000001</td>
+      <td id="T_3e237_row5_col3" class="data row5 col3" >0.185000</td>
     </tr>
     <tr>
-      <td id="T_7a829_row6_col0" class="data row6 col0" >NOTCH1</td>
-      <td id="T_7a829_row6_col1" class="data row6 col1" >23.380000</td>
-      <td id="T_7a829_row6_col2" class="data row6 col2" >0.000001</td>
-      <td id="T_7a829_row6_col3" class="data row6 col3" >0.182800</td>
+      <td id="T_3e237_row6_col0" class="data row6 col0" >NOTCH1</td>
+      <td id="T_3e237_row6_col1" class="data row6 col1" >23.380000</td>
+      <td id="T_3e237_row6_col2" class="data row6 col2" >0.000001</td>
+      <td id="T_3e237_row6_col3" class="data row6 col3" >0.182800</td>
     </tr>
     <tr>
-      <td id="T_7a829_row7_col0" class="data row7 col0" >RB1</td>
-      <td id="T_7a829_row7_col1" class="data row7 col1" >20.870000</td>
-      <td id="T_7a829_row7_col2" class="data row7 col2" >0.000005</td>
-      <td id="T_7a829_row7_col3" class="data row7 col3" >0.172200</td>
+      <td id="T_3e237_row7_col0" class="data row7 col0" >RB1</td>
+      <td id="T_3e237_row7_col1" class="data row7 col1" >20.870000</td>
+      <td id="T_3e237_row7_col2" class="data row7 col2" >0.000005</td>
+      <td id="T_3e237_row7_col3" class="data row7 col3" >0.172200</td>
     </tr>
     <tr>
-      <td id="T_7a829_row8_col0" class="data row8 col0" >TP53</td>
-      <td id="T_7a829_row8_col1" class="data row8 col1" >10.150000</td>
-      <td id="T_7a829_row8_col2" class="data row8 col2" >0.001446</td>
-      <td id="T_7a829_row8_col3" class="data row8 col3" >0.116800</td>
+      <td id="T_3e237_row8_col0" class="data row8 col0" >TP53</td>
+      <td id="T_3e237_row8_col1" class="data row8 col1" >10.150000</td>
+      <td id="T_3e237_row8_col2" class="data row8 col2" >0.001446</td>
+      <td id="T_3e237_row8_col3" class="data row8 col3" >0.116800</td>
     </tr>
     <tr>
-      <td id="T_7a829_row9_col0" class="data row9 col0" >Race</td>
-      <td id="T_7a829_row9_col1" class="data row9 col1" >11.750000</td>
-      <td id="T_7a829_row9_col2" class="data row9 col2" >0.008288</td>
-      <td id="T_7a829_row9_col3" class="data row9 col3" >0.114300</td>
+      <td id="T_3e237_row9_col0" class="data row9 col0" >Race</td>
+      <td id="T_3e237_row9_col1" class="data row9 col1" >11.750000</td>
+      <td id="T_3e237_row9_col2" class="data row9 col2" >0.008288</td>
+      <td id="T_3e237_row9_col3" class="data row9 col3" >0.114300</td>
     </tr>
     <tr>
-      <td id="T_7a829_row10_col0" class="data row10 col0" >MUC16</td>
-      <td id="T_7a829_row10_col1" class="data row10 col1" >8.100000</td>
-      <td id="T_7a829_row10_col2" class="data row10 col2" >0.004422</td>
-      <td id="T_7a829_row10_col3" class="data row10 col3" >0.102900</td>
+      <td id="T_3e237_row10_col0" class="data row10 col0" >MUC16</td>
+      <td id="T_3e237_row10_col1" class="data row10 col1" >8.100000</td>
+      <td id="T_3e237_row10_col2" class="data row10 col2" >0.004422</td>
+      <td id="T_3e237_row10_col3" class="data row10 col3" >0.102900</td>
     </tr>
     <tr>
-      <td id="T_7a829_row11_col0" class="data row11 col0" >IDH2</td>
-      <td id="T_7a829_row11_col1" class="data row11 col1" >8.070000</td>
-      <td id="T_7a829_row11_col2" class="data row11 col2" >0.004493</td>
-      <td id="T_7a829_row11_col3" class="data row11 col3" >0.102700</td>
+      <td id="T_3e237_row11_col0" class="data row11 col0" >IDH2</td>
+      <td id="T_3e237_row11_col1" class="data row11 col1" >8.070000</td>
+      <td id="T_3e237_row11_col2" class="data row11 col2" >0.004493</td>
+      <td id="T_3e237_row11_col3" class="data row11 col3" >0.102700</td>
     </tr>
     <tr>
-      <td id="T_7a829_row12_col0" class="data row12 col0" >GRIN2A</td>
-      <td id="T_7a829_row12_col1" class="data row12 col1" >6.760000</td>
-      <td id="T_7a829_row12_col2" class="data row12 col2" >0.009315</td>
-      <td id="T_7a829_row12_col3" class="data row12 col3" >0.092700</td>
+      <td id="T_3e237_row12_col0" class="data row12 col0" >GRIN2A</td>
+      <td id="T_3e237_row12_col1" class="data row12 col1" >6.760000</td>
+      <td id="T_3e237_row12_col2" class="data row12 col2" >0.009315</td>
+      <td id="T_3e237_row12_col3" class="data row12 col3" >0.092700</td>
     </tr>
     <tr>
-      <td id="T_7a829_row13_col0" class="data row13 col0" >PIK3R1</td>
-      <td id="T_7a829_row13_col1" class="data row13 col1" >5.650000</td>
-      <td id="T_7a829_row13_col2" class="data row13 col2" >0.017479</td>
-      <td id="T_7a829_row13_col3" class="data row13 col3" >0.083300</td>
+      <td id="T_3e237_row13_col0" class="data row13 col0" >PIK3R1</td>
+      <td id="T_3e237_row13_col1" class="data row13 col1" >5.650000</td>
+      <td id="T_3e237_row13_col2" class="data row13 col2" >0.017479</td>
+      <td id="T_3e237_row13_col3" class="data row13 col3" >0.083300</td>
     </tr>
     <tr>
-      <td id="T_7a829_row14_col0" class="data row14 col0" >SMARCA4</td>
-      <td id="T_7a829_row14_col1" class="data row14 col1" >4.930000</td>
-      <td id="T_7a829_row14_col2" class="data row14 col2" >0.026367</td>
-      <td id="T_7a829_row14_col3" class="data row14 col3" >0.076600</td>
+      <td id="T_3e237_row14_col0" class="data row14 col0" >SMARCA4</td>
+      <td id="T_3e237_row14_col1" class="data row14 col1" >4.930000</td>
+      <td id="T_3e237_row14_col2" class="data row14 col2" >0.026367</td>
+      <td id="T_3e237_row14_col3" class="data row14 col3" >0.076600</td>
     </tr>
     <tr>
-      <td id="T_7a829_row15_col0" class="data row15 col0" >PDGFRA</td>
-      <td id="T_7a829_row15_col1" class="data row15 col1" >3.630000</td>
-      <td id="T_7a829_row15_col2" class="data row15 col2" >0.056803</td>
-      <td id="T_7a829_row15_col3" class="data row15 col3" >0.062600</td>
+      <td id="T_3e237_row15_col0" class="data row15 col0" >PDGFRA</td>
+      <td id="T_3e237_row15_col1" class="data row15 col1" >3.630000</td>
+      <td id="T_3e237_row15_col2" class="data row15 col2" >0.056803</td>
+      <td id="T_3e237_row15_col3" class="data row15 col3" >0.062600</td>
     </tr>
     <tr>
-      <td id="T_7a829_row16_col0" class="data row16 col0" >NF1</td>
-      <td id="T_7a829_row16_col1" class="data row16 col1" >2.850000</td>
-      <td id="T_7a829_row16_col2" class="data row16 col2" >0.091643</td>
-      <td id="T_7a829_row16_col3" class="data row16 col3" >0.052500</td>
+      <td id="T_3e237_row16_col0" class="data row16 col0" >NF1</td>
+      <td id="T_3e237_row16_col1" class="data row16 col1" >2.850000</td>
+      <td id="T_3e237_row16_col2" class="data row16 col2" >0.091643</td>
+      <td id="T_3e237_row16_col3" class="data row16 col3" >0.052500</td>
     </tr>
     <tr>
-      <td id="T_7a829_row17_col0" class="data row17 col0" >Gender</td>
-      <td id="T_7a829_row17_col1" class="data row17 col1" >2.650000</td>
-      <td id="T_7a829_row17_col2" class="data row17 col2" >0.103271</td>
-      <td id="T_7a829_row17_col3" class="data row17 col3" >0.049700</td>
+      <td id="T_3e237_row17_col0" class="data row17 col0" >Gender</td>
+      <td id="T_3e237_row17_col1" class="data row17 col1" >2.650000</td>
+      <td id="T_3e237_row17_col2" class="data row17 col2" >0.103271</td>
+      <td id="T_3e237_row17_col3" class="data row17 col3" >0.049700</td>
     </tr>
     <tr>
-      <td id="T_7a829_row18_col0" class="data row18 col0" >CSMD3</td>
-      <td id="T_7a829_row18_col1" class="data row18 col1" >0.620000</td>
-      <td id="T_7a829_row18_col2" class="data row18 col2" >0.430521</td>
-      <td id="T_7a829_row18_col3" class="data row18 col3" >0.000000</td>
+      <td id="T_3e237_row18_col0" class="data row18 col0" >CSMD3</td>
+      <td id="T_3e237_row18_col1" class="data row18 col1" >0.620000</td>
+      <td id="T_3e237_row18_col2" class="data row18 col2" >0.430521</td>
+      <td id="T_3e237_row18_col3" class="data row18 col3" >0.000000</td>
     </tr>
     <tr>
-      <td id="T_7a829_row19_col0" class="data row19 col0" >BCOR</td>
-      <td id="T_7a829_row19_col1" class="data row19 col1" >0.000000</td>
-      <td id="T_7a829_row19_col2" class="data row19 col2" >1.000000</td>
-      <td id="T_7a829_row19_col3" class="data row19 col3" >0.000000</td>
+      <td id="T_3e237_row19_col0" class="data row19 col0" >BCOR</td>
+      <td id="T_3e237_row19_col1" class="data row19 col1" >0.000000</td>
+      <td id="T_3e237_row19_col2" class="data row19 col2" >1.000000</td>
+      <td id="T_3e237_row19_col3" class="data row19 col3" >0.000000</td>
     </tr>
     <tr>
-      <td id="T_7a829_row20_col0" class="data row20 col0" >PIK3CA</td>
-      <td id="T_7a829_row20_col1" class="data row20 col1" >0.510000</td>
-      <td id="T_7a829_row20_col2" class="data row20 col2" >0.475326</td>
-      <td id="T_7a829_row20_col3" class="data row20 col3" >0.000000</td>
+      <td id="T_3e237_row20_col0" class="data row20 col0" >PIK3CA</td>
+      <td id="T_3e237_row20_col1" class="data row20 col1" >0.510000</td>
+      <td id="T_3e237_row20_col2" class="data row20 col2" >0.475326</td>
+      <td id="T_3e237_row20_col3" class="data row20 col3" >0.000000</td>
     </tr>
     <tr>
-      <td id="T_7a829_row21_col0" class="data row21 col0" >FAT4</td>
-      <td id="T_7a829_row21_col1" class="data row21 col1" >0.200000</td>
-      <td id="T_7a829_row21_col2" class="data row21 col2" >0.650786</td>
-      <td id="T_7a829_row21_col3" class="data row21 col3" >0.000000</td>
+      <td id="T_3e237_row21_col0" class="data row21 col0" >FAT4</td>
+      <td id="T_3e237_row21_col1" class="data row21 col1" >0.200000</td>
+      <td id="T_3e237_row21_col2" class="data row21 col2" >0.650786</td>
+      <td id="T_3e237_row21_col3" class="data row21 col3" >0.000000</td>
     </tr>
   </tbody>
 </table>
@@ -5931,34 +5932,34 @@ Valor p: 0.0048
 </div>
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_ffaa4">
+<table id="T_d2b01">
   <thead>
     <tr>
-      <th id="T_ffaa4_level0_col0" class="col_heading level0 col0" >Variable 1</th>
-      <th id="T_ffaa4_level0_col1" class="col_heading level0 col1" >Variable 2</th>
-      <th id="T_ffaa4_level0_col2" class="col_heading level0 col2" >V de Cramer (V)</th>
+      <th id="T_d2b01_level0_col0" class="col_heading level0 col0" >Variable 1</th>
+      <th id="T_d2b01_level0_col1" class="col_heading level0 col1" >Variable 2</th>
+      <th id="T_d2b01_level0_col2" class="col_heading level0 col2" >V de Cramer (V)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_ffaa4_row0_col0" class="data row0 col0" >ATRX</td>
-      <td id="T_ffaa4_row0_col1" class="data row0 col1" >TP53</td>
-      <td id="T_ffaa4_row0_col2" class="data row0 col2" >0.544000</td>
+      <td id="T_d2b01_row0_col0" class="data row0 col0" >ATRX</td>
+      <td id="T_d2b01_row0_col1" class="data row0 col1" >TP53</td>
+      <td id="T_d2b01_row0_col2" class="data row0 col2" >0.544000</td>
     </tr>
     <tr>
-      <td id="T_ffaa4_row1_col0" class="data row1 col0" >FUBP1</td>
-      <td id="T_ffaa4_row1_col1" class="data row1 col1" >CIC</td>
-      <td id="T_ffaa4_row1_col2" class="data row1 col2" >0.459200</td>
+      <td id="T_d2b01_row1_col0" class="data row1 col0" >FUBP1</td>
+      <td id="T_d2b01_row1_col1" class="data row1 col1" >CIC</td>
+      <td id="T_d2b01_row1_col2" class="data row1 col2" >0.459200</td>
     </tr>
     <tr>
-      <td id="T_ffaa4_row2_col0" class="data row2 col0" >ATRX</td>
-      <td id="T_ffaa4_row2_col1" class="data row2 col1" >IDH1</td>
-      <td id="T_ffaa4_row2_col2" class="data row2 col2" >0.456200</td>
+      <td id="T_d2b01_row2_col0" class="data row2 col0" >ATRX</td>
+      <td id="T_d2b01_row2_col1" class="data row2 col1" >IDH1</td>
+      <td id="T_d2b01_row2_col2" class="data row2 col2" >0.456200</td>
     </tr>
     <tr>
-      <td id="T_ffaa4_row3_col0" class="data row3 col0" >PTEN</td>
-      <td id="T_ffaa4_row3_col1" class="data row3 col1" >IDH1</td>
-      <td id="T_ffaa4_row3_col2" class="data row3 col2" >0.402800</td>
+      <td id="T_d2b01_row3_col0" class="data row3 col0" >PTEN</td>
+      <td id="T_d2b01_row3_col1" class="data row3 col1" >IDH1</td>
+      <td id="T_d2b01_row3_col2" class="data row3 col2" >0.402800</td>
     </tr>
   </tbody>
 </table>
@@ -6112,7 +6113,7 @@ Dado que ningún par de variables independientes superó el umbral crítico de r
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grade-variables-geneticas"><code class="docutils literal notranslate"><span class="pre">Grade</span></code> - <code class="docutils literal notranslate"><span class="pre">variables</span> <span class="pre">genéticas</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multicolinealidad">Multicolinealidad</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multicolinealidad-y-correlacion">Multicolinealidad y correlación</a></li>
 </ul>
 </li>
 </ul>
@@ -6129,7 +6130,7 @@ Dado que ningún par de variables independientes superó el umbral crítico de r
   <div class="footer-item">
     
 <p class="component-author">
-By The Jupyter Book Community
+By Joshua Hincapie Llorente y Alejandro Cantillo Escorcia
 </p>
 
   </div>
