@@ -1,6 +1,6 @@
 <div align="center">
 
-# Caracterización Clínico-Molecular del Grado Tumoral en Gliomas - Visualización de Datos 2026
+# Caracterización Clínico-Molecular del Grado Tumoral en Gliomas
 
 **Optimización del Diagnóstico de Gliomas mediante Ciencia de Datos y Aprendizaje Automático**
 <br>
