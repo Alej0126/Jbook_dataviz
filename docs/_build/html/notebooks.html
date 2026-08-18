@@ -1334,7 +1334,7 @@ crecimiento y proliferación celular.</p></li>
 <img alt="_images/1b1ae59ecce88e0329bc722b7b63700e44a223abcfa928bc9dbca61d4ba85831.png" src="_images/1b1ae59ecce88e0329bc722b7b63700e44a223abcfa928bc9dbca61d4ba85831.png" />
 </div>
 </div>
-<p>La elección de una partición estratificada (Stratified Train-Test Split) se justifica por la necesidad de preservar la proporción original de las clases de la variable objetivo (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>) en ambos subconjuntos de datos. En el dataset completo, la distribución presenta un ligero desbalance (ratio ≈ 1.4:1), donde el 58.05% corresponde a Gliomas de Bajo Grado (LGG) y el 41.95% a Glioblastomas (GBM), una división sin estratificar podría dejar los conjuntos de <code class="docutils literal notranslate"><span class="pre">train</span></code> y <code class="docutils literal notranslate"><span class="pre">test</span></code> sesgados a un solo grupo de la variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code>.</p>
+<p>La elección de una partición estratificada (Stratified Train-Test Split) se justifica por la necesidad de preservar la proporción original de las clases de la variable objetivo (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>) en ambos subconjuntos de datos. En el dataset completo, la distribución presenta un ligero desbalance (ratio ≈ 1.4:1), donde el 58,05% corresponde a Gliomas de Bajo Grado (LGG) y el 41,95% a Glioblastomas (GBM), una división sin estratificar podría dejar los conjuntos de <code class="docutils literal notranslate"><span class="pre">train</span></code> y <code class="docutils literal notranslate"><span class="pre">test</span></code> sesgados a un solo grupo de la variable <code class="docutils literal notranslate"><span class="pre">Grade</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">df_mutations</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Grade&#39;</span><span class="p">])</span>
@@ -1399,7 +1399,7 @@ crecimiento y proliferación celular.</p></li>
 <img alt="_images/bea44b2f5a27207110caf831de4b1a543085d23ca50bc05f53404852e6ee5c10.png" src="_images/bea44b2f5a27207110caf831de4b1a543085d23ca50bc05f53404852e6ee5c10.png" />
 </div>
 </div>
-<p>En el conjunto de entrenamiento (671 pacientes), la variable objetivo <code class="docutils literal notranslate"><span class="pre">Grade</span></code> presenta una distribución de 389 casos correspondientes a Gliomas de Bajo Grado (LGG, 58.0%) y 282 casos a Glioblastoma Multiforme (GBM, 42.0%). La relación entre clases es aproximadamente de <strong>1.38 a 1</strong>, lo que indica que <strong>no hay un desbalance severo</strong>.</p>
+<p>En el conjunto de entrenamiento (671 pacientes), la variable objetivo <code class="docutils literal notranslate"><span class="pre">Grade</span></code> presenta una distribución de 389 casos correspondientes a Gliomas de Bajo Grado (LGG, 58%) y 282 casos a Glioblastoma Multiforme (GBM, 42%). La relación entre clases es aproximadamente de <strong>1,38 a 1</strong>, lo que indica que <strong>no hay un desbalance severo</strong>.</p>
 </section>
 <section id="variables-cuantitativas">
 <h3>Variables cuantitativas<a class="headerlink" href="#variables-cuantitativas" title="Link to this heading">#</a></h3>
@@ -1614,9 +1614,9 @@ crecimiento y proliferación celular.</p></li>
 <img alt="_images/4d14fb0dbae0ffa5790dafa703e951b923c40b41112062e00d9c83eeb7cca978.png" src="_images/4d14fb0dbae0ffa5790dafa703e951b923c40b41112062e00d9c83eeb7cca978.png" />
 </div>
 </div>
-<p>La detección de valores atípicos para la variable continua <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> se evaluó tanto matemáticamente mediante la regla del Rango Intercuartílico (<span class="math notranslate nohighlight">\(1.5 \times \text{IQR}\)</span>) como mediante inspección visual con diagramas de caja. Con un <span class="math notranslate nohighlight">\(Q_1\)</span> de <span class="math notranslate nohighlight">\(37.84\)</span> años y un <span class="math notranslate nohighlight">\(Q_3\)</span> de <span class="math notranslate nohighlight">\(62.62\)</span> años (<span class="math notranslate nohighlight">\(\text{IQR} = 24.79\)</span> años), los límites teóricos de corte se establecieron en <span class="math notranslate nohighlight">\(0.66\)</span> y <span class="math notranslate nohighlight">\(99.82\)</span> años. Al contrastar estos umbrales con el rango real de los pacientes (<span class="math notranslate nohighlight">\(14.42\)</span> a <span class="math notranslate nohighlight">\(89.29\)</span> años), se determinó la ausencia total de outliers o registros anómalos en la muestra de entrenamiento (<span class="math notranslate nohighlight">\(n = 671\)</span>).</p>
-<p>La evaluación de normalidad para la variable <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> revela una distribución <strong>altamente simétrica</strong> con un coeficiente de asimetría (<em>skewness</em>) de <strong><span class="math notranslate nohighlight">\(0.0547\)</span></strong>, lo que ubica a la media (<span class="math notranslate nohighlight">\(51.10\)</span> años) y a la mediana (<span class="math notranslate nohighlight">\(51.99\)</span> años) prácticamente en el mismo punto central. Sin embargo, el contraste formal de <strong>Shapiro-Wilk</strong> (<span class="math notranslate nohighlight">\(W \approx 0.985\)</span>, <span class="math notranslate nohighlight">\(p &lt; 0.05\)</span>) rechaza la hipótesis nula de normalidad estricta, un comportamiento explicado tanto por la sensibilidad de la prueba ante el tamaño muestral (<span class="math notranslate nohighlight">\(n = 671\)</span>) como por el <strong>patrón bimodal de la variable</strong> (concentración de casos en torno a los <span class="math notranslate nohighlight">\(35\)</span> y <span class="math notranslate nohighlight">\(55\)</span> años). A pesar de esta desviación, <strong>no es necesario aplicar transformaciones no lineales</strong> (tales como <code class="docutils literal notranslate"><span class="pre">log</span></code> o <code class="docutils literal notranslate"><span class="pre">Box-Cox</span></code>) en etapas posteriores de preprocesamiento, dado que la variable carece de asimetría pronunciada o valores atípicos que distorsionen su escala; bastará con aplicar una estandarización convencional (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>) para algoritmos sensibles a la escala o mantener la variable en su escala original continua para modelos basados en árboles de decisión.</p>
-<p>La variable registra una media de 51.10 años (<span class="math notranslate nohighlight">\(\pm 15.63\)</span>) y una mediana de 51.99 años en el conjunto de entrenamiento, abarcando un rango de edad desde los 14.42 hasta los 89.29 años. El análisis exploratorio revela una distribución simétrica con comportamiento bimodal (picos poblacionales cerca de los 35 y 55 años). Este patrón sugiere la presencia de subgrupos demográficos diferenciados que posteriormente se contrastarán con el grado de severidad tumoral (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>).</p>
+<p>La detección de valores atípicos para la variable continua <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> se evaluó tanto matemáticamente mediante la regla del Rango Intercuartílico (<span class="math notranslate nohighlight">\(1.5 \times \text{IQR}\)</span>) como mediante inspección visual con diagramas de caja. Con un <span class="math notranslate nohighlight">\(Q_1\)</span> de <span class="math notranslate nohighlight">\(37,84\)</span> años y un <span class="math notranslate nohighlight">\(Q_3\)</span> de <span class="math notranslate nohighlight">\(62,62\)</span> años (<span class="math notranslate nohighlight">\(\text{IQR} = 24,79\)</span> años), los límites teóricos de corte se establecieron en <span class="math notranslate nohighlight">\(0,66\)</span> y <span class="math notranslate nohighlight">\(99,82\)</span> años. Al contrastar estos umbrales con el rango real de los pacientes (<span class="math notranslate nohighlight">\(14,42\)</span> a <span class="math notranslate nohighlight">\(89,29\)</span> años), se determinó la ausencia total de outliers o registros anómalos en la muestra de entrenamiento (<span class="math notranslate nohighlight">\(n = 671\)</span>).</p>
+<p>La evaluación de normalidad para la variable <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> revela una distribución <strong>altamente simétrica</strong> con un coeficiente de asimetría (<em>skewness</em>) de <strong><span class="math notranslate nohighlight">\(0,0547\)</span></strong>, lo que ubica a la media (<span class="math notranslate nohighlight">\(51,10\)</span> años) y a la mediana (<span class="math notranslate nohighlight">\(51,99\)</span> años) prácticamente en el mismo punto central. Sin embargo, el contraste formal de <strong>Shapiro-Wilk</strong> (<span class="math notranslate nohighlight">\(W \approx 0,985\)</span>, <span class="math notranslate nohighlight">\(p &lt; 0,05\)</span>) rechaza la hipótesis nula de normalidad estricta, un comportamiento explicado tanto por la sensibilidad de la prueba ante el tamaño muestral (<span class="math notranslate nohighlight">\(n = 671\)</span>) como por el <strong>patrón bimodal de la variable</strong> (concentración de casos en torno a los <span class="math notranslate nohighlight">\(35\)</span> y <span class="math notranslate nohighlight">\(55\)</span> años). A pesar de esta desviación, <strong>no es necesario aplicar transformaciones no lineales</strong> (tales como <code class="docutils literal notranslate"><span class="pre">log</span></code> o <code class="docutils literal notranslate"><span class="pre">Box-Cox</span></code>) en etapas posteriores de preprocesamiento, dado que la variable carece de asimetría pronunciada o valores atípicos que distorsionen su escala; bastará con aplicar una estandarización convencional (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>) para algoritmos sensibles a la escala o mantener la variable en su escala original continua para modelos basados en árboles de decisión.</p>
+<p>La variable registra una media de 51,10 años (<span class="math notranslate nohighlight">\(\pm 15,63\)</span>) y una mediana de 51,99 años en el conjunto de entrenamiento, abarcando un rango de edad desde los 14,42 hasta los 89,29 años. El análisis exploratorio revela una distribución simétrica con comportamiento bimodal (picos poblacionales cerca de los 35 y 55 años). Este patrón sugiere la presencia de subgrupos demográficos diferenciados que posteriormente se contrastarán con el grado de severidad tumoral (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>).</p>
 </section>
 </section>
 <section id="variables-cualitativas">
@@ -3062,15 +3062,15 @@ crecimiento y proliferación celular.</p></li>
 <p>El análisis bivariado de la edad al diagnóstico (<code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code>) según el grado del tumor (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>) muestra una clara separación clínico-demográfica entre los Gliomas de Bajo Grado (LGG / Grado 0) y el Glioblastoma Multiforme (GBM / Grado 1).</p>
 <p><strong>Distribución Estadística</strong></p>
 <ul class="simple">
-<li><p><em>Glioma de Bajo Grado (LGG / Grado 0):</em> En la muestra de 389 pacientes, la edad promedio al diagnóstico es de 44.10 ± 13.20 años y la mediana alcanza los 41.89 años. El <strong>50%</strong> central de los pacientes se concentra entre los 33.91 (<span class="math notranslate nohighlight">\(Q_1\)</span>) y 54.27 años (<span class="math notranslate nohighlight">\(Q_3\)</span>), registrando un rango intercuartílico (IQR) de 20.36 años.</p></li>
-<li><p><em>Glioblastoma Multiforme (GBM / Grado 1):</em> En el grupo de 282 pacientes, la media asciende a 60.75 ± 13.45 años, con una mediana de 61.49 años. Su intervalo intercuartílico se ubica entre los 52.75 (<span class="math notranslate nohighlight">\(Q_1\)</span>) y 69.88 años (<span class="math notranslate nohighlight">\(Q_3\)</span>), representando un IQR de 17.13 años.</p></li>
+<li><p><em>Glioma de Bajo Grado (LGG / Grado 0):</em> En la muestra de 389 pacientes, la edad promedio al diagnóstico es de 44,10 ± 13,20 años y la mediana alcanza los 41,89 años. El <strong>50%</strong> central de los pacientes se concentra entre los 33,91 (<span class="math notranslate nohighlight">\(Q_1\)</span>) y 54,27 años (<span class="math notranslate nohighlight">\(Q_3\)</span>), registrando un rango intercuartílico (IQR) de 20,36 años.</p></li>
+<li><p><em>Glioblastoma Multiforme (GBM / Grado 1):</em> En el grupo de 282 pacientes, la media asciende a 60,75 ± 13,45 años, con una mediana de 61,49 años. Su intervalo intercuartílico se ubica entre los 52,75 (<span class="math notranslate nohighlight">\(Q_1\)</span>) y 69,88 años (<span class="math notranslate nohighlight">\(Q_3\)</span>), representando un IQR de 17,13 años.</p></li>
 </ul>
 <p><strong>Separación de Poblaciones y Análisis de Outliers</strong></p>
-<p>Existe una baja superposición en el núcleo de ambas distribuciones. El 75% de los pacientes diagnosticados con LGG tiene 54.27 años o menos, mientras que el 75% de los casos de GBM presenta una edad de diagnóstico igual o superior a 52.75 años. Esto evidencia una diferencia importante en la edad de diagnóstico entre ambos niveles de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, con una mayor concentración de edades en los pacientes con GBM.</p>
+<p>Existe una baja superposición en el núcleo de ambas distribuciones. El 75% de los pacientes diagnosticados con LGG tiene 54,27 años o menos, mientras que el 75% de los casos de GBM presenta una edad de diagnóstico igual o superior a 52,75 años. Esto evidencia una diferencia importante en la edad de diagnóstico entre ambos niveles de <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, con una mayor concentración de edades en los pacientes con GBM.</p>
 <p>En el <strong>análisis univariado</strong> de <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code>, considerando la distribución global de todos los pacientes, <strong>no se identificaron valores atípicos mediante el criterio del rango intercuartílico (IQR)</strong>. Sin embargo, al analizar la edad de manera bivariada según <code class="docutils literal notranslate"><span class="pre">Grade</span></code>, sí aparecen observaciones que pueden clasificarse como outliers dentro de los grupos individuales. Esto ocurre porque cada nivel de <code class="docutils literal notranslate"><span class="pre">Grade</span></code> presenta su propia distribución, con diferentes valores de <span class="math notranslate nohighlight">\(Q_1\)</span>, <span class="math notranslate nohighlight">\(Q_3\)</span> e IQR; por lo tanto, una edad que se encuentra dentro del rango esperado de la población total puede resultar extrema cuando se compara únicamente con la distribución de su grupo.</p>
 <ul class="simple">
-<li><p><em>Valores Atípicos en Grado 0:</em> Se identifica un valor atípico superior de <strong>87.00 años</strong>, que resulta inusual dentro de la distribución de edades de los pacientes con LGG.</p></li>
-<li><p><em>Valores Atípicos en Grado 1:</em> El grupo GBM presenta valores atípicos inferiores entre <strong>21.73 y 25.20 años</strong>, correspondientes a edades considerablemente menores que las habituales dentro de este grupo y que representan casos poco frecuentes de glioblastoma en adultos jóvenes.</p></li>
+<li><p><em>Valores Atípicos en Grado 0:</em> Se identifica un valor atípico superior de <strong>87 años</strong>, que resulta inusual dentro de la distribución de edades de los pacientes con LGG.</p></li>
+<li><p><em>Valores Atípicos en Grado 1:</em> El grupo GBM presenta valores atípicos inferiores entre <strong>21,73 y 25,20 años</strong>, correspondientes a edades considerablemente menores que las habituales dentro de este grupo y que representan casos poco frecuentes de glioblastoma en adultos jóvenes.</p></li>
 </ul>
 <section id="prueba-u-de-mannwhitney">
 <h4>Prueba U de Mann–Whitney<a class="headerlink" href="#prueba-u-de-mannwhitney" title="Link to this heading">#</a></h4>
@@ -3079,7 +3079,7 @@ crecimiento y proliferación celular.</p></li>
 <li><p><strong>Hipótesis nula (<span class="math notranslate nohighlight">\(H_0\)</span>):</strong> no existen diferencias estadísticamente significativas en la distribución de <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> entre los grupos <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">0</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p></li>
 <li><p><strong>Hipótesis alternativa (<span class="math notranslate nohighlight">\(H_1\)</span>):</strong> existen diferencias estadísticamente significativas en la distribución de <code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code> entre los grupos <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">0</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span> <span class="pre">=</span> <span class="pre">1</span></code>.</p></li>
 </ul>
-<p>Se utiliza un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>.</p>
+<p>Se utiliza un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0,05\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grupo_0</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
@@ -3110,7 +3110,7 @@ p-value: 0.0000
 </div>
 </div>
 </div>
-<p>El resultado obtenido fue un estadístico U de <strong>21,042.5</strong> y un <strong>p-value &lt; 0.0001</strong>, por lo que, considerando un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>, se rechaza la hipótesis nula. Esto indica que existe una <strong>diferencia estadísticamente significativa en la distribución de la variable entre los grupos LGG y GBM</strong>. Por lo tanto, los resultados sugieren que esta variable presenta un comportamiento diferente según el grado del glioma, aunque la prueba por sí sola no permite establecer una relación causal.</p>
+<p>El resultado obtenido fue un estadístico U de <strong>21042,5</strong> y un <strong>p-value &lt; 0,0001</strong>, por lo que, considerando un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0,05\)</span>, se rechaza la hipótesis nula. Esto indica que existe una diferencia estadísticamente significativa en la distribución de la variable entre los grupos LGG y GBM. Por lo tanto, los resultados sugieren que esta variable presenta un comportamiento diferente según el grado del glioma, aunque la prueba por sí sola no permite establecer una relación causal.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">analisis_bivariado</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">etiquetas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
@@ -3235,7 +3235,7 @@ p-value: 0.0000
 <section id="prueba-de-independencia-chi-2">
 <h4>Prueba de independencia: <span class="math notranslate nohighlight">\(\chi^2\)</span><a class="headerlink" href="#prueba-de-independencia-chi-2" title="Link to this heading">#</a></h4>
 <p>En este caso, se analiza la relación entre <code class="docutils literal notranslate"><span class="pre">Gender</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code> mediante una prueba de independencia de Chi-cuadrado (<span class="math notranslate nohighlight">\(\chi^2\)</span>).</p>
-<p>Se utiliza un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>:</p>
+<p>Se utiliza un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0,05\)</span>:</p>
 <ul class="simple">
 <li><p><strong>Hipótesis nula (<span class="math notranslate nohighlight">\(H_0\)</span>):</strong> <code class="docutils literal notranslate"><span class="pre">Gender</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code> son independientes; no existe una asociación estadísticamente significativa entre ambas variables.</p></li>
 <li><p><strong>Hipótesis alternativa (<span class="math notranslate nohighlight">\(H_1\)</span>):</strong> <code class="docutils literal notranslate"><span class="pre">Gender</span></code> y <code class="docutils literal notranslate"><span class="pre">Grade</span></code> no son independientes; existe una asociación estadísticamente significativa entre ambas variables.</p></li>
@@ -3263,7 +3263,7 @@ Grados de libertad: 1
 </div>
 </div>
 </div>
-<p>Con un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>, el estadístico de Chi-cuadrado obtenido fue <span class="math notranslate nohighlight">\(\chi^2(1) = 2.6543\)</span>, con un p-value de <span class="math notranslate nohighlight">\(0.1033\)</span>. Debido a que <span class="math notranslate nohighlight">\(p = 0.1033 &gt; 0.05\)</span>, no se rechaza la hipótesis nula (<span class="math notranslate nohighlight">\(H_0\)</span>). Por lo tanto, no se encuentra evidencia estadísticamente significativa de una asociación entre Gender y Grade en el conjunto de datos analizado; es decir, los resultados son compatibles con la independencia entre ambas variables.</p>
+<p>Con un nivel de significancia de <span class="math notranslate nohighlight">\(\alpha = 0,05\)</span>, el estadístico de Chi-cuadrado obtenido fue <span class="math notranslate nohighlight">\(\chi^2(1) = 2,6543\)</span>, con un p-value de <span class="math notranslate nohighlight">\(0,1033\)</span>. Debido a que <span class="math notranslate nohighlight">\(p = 0,1033 &gt; 0,05\)</span>, no se rechaza la hipótesis nula (<span class="math notranslate nohighlight">\(H_0\)</span>). Por lo tanto, no se encuentra evidencia estadísticamente significativa de una asociación entre Gender y Grade en el conjunto de datos analizado; es decir, los resultados son compatibles con la independencia entre ambas variables.</p>
 </section>
 </section>
 <section id="grade-race">
@@ -3384,7 +3384,7 @@ Valor p: 0.0048
 </div>
 </div>
 </div>
-<p>Dado que el valor <strong>p = 0.0048</strong> es menor que el nivel de significancia de 0.05, se rechaza la hipótesis nula de independencia. Por lo tanto, existe evidencia estadísticamente significativa de una asociación entre <code class="docutils literal notranslate"><span class="pre">Grade</span></code> y <code class="docutils literal notranslate"><span class="pre">Race</span></code> en el conjunto de datos.</p>
+<p>Dado que el valor <strong>p = 0,0048</strong> es menor que el nivel de significancia de 0.05, se rechaza la hipótesis nula de independencia. Por lo tanto, existe evidencia estadísticamente significativa de una asociación entre <code class="docutils literal notranslate"><span class="pre">Grade</span></code> y <code class="docutils literal notranslate"><span class="pre">Race</span></code> en el conjunto de datos.</p>
 <p>Esto indica que la distribución de los pacientes entre <strong>LGG (Grade 0)</strong> y <strong>GBM (Grade 1)</strong> presenta diferencias según el grupo racial considerado. Sin embargo, este resultado debe interpretarse con cautela, ya que la variable <code class="docutils literal notranslate"><span class="pre">Race</span></code> fue previamente agrupada en <strong>White</strong> y <strong>Other racial groups</strong> debido a las bajas frecuencias de algunas categorías originales.</p>
 <p>Es importante señalar que la prueba de independencia permite identificar una asociación estadística, pero no implica que el grupo racial sea la causa de las diferencias observadas en el grado tumoral.</p>
 </section>
@@ -5714,7 +5714,7 @@ Valor p: 0.0048
 
   <span class="k">return</span> <span class="n">chi2</span><span class="p">,</span> <span class="n">p_val</span><span class="p">,</span> <span class="n">v_cramer</span>
 
-
+<span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;Race&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;Race&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">cat_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">train_data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s1">&#39;Age_at_diagnosis&#39;</span><span class="p">]</span>
 <span class="n">n_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cat_cols</span><span class="p">)</span>
 
@@ -5770,147 +5770,147 @@ Valor p: 0.0048
 </div>
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_3e237">
+<table id="T_62519">
   <thead>
     <tr>
-      <th id="T_3e237_level0_col0" class="col_heading level0 col0" >Variable</th>
-      <th id="T_3e237_level0_col1" class="col_heading level0 col1" >Chi2 Stat</th>
-      <th id="T_3e237_level0_col2" class="col_heading level0 col2" >p-value</th>
-      <th id="T_3e237_level0_col3" class="col_heading level0 col3" >V de Cramer</th>
+      <th id="T_62519_level0_col0" class="col_heading level0 col0" >Variable</th>
+      <th id="T_62519_level0_col1" class="col_heading level0 col1" >Chi2 Stat</th>
+      <th id="T_62519_level0_col2" class="col_heading level0 col2" >p-value</th>
+      <th id="T_62519_level0_col3" class="col_heading level0 col3" >V de Cramer</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_3e237_row0_col0" class="data row0 col0" >IDH1</td>
-      <td id="T_3e237_row0_col1" class="data row0 col1" >328.780000</td>
-      <td id="T_3e237_row0_col2" class="data row0 col2" >0.000000</td>
-      <td id="T_3e237_row0_col3" class="data row0 col3" >0.699400</td>
+      <td id="T_62519_row0_col0" class="data row0 col0" >IDH1</td>
+      <td id="T_62519_row0_col1" class="data row0 col1" >328.780000</td>
+      <td id="T_62519_row0_col2" class="data row0 col2" >0.000000</td>
+      <td id="T_62519_row0_col3" class="data row0 col3" >0.699400</td>
     </tr>
     <tr>
-      <td id="T_3e237_row1_col0" class="data row1 col0" >PTEN</td>
-      <td id="T_3e237_row1_col1" class="data row1 col1" >88.480000</td>
-      <td id="T_3e237_row1_col2" class="data row1 col2" >0.000000</td>
-      <td id="T_3e237_row1_col3" class="data row1 col3" >0.361300</td>
+      <td id="T_62519_row1_col0" class="data row1 col0" >PTEN</td>
+      <td id="T_62519_row1_col1" class="data row1 col1" >88.480000</td>
+      <td id="T_62519_row1_col2" class="data row1 col2" >0.000000</td>
+      <td id="T_62519_row1_col3" class="data row1 col3" >0.361300</td>
     </tr>
     <tr>
-      <td id="T_3e237_row2_col0" class="data row2 col0" >ATRX</td>
-      <td id="T_3e237_row2_col1" class="data row2 col1" >70.240000</td>
-      <td id="T_3e237_row2_col2" class="data row2 col2" >0.000000</td>
-      <td id="T_3e237_row2_col3" class="data row2 col3" >0.321500</td>
+      <td id="T_62519_row2_col0" class="data row2 col0" >ATRX</td>
+      <td id="T_62519_row2_col1" class="data row2 col1" >70.240000</td>
+      <td id="T_62519_row2_col2" class="data row2 col2" >0.000000</td>
+      <td id="T_62519_row2_col3" class="data row2 col3" >0.321500</td>
     </tr>
     <tr>
-      <td id="T_3e237_row3_col0" class="data row3 col0" >CIC</td>
-      <td id="T_3e237_row3_col1" class="data row3 col1" >63.930000</td>
-      <td id="T_3e237_row3_col2" class="data row3 col2" >0.000000</td>
-      <td id="T_3e237_row3_col3" class="data row3 col3" >0.306500</td>
+      <td id="T_62519_row3_col0" class="data row3 col0" >CIC</td>
+      <td id="T_62519_row3_col1" class="data row3 col1" >63.930000</td>
+      <td id="T_62519_row3_col2" class="data row3 col2" >0.000000</td>
+      <td id="T_62519_row3_col3" class="data row3 col3" >0.306500</td>
     </tr>
     <tr>
-      <td id="T_3e237_row4_col0" class="data row4 col0" >EGFR</td>
-      <td id="T_3e237_row4_col1" class="data row4 col1" >28.090000</td>
-      <td id="T_3e237_row4_col2" class="data row4 col2" >0.000000</td>
-      <td id="T_3e237_row4_col3" class="data row4 col3" >0.201100</td>
+      <td id="T_62519_row4_col0" class="data row4 col0" >EGFR</td>
+      <td id="T_62519_row4_col1" class="data row4 col1" >28.090000</td>
+      <td id="T_62519_row4_col2" class="data row4 col2" >0.000000</td>
+      <td id="T_62519_row4_col3" class="data row4 col3" >0.201100</td>
     </tr>
     <tr>
-      <td id="T_3e237_row5_col0" class="data row5 col0" >FUBP1</td>
-      <td id="T_3e237_row5_col1" class="data row5 col1" >23.930000</td>
-      <td id="T_3e237_row5_col2" class="data row5 col2" >0.000001</td>
-      <td id="T_3e237_row5_col3" class="data row5 col3" >0.185000</td>
+      <td id="T_62519_row5_col0" class="data row5 col0" >FUBP1</td>
+      <td id="T_62519_row5_col1" class="data row5 col1" >23.930000</td>
+      <td id="T_62519_row5_col2" class="data row5 col2" >0.000001</td>
+      <td id="T_62519_row5_col3" class="data row5 col3" >0.185000</td>
     </tr>
     <tr>
-      <td id="T_3e237_row6_col0" class="data row6 col0" >NOTCH1</td>
-      <td id="T_3e237_row6_col1" class="data row6 col1" >23.380000</td>
-      <td id="T_3e237_row6_col2" class="data row6 col2" >0.000001</td>
-      <td id="T_3e237_row6_col3" class="data row6 col3" >0.182800</td>
+      <td id="T_62519_row6_col0" class="data row6 col0" >NOTCH1</td>
+      <td id="T_62519_row6_col1" class="data row6 col1" >23.380000</td>
+      <td id="T_62519_row6_col2" class="data row6 col2" >0.000001</td>
+      <td id="T_62519_row6_col3" class="data row6 col3" >0.182800</td>
     </tr>
     <tr>
-      <td id="T_3e237_row7_col0" class="data row7 col0" >RB1</td>
-      <td id="T_3e237_row7_col1" class="data row7 col1" >20.870000</td>
-      <td id="T_3e237_row7_col2" class="data row7 col2" >0.000005</td>
-      <td id="T_3e237_row7_col3" class="data row7 col3" >0.172200</td>
+      <td id="T_62519_row7_col0" class="data row7 col0" >RB1</td>
+      <td id="T_62519_row7_col1" class="data row7 col1" >20.870000</td>
+      <td id="T_62519_row7_col2" class="data row7 col2" >0.000005</td>
+      <td id="T_62519_row7_col3" class="data row7 col3" >0.172200</td>
     </tr>
     <tr>
-      <td id="T_3e237_row8_col0" class="data row8 col0" >TP53</td>
-      <td id="T_3e237_row8_col1" class="data row8 col1" >10.150000</td>
-      <td id="T_3e237_row8_col2" class="data row8 col2" >0.001446</td>
-      <td id="T_3e237_row8_col3" class="data row8 col3" >0.116800</td>
+      <td id="T_62519_row8_col0" class="data row8 col0" >TP53</td>
+      <td id="T_62519_row8_col1" class="data row8 col1" >10.150000</td>
+      <td id="T_62519_row8_col2" class="data row8 col2" >0.001446</td>
+      <td id="T_62519_row8_col3" class="data row8 col3" >0.116800</td>
     </tr>
     <tr>
-      <td id="T_3e237_row9_col0" class="data row9 col0" >Race</td>
-      <td id="T_3e237_row9_col1" class="data row9 col1" >11.750000</td>
-      <td id="T_3e237_row9_col2" class="data row9 col2" >0.008288</td>
-      <td id="T_3e237_row9_col3" class="data row9 col3" >0.114300</td>
+      <td id="T_62519_row9_col0" class="data row9 col0" >MUC16</td>
+      <td id="T_62519_row9_col1" class="data row9 col1" >8.100000</td>
+      <td id="T_62519_row9_col2" class="data row9 col2" >0.004422</td>
+      <td id="T_62519_row9_col3" class="data row9 col3" >0.102900</td>
     </tr>
     <tr>
-      <td id="T_3e237_row10_col0" class="data row10 col0" >MUC16</td>
-      <td id="T_3e237_row10_col1" class="data row10 col1" >8.100000</td>
-      <td id="T_3e237_row10_col2" class="data row10 col2" >0.004422</td>
-      <td id="T_3e237_row10_col3" class="data row10 col3" >0.102900</td>
+      <td id="T_62519_row10_col0" class="data row10 col0" >IDH2</td>
+      <td id="T_62519_row10_col1" class="data row10 col1" >8.070000</td>
+      <td id="T_62519_row10_col2" class="data row10 col2" >0.004493</td>
+      <td id="T_62519_row10_col3" class="data row10 col3" >0.102700</td>
     </tr>
     <tr>
-      <td id="T_3e237_row11_col0" class="data row11 col0" >IDH2</td>
-      <td id="T_3e237_row11_col1" class="data row11 col1" >8.070000</td>
-      <td id="T_3e237_row11_col2" class="data row11 col2" >0.004493</td>
-      <td id="T_3e237_row11_col3" class="data row11 col3" >0.102700</td>
+      <td id="T_62519_row11_col0" class="data row11 col0" >Race</td>
+      <td id="T_62519_row11_col1" class="data row11 col1" >7.940000</td>
+      <td id="T_62519_row11_col2" class="data row11 col2" >0.004822</td>
+      <td id="T_62519_row11_col3" class="data row11 col3" >0.101800</td>
     </tr>
     <tr>
-      <td id="T_3e237_row12_col0" class="data row12 col0" >GRIN2A</td>
-      <td id="T_3e237_row12_col1" class="data row12 col1" >6.760000</td>
-      <td id="T_3e237_row12_col2" class="data row12 col2" >0.009315</td>
-      <td id="T_3e237_row12_col3" class="data row12 col3" >0.092700</td>
+      <td id="T_62519_row12_col0" class="data row12 col0" >GRIN2A</td>
+      <td id="T_62519_row12_col1" class="data row12 col1" >6.760000</td>
+      <td id="T_62519_row12_col2" class="data row12 col2" >0.009315</td>
+      <td id="T_62519_row12_col3" class="data row12 col3" >0.092700</td>
     </tr>
     <tr>
-      <td id="T_3e237_row13_col0" class="data row13 col0" >PIK3R1</td>
-      <td id="T_3e237_row13_col1" class="data row13 col1" >5.650000</td>
-      <td id="T_3e237_row13_col2" class="data row13 col2" >0.017479</td>
-      <td id="T_3e237_row13_col3" class="data row13 col3" >0.083300</td>
+      <td id="T_62519_row13_col0" class="data row13 col0" >PIK3R1</td>
+      <td id="T_62519_row13_col1" class="data row13 col1" >5.650000</td>
+      <td id="T_62519_row13_col2" class="data row13 col2" >0.017479</td>
+      <td id="T_62519_row13_col3" class="data row13 col3" >0.083300</td>
     </tr>
     <tr>
-      <td id="T_3e237_row14_col0" class="data row14 col0" >SMARCA4</td>
-      <td id="T_3e237_row14_col1" class="data row14 col1" >4.930000</td>
-      <td id="T_3e237_row14_col2" class="data row14 col2" >0.026367</td>
-      <td id="T_3e237_row14_col3" class="data row14 col3" >0.076600</td>
+      <td id="T_62519_row14_col0" class="data row14 col0" >SMARCA4</td>
+      <td id="T_62519_row14_col1" class="data row14 col1" >4.930000</td>
+      <td id="T_62519_row14_col2" class="data row14 col2" >0.026367</td>
+      <td id="T_62519_row14_col3" class="data row14 col3" >0.076600</td>
     </tr>
     <tr>
-      <td id="T_3e237_row15_col0" class="data row15 col0" >PDGFRA</td>
-      <td id="T_3e237_row15_col1" class="data row15 col1" >3.630000</td>
-      <td id="T_3e237_row15_col2" class="data row15 col2" >0.056803</td>
-      <td id="T_3e237_row15_col3" class="data row15 col3" >0.062600</td>
+      <td id="T_62519_row15_col0" class="data row15 col0" >PDGFRA</td>
+      <td id="T_62519_row15_col1" class="data row15 col1" >3.630000</td>
+      <td id="T_62519_row15_col2" class="data row15 col2" >0.056803</td>
+      <td id="T_62519_row15_col3" class="data row15 col3" >0.062600</td>
     </tr>
     <tr>
-      <td id="T_3e237_row16_col0" class="data row16 col0" >NF1</td>
-      <td id="T_3e237_row16_col1" class="data row16 col1" >2.850000</td>
-      <td id="T_3e237_row16_col2" class="data row16 col2" >0.091643</td>
-      <td id="T_3e237_row16_col3" class="data row16 col3" >0.052500</td>
+      <td id="T_62519_row16_col0" class="data row16 col0" >NF1</td>
+      <td id="T_62519_row16_col1" class="data row16 col1" >2.850000</td>
+      <td id="T_62519_row16_col2" class="data row16 col2" >0.091643</td>
+      <td id="T_62519_row16_col3" class="data row16 col3" >0.052500</td>
     </tr>
     <tr>
-      <td id="T_3e237_row17_col0" class="data row17 col0" >Gender</td>
-      <td id="T_3e237_row17_col1" class="data row17 col1" >2.650000</td>
-      <td id="T_3e237_row17_col2" class="data row17 col2" >0.103271</td>
-      <td id="T_3e237_row17_col3" class="data row17 col3" >0.049700</td>
+      <td id="T_62519_row17_col0" class="data row17 col0" >Gender</td>
+      <td id="T_62519_row17_col1" class="data row17 col1" >2.650000</td>
+      <td id="T_62519_row17_col2" class="data row17 col2" >0.103271</td>
+      <td id="T_62519_row17_col3" class="data row17 col3" >0.049700</td>
     </tr>
     <tr>
-      <td id="T_3e237_row18_col0" class="data row18 col0" >CSMD3</td>
-      <td id="T_3e237_row18_col1" class="data row18 col1" >0.620000</td>
-      <td id="T_3e237_row18_col2" class="data row18 col2" >0.430521</td>
-      <td id="T_3e237_row18_col3" class="data row18 col3" >0.000000</td>
+      <td id="T_62519_row18_col0" class="data row18 col0" >CSMD3</td>
+      <td id="T_62519_row18_col1" class="data row18 col1" >0.620000</td>
+      <td id="T_62519_row18_col2" class="data row18 col2" >0.430521</td>
+      <td id="T_62519_row18_col3" class="data row18 col3" >0.000000</td>
     </tr>
     <tr>
-      <td id="T_3e237_row19_col0" class="data row19 col0" >BCOR</td>
-      <td id="T_3e237_row19_col1" class="data row19 col1" >0.000000</td>
-      <td id="T_3e237_row19_col2" class="data row19 col2" >1.000000</td>
-      <td id="T_3e237_row19_col3" class="data row19 col3" >0.000000</td>
+      <td id="T_62519_row19_col0" class="data row19 col0" >BCOR</td>
+      <td id="T_62519_row19_col1" class="data row19 col1" >0.000000</td>
+      <td id="T_62519_row19_col2" class="data row19 col2" >1.000000</td>
+      <td id="T_62519_row19_col3" class="data row19 col3" >0.000000</td>
     </tr>
     <tr>
-      <td id="T_3e237_row20_col0" class="data row20 col0" >PIK3CA</td>
-      <td id="T_3e237_row20_col1" class="data row20 col1" >0.510000</td>
-      <td id="T_3e237_row20_col2" class="data row20 col2" >0.475326</td>
-      <td id="T_3e237_row20_col3" class="data row20 col3" >0.000000</td>
+      <td id="T_62519_row20_col0" class="data row20 col0" >PIK3CA</td>
+      <td id="T_62519_row20_col1" class="data row20 col1" >0.510000</td>
+      <td id="T_62519_row20_col2" class="data row20 col2" >0.475326</td>
+      <td id="T_62519_row20_col3" class="data row20 col3" >0.000000</td>
     </tr>
     <tr>
-      <td id="T_3e237_row21_col0" class="data row21 col0" >FAT4</td>
-      <td id="T_3e237_row21_col1" class="data row21 col1" >0.200000</td>
-      <td id="T_3e237_row21_col2" class="data row21 col2" >0.650786</td>
-      <td id="T_3e237_row21_col3" class="data row21 col3" >0.000000</td>
+      <td id="T_62519_row21_col0" class="data row21 col0" >FAT4</td>
+      <td id="T_62519_row21_col1" class="data row21 col1" >0.200000</td>
+      <td id="T_62519_row21_col2" class="data row21 col2" >0.650786</td>
+      <td id="T_62519_row21_col3" class="data row21 col3" >0.000000</td>
     </tr>
   </tbody>
 </table>
@@ -5918,48 +5918,48 @@ Valor p: 0.0048
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">PARES DE GENES CON ALTA ASOCIACIÓN MUTUA (V &gt; 0.4)&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">PARES DE GENES CON ALTA ASOCIACIÓN MUTUA (V &gt; 0,4)&quot;</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">df_pares_asociados</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No se detectaron pares de genes con alta redundancia mutua (V &gt; 0.4).&quot;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No se detectaron pares de genes con alta redundancia mutua (V &gt; 0,4).&quot;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
   <span class="n">display</span><span class="p">(</span><span class="n">df_pares_asociados</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PARES DE GENES CON ALTA ASOCIACIÓN MUTUA (V &gt; 0.4)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PARES DE GENES CON ALTA ASOCIACIÓN MUTUA (V &gt; 0,4)
 </pre></div>
 </div>
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_d2b01">
+<table id="T_69198">
   <thead>
     <tr>
-      <th id="T_d2b01_level0_col0" class="col_heading level0 col0" >Variable 1</th>
-      <th id="T_d2b01_level0_col1" class="col_heading level0 col1" >Variable 2</th>
-      <th id="T_d2b01_level0_col2" class="col_heading level0 col2" >V de Cramer (V)</th>
+      <th id="T_69198_level0_col0" class="col_heading level0 col0" >Variable 1</th>
+      <th id="T_69198_level0_col1" class="col_heading level0 col1" >Variable 2</th>
+      <th id="T_69198_level0_col2" class="col_heading level0 col2" >V de Cramer (V)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_d2b01_row0_col0" class="data row0 col0" >ATRX</td>
-      <td id="T_d2b01_row0_col1" class="data row0 col1" >TP53</td>
-      <td id="T_d2b01_row0_col2" class="data row0 col2" >0.544000</td>
+      <td id="T_69198_row0_col0" class="data row0 col0" >ATRX</td>
+      <td id="T_69198_row0_col1" class="data row0 col1" >TP53</td>
+      <td id="T_69198_row0_col2" class="data row0 col2" >0.544000</td>
     </tr>
     <tr>
-      <td id="T_d2b01_row1_col0" class="data row1 col0" >FUBP1</td>
-      <td id="T_d2b01_row1_col1" class="data row1 col1" >CIC</td>
-      <td id="T_d2b01_row1_col2" class="data row1 col2" >0.459200</td>
+      <td id="T_69198_row1_col0" class="data row1 col0" >FUBP1</td>
+      <td id="T_69198_row1_col1" class="data row1 col1" >CIC</td>
+      <td id="T_69198_row1_col2" class="data row1 col2" >0.459200</td>
     </tr>
     <tr>
-      <td id="T_d2b01_row2_col0" class="data row2 col0" >ATRX</td>
-      <td id="T_d2b01_row2_col1" class="data row2 col1" >IDH1</td>
-      <td id="T_d2b01_row2_col2" class="data row2 col2" >0.456200</td>
+      <td id="T_69198_row2_col0" class="data row2 col0" >ATRX</td>
+      <td id="T_69198_row2_col1" class="data row2 col1" >IDH1</td>
+      <td id="T_69198_row2_col2" class="data row2 col2" >0.456200</td>
     </tr>
     <tr>
-      <td id="T_d2b01_row3_col0" class="data row3 col0" >PTEN</td>
-      <td id="T_d2b01_row3_col1" class="data row3 col1" >IDH1</td>
-      <td id="T_d2b01_row3_col2" class="data row3 col2" >0.402800</td>
+      <td id="T_69198_row3_col0" class="data row3 col0" >PTEN</td>
+      <td id="T_69198_row3_col1" class="data row3 col1" >IDH1</td>
+      <td id="T_69198_row3_col2" class="data row3 col2" >0.402800</td>
     </tr>
   </tbody>
 </table>
@@ -5967,7 +5967,7 @@ Valor p: 0.0048
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IDENTIFICACIÓN DE PARES REDUNDANTES (|r| &gt; 0.7)&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IDENTIFICACIÓN DE PARES REDUNDANTES (|r| &gt; 0,7)&quot;</span><span class="p">)</span>
 <span class="n">pares_altos</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">columnas</span> <span class="o">=</span> <span class="n">spearman_corr</span><span class="o">.</span><span class="n">columns</span>
 
@@ -5985,7 +5985,7 @@ Valor p: 0.0048
 <span class="p">]</span>
 
 <span class="k">if</span> <span class="n">df_predictores_red</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;• No se detectaron pares de variables independientes con correlación |r| &gt; 0.7.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;• No se detectaron pares de variables independientes con correlación |r| &gt; 0,7.&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;• Conclusión: No existen redundancias severas ni riesgo de multicolinealidad entre los predictores.&quot;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;• Advertencia: Se encontraron los siguientes pares con alta redundancia que justifican exclusión:&quot;</span><span class="p">)</span>
@@ -5994,8 +5994,8 @@ Valor p: 0.0048
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IDENTIFICACIÓN DE PARES REDUNDANTES (|r| &gt; 0.7)
-• No se detectaron pares de variables independientes con correlación |r| &gt; 0.7.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IDENTIFICACIÓN DE PARES REDUNDANTES (|r| &gt; 0,7)
+• No se detectaron pares de variables independientes con correlación |r| &gt; 0,7.
 • Conclusión: No existen redundancias severas ni riesgo de multicolinealidad entre los predictores.
 </pre></div>
 </div>
@@ -6004,17 +6004,17 @@ Valor p: 0.0048
 <p>El análisis bivariado y de correlación de Spearman sobre el conjunto de entrenamiento (<span class="math notranslate nohighlight">\(n = 671\)</span>) revela asociaciones clínico-moleculares altamente discriminantes entre Gliomas de Bajo Grado (LGG) y Glioblastoma Multiforme (GBM):</p>
 <p><strong>Asociaciones Individuales con la Severidad Tumoral (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>):</strong></p>
 <ul class="simple">
-<li><p><strong>Biomarcadores Protectores (Asociados a LGG):</strong> La mutación en el gen <strong><code class="docutils literal notranslate"><span class="pre">IDH1</span></code></strong> constituye el factor molecular con mayor capacidad discriminativa e inversa respecto a la malignidad (<span class="math notranslate nohighlight">\(r = -0.70\)</span>, <span class="math notranslate nohighlight">\(V \approx 0.70\)</span>, <span class="math notranslate nohighlight">\(p &lt; 0.001\)</span>), seguida por alteraciones en <strong><code class="docutils literal notranslate"><span class="pre">ATRX</span></code></strong> (<span class="math notranslate nohighlight">\(r = -0.33\)</span>, <span class="math notranslate nohighlight">\(V \approx 0.32\)</span>) y <strong><code class="docutils literal notranslate"><span class="pre">CIC</span></code></strong> (<span class="math notranslate nohighlight">\(r = -0.31\)</span>, <span class="math notranslate nohighlight">\(V \approx 0.31\)</span>).</p></li>
-<li><p><strong>Indicadores de Riesgo (Asociados a GBM):</strong> La variable <strong><code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></strong> representa el principal correlato clínico directo con la severidad (<span class="math notranslate nohighlight">\(r = +0.53\)</span>), confirmando la mayor prevalencia de GBM en edades avanzadas. A nivel genómico, <strong><code class="docutils literal notranslate"><span class="pre">PTEN</span></code></strong> destaca como el marcador de riesgo más sólido (<span class="math notranslate nohighlight">\(V = 0.3613\)</span>, <span class="math notranslate nohighlight">\(r = +0.37\)</span>), seguido por <strong><code class="docutils literal notranslate"><span class="pre">EGFR</span></code></strong> (<span class="math notranslate nohighlight">\(V = 0.2011\)</span>, <span class="math notranslate nohighlight">\(r = +0.21\)</span>) y <strong><code class="docutils literal notranslate"><span class="pre">RB1</span></code></strong> (<span class="math notranslate nohighlight">\(V = 0.1722\)</span>, <span class="math notranslate nohighlight">\(r = +0.18\)</span>).</p></li>
-<li><p><strong>Variables No Significativas:</strong> Las variables con <span class="math notranslate nohighlight">\(p &gt; 0.05\)</span> en Chi-cuadrado, valores de <span class="math notranslate nohighlight">\(V &lt; 0.08\)</span> y magnitudes de <span class="math notranslate nohighlight">\(\vert{}r\vert{} &lt; 0.10\)</span> (como <code class="docutils literal notranslate"><span class="pre">PDGFRA</span></code>, <code class="docutils literal notranslate"><span class="pre">NF1</span></code>, <code class="docutils literal notranslate"><span class="pre">Gender</span></code>, <code class="docutils literal notranslate"><span class="pre">CSMD3</span></code>, <code class="docutils literal notranslate"><span class="pre">BCOR</span></code>, <code class="docutils literal notranslate"><span class="pre">PIK3CA</span></code> y <code class="docutils literal notranslate"><span class="pre">FAT4</span></code>) aportan una varianza explicativa insignificante, respaldando su eliminación para simplificar el modelo predictivo y reducir costos diagnósticos.</p></li>
+<li><p><strong>Biomarcadores Protectores (Asociados a LGG):</strong> La mutación en el gen <strong><code class="docutils literal notranslate"><span class="pre">IDH1</span></code></strong> constituye el factor molecular con mayor capacidad discriminativa e inversa respecto a la malignidad (<span class="math notranslate nohighlight">\(r = -0,70\)</span>, <span class="math notranslate nohighlight">\(V \approx 0,70\)</span>, <span class="math notranslate nohighlight">\(p &lt; 0,001\)</span>), seguida por alteraciones en <strong><code class="docutils literal notranslate"><span class="pre">ATRX</span></code></strong> (<span class="math notranslate nohighlight">\(r = -0,33\)</span>, <span class="math notranslate nohighlight">\(V \approx 0,32\)</span>) y <strong><code class="docutils literal notranslate"><span class="pre">CIC</span></code></strong> (<span class="math notranslate nohighlight">\(r = -0,31\)</span>, <span class="math notranslate nohighlight">\(V \approx 0,31\)</span>).</p></li>
+<li><p><strong>Indicadores de Riesgo (Asociados a GBM):</strong> La variable <strong><code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code></strong> representa el principal correlato clínico directo con la severidad (<span class="math notranslate nohighlight">\(r = +0,53\)</span>), confirmando la mayor prevalencia de GBM en edades avanzadas. A nivel genómico, <strong><code class="docutils literal notranslate"><span class="pre">PTEN</span></code></strong> destaca como el marcador de riesgo más sólido (<span class="math notranslate nohighlight">\(V = 0,3613\)</span>, <span class="math notranslate nohighlight">\(r = +0,37\)</span>), seguido por <strong><code class="docutils literal notranslate"><span class="pre">EGFR</span></code></strong> (<span class="math notranslate nohighlight">\(V = 0,2011\)</span>, <span class="math notranslate nohighlight">\(r = +0,21\)</span>) y <strong><code class="docutils literal notranslate"><span class="pre">RB1</span></code></strong> (<span class="math notranslate nohighlight">\(V = 0,1722\)</span>, <span class="math notranslate nohighlight">\(r = +0,18\)</span>).</p></li>
+<li><p><strong>Variables No Significativas:</strong> Las variables con <span class="math notranslate nohighlight">\(p &gt; 0,05\)</span> en Chi-cuadrado, valores de <span class="math notranslate nohighlight">\(V &lt; 0,08\)</span> y magnitudes de <span class="math notranslate nohighlight">\(\vert{}r\vert{} &lt; 0,10\)</span> (como <code class="docutils literal notranslate"><span class="pre">PDGFRA</span></code>, <code class="docutils literal notranslate"><span class="pre">NF1</span></code>, <code class="docutils literal notranslate"><span class="pre">Gender</span></code>, <code class="docutils literal notranslate"><span class="pre">CSMD3</span></code>, <code class="docutils literal notranslate"><span class="pre">BCOR</span></code>, <code class="docutils literal notranslate"><span class="pre">PIK3CA</span></code> y <code class="docutils literal notranslate"><span class="pre">FAT4</span></code>) aportan una varianza explicativa insignificante, respaldando su eliminación para simplificar el modelo predictivo y reducir costos diagnósticos.</p></li>
 </ul>
 <p><strong>Arquitectura de Interacción Inter-Genómica (<span class="math notranslate nohighlight">\(V &gt; 0.40\)</span>):</strong></p>
 <ul class="simple">
-<li><p><strong>Patrones de Co-ocurrencia:</strong> El par **<code class="docutils literal notranslate"><span class="pre">ATRX</span></code>–<code class="docutils literal notranslate"><span class="pre">TP53**</span></code> presenta la mayor fuerza de asociación mutua (<span class="math notranslate nohighlight">\(V = 0.5440\)</span>, <span class="math notranslate nohighlight">\(r \approx 0.35\)</span>), reflejando el eje de co-mutación clásico en la astrocitogénesis. Las interacciones **<code class="docutils literal notranslate"><span class="pre">FUBP1</span></code>–<code class="docutils literal notranslate"><span class="pre">CIC**</span></code> (<span class="math notranslate nohighlight">\(V = 0.4592\)</span>) y **<code class="docutils literal notranslate"><span class="pre">ATRX</span></code>–<code class="docutils literal notranslate"><span class="pre">IDH1**</span></code> (<span class="math notranslate nohighlight">\(V = 0.4562\)</span>) reafirman las firmas genómicas del linaje oligodendroglial y de gliomas de bajo grado.</p></li>
-<li><p><strong>Exclusión Mutua:</strong> La relación entre <strong><code class="docutils literal notranslate"><span class="pre">PTEN</span></code></strong> e <strong><code class="docutils literal notranslate"><span class="pre">IDH1</span></code></strong> (<span class="math notranslate nohighlight">\(V = 0.4028\)</span>) responde a una regla de incompatibilidad biológica asociada al grado tumoral (<code class="docutils literal notranslate"><span class="pre">IDH1</span></code> mutado en LGG vs. <code class="docutils literal notranslate"><span class="pre">PTEN</span></code> alterado en GBM).</p></li>
+<li><p><strong>Patrones de Co-ocurrencia:</strong> El par **<code class="docutils literal notranslate"><span class="pre">ATRX</span></code>–<code class="docutils literal notranslate"><span class="pre">TP53**</span></code> presenta la mayor fuerza de asociación mutua (<span class="math notranslate nohighlight">\(V = 0,5440\)</span>, <span class="math notranslate nohighlight">\(r \approx 0,35\)</span>), reflejando el eje de co-mutación clásico en la astrocitogénesis. Las interacciones **<code class="docutils literal notranslate"><span class="pre">FUBP1</span></code>–<code class="docutils literal notranslate"><span class="pre">CIC**</span></code> (<span class="math notranslate nohighlight">\(V = 0,4592\)</span>) y **<code class="docutils literal notranslate"><span class="pre">ATRX</span></code>–<code class="docutils literal notranslate"><span class="pre">IDH1**</span></code> (<span class="math notranslate nohighlight">\(V = 0,4562\)</span>) reafirman las firmas genómicas del linaje oligodendroglial y de gliomas de bajo grado.</p></li>
+<li><p><strong>Exclusión Mutua:</strong> La relación entre <strong><code class="docutils literal notranslate"><span class="pre">PTEN</span></code></strong> e <strong><code class="docutils literal notranslate"><span class="pre">IDH1</span></code></strong> (<span class="math notranslate nohighlight">\(V = 0,4028\)</span>) responde a una regla de incompatibilidad biológica asociada al grado tumoral (<code class="docutils literal notranslate"><span class="pre">IDH1</span></code> mutado en LGG vs. <code class="docutils literal notranslate"><span class="pre">PTEN</span></code> alterado en GBM).</p></li>
 </ul>
 <p><strong>Diagnóstico de Multicolinealidad para el Modelado Predictivo:</strong>
-Dado que ningún par de variables independientes superó el umbral crítico de redundancia (<span class="math notranslate nohighlight">\(V &gt; 0.70\)</span> o <span class="math notranslate nohighlight">\(\vert{}r\vert{} &gt; 0.70\)</span>), se confirma la <strong>ausencia de multicolinealidad estructural</strong> en la muestra de entrenamiento. Este resultado valida la retención de este subconjunto de biomarcadores, permitiendo a los algoritmos de clasificación explotar estas interacciones complejas sin generar inestabilidad en la estimación de parámetros.</p>
+Dado que ningún par de variables independientes superó el umbral crítico de redundancia (<span class="math notranslate nohighlight">\(V &gt; 0,70\)</span> o <span class="math notranslate nohighlight">\(\vert{}r\vert{} &gt; 0,70\)</span>), se confirma la <strong>ausencia de multicolinealidad estructural</strong> en la muestra de entrenamiento. Este resultado valida la retención de este subconjunto de biomarcadores, permitiendo a los algoritmos de clasificación explotar estas interacciones complejas sin generar inestabilidad en la estimación de parámetros.</p>
 </section>
 </section>
 </section>
