@@ -6,3 +6,5 @@ root: intro
 chapters:
 - file: EDA
   title: Análisis Exploratorio de Datos (EDA)
+- file: Preprocesamiento
+  title: Preprocesamiento de Datos
