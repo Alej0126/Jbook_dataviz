@@ -658,11 +658,49 @@ P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^{\top}\mathbf{x} + b) = \frac{1}{1 + 
            solver: liblinear
 
   AUC-ROC promedio (CV, 5-fold): 0.9165
-  Tiempo total de búsqueda + entrenamiento: 14.891 s
+  Tiempo total de búsqueda + entrenamiento: 17.342 s
 </pre></div>
 </div>
 </div>
 </div>
+<p>La búsqueda por <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> evaluó 52 combinaciones de hiperparámetros (13 valores de <code class="docutils literal notranslate"><span class="pre">C</span></code> × 2 tipos de <code class="docutils literal notranslate"><span class="pre">penalty</span></code> × 2 configuraciones de <code class="docutils literal notranslate"><span class="pre">class_weight</span></code>), cada una validada mediante validación cruzada estratificada de 5 particiones sobre el conjunto de entrenamiento.</p>
+<p><strong>Configuración óptima encontrada:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Hiperparámetro</p></th>
+<th class="head text-center"><p>Valor seleccionado</p></th>
+<th class="head text-left"><p>Interpretación</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">C</span></code></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">0.3162</span></code></p></td>
+<td class="text-left"><p>Regularización moderadamente fuerte</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">penalty</span></code></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">l1</span></code> (Lasso)</p></td>
+<td class="text-left"><p>Selección implícita de variables</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">solver</span></code></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">liblinear</span></code></p></td>
+<td class="text-left"><p>Compatible con <code class="docutils literal notranslate"><span class="pre">l1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">class_weight</span></code></p></td>
+<td class="text-center"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td class="text-left"><p>Sin desbalance relevante entre clases</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>AUC-ROC promedio (CV, 5-fold): <code class="docutils literal notranslate"><span class="pre">0.9165</span></code></strong>
+Capacidad discriminativa muy alta entre las clases LGG y GBM.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Regularización L1 (Lasso):</strong> El modelo favoreció esta penalización sobre <code class="docutils literal notranslate"><span class="pre">l2</span></code>, lo que sugiere que no todas las variables clínicas y genéticas incluidas aportan señal predictiva relevante. L1 tiende a llevar a cero los coeficientes de las variables menos informativas, realizando de forma implícita una selección de variables dentro del propio ajuste del modelo.</p></li>
+<li><p><strong>Regularización fuerte (<code class="docutils literal notranslate"><span class="pre">C</span></code> &lt; 1):</strong> El valor óptimo de <code class="docutils literal notranslate"><span class="pre">C</span></code> refleja que una penalización moderadamente fuerte favorece la generalización del modelo, reduciendo el riesgo de sobreajuste dado el tamaño del conjunto de datos.</p></li>
+<li><p><strong>Sin ponderación de clases:</strong> El hecho que <code class="docutils literal notranslate"><span class="pre">class_weight:</span> <span class="pre">None</span></code> haya ganado sobre <code class="docutils literal notranslate"><span class="pre">'balanced'</span></code> indica que el desbalance entre LGG y GBM no es lo suficientemente severo como para requerir ese ajuste.</p></li>
+</ul>
 </section>
 <section id="evaluacion-x-test">
 <h3>Evaluación - <code class="docutils literal notranslate"><span class="pre">X_test</span></code><a class="headerlink" href="#evaluacion-x-test" title="Link to this heading">#</a></h3>
@@ -698,23 +736,23 @@ P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^{\top}\mathbf{x} + b) = \frac{1}{1 + 
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><style type="text/css">
-#T_fedf3_row0_col0, #T_fedf3_row0_col1, #T_fedf3_row0_col2, #T_fedf3_row0_col3, #T_fedf3_row0_col4 {
+#T_05b4e_row0_col0, #T_05b4e_row0_col1, #T_05b4e_row0_col2, #T_05b4e_row0_col3, #T_05b4e_row0_col4 {
   background-color: #f7fbff;
   color: #000000;
 }
 </style>
-<table id="T_fedf3">
+<table id="T_05b4e">
   <caption>Resumen de desempeño en test — Baseline: Regresión Logística</caption>
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_fedf3_level0_col0" class="col_heading level0 col0" >Accuracy</th>
-      <th id="T_fedf3_level0_col1" class="col_heading level0 col1" >Precision</th>
-      <th id="T_fedf3_level0_col2" class="col_heading level0 col2" >Recall</th>
-      <th id="T_fedf3_level0_col3" class="col_heading level0 col3" >F1-score</th>
-      <th id="T_fedf3_level0_col4" class="col_heading level0 col4" >AUC-ROC</th>
-      <th id="T_fedf3_level0_col5" class="col_heading level0 col5" >Tiempo entrenamiento (s)</th>
-      <th id="T_fedf3_level0_col6" class="col_heading level0 col6" >Tiempo inferencia (s)</th>
+      <th id="T_05b4e_level0_col0" class="col_heading level0 col0" >Accuracy</th>
+      <th id="T_05b4e_level0_col1" class="col_heading level0 col1" >Precision</th>
+      <th id="T_05b4e_level0_col2" class="col_heading level0 col2" >Recall</th>
+      <th id="T_05b4e_level0_col3" class="col_heading level0 col3" >F1-score</th>
+      <th id="T_05b4e_level0_col4" class="col_heading level0 col4" >AUC-ROC</th>
+      <th id="T_05b4e_level0_col5" class="col_heading level0 col5" >Tiempo entrenamiento (s)</th>
+      <th id="T_05b4e_level0_col6" class="col_heading level0 col6" >Tiempo inferencia (s)</th>
     </tr>
     <tr>
       <th class="index_name level0" >Modelo</th>
@@ -729,14 +767,14 @@ P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^{\top}\mathbf{x} + b) = \frac{1}{1 + 
   </thead>
   <tbody>
     <tr>
-      <th id="T_fedf3_level0_row0" class="row_heading level0 row0" >Regresión Logística</th>
-      <td id="T_fedf3_row0_col0" class="data row0 col0" >0.8690</td>
-      <td id="T_fedf3_row0_col1" class="data row0 col1" >0.7927</td>
-      <td id="T_fedf3_row0_col2" class="data row0 col2" >0.9286</td>
-      <td id="T_fedf3_row0_col3" class="data row0 col3" >0.8553</td>
-      <td id="T_fedf3_row0_col4" class="data row0 col4" >0.9149</td>
-      <td id="T_fedf3_row0_col5" class="data row0 col5" >14.8911</td>
-      <td id="T_fedf3_row0_col6" class="data row0 col6" >0.0212</td>
+      <th id="T_05b4e_level0_row0" class="row_heading level0 row0" >Regresión Logística</th>
+      <td id="T_05b4e_row0_col0" class="data row0 col0" >0.8690</td>
+      <td id="T_05b4e_row0_col1" class="data row0 col1" >0.7927</td>
+      <td id="T_05b4e_row0_col2" class="data row0 col2" >0.9286</td>
+      <td id="T_05b4e_row0_col3" class="data row0 col3" >0.8553</td>
+      <td id="T_05b4e_row0_col4" class="data row0 col4" >0.9149</td>
+      <td id="T_05b4e_row0_col5" class="data row0 col5" >17.3416</td>
+      <td id="T_05b4e_row0_col6" class="data row0 col6" >0.0420</td>
     </tr>
   </tbody>
 </table>
@@ -822,61 +860,61 @@ weighted avg       0.88      0.87      0.87       168
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><style type="text/css">
-#T_e4e00_row0_col0 {
+#T_1e83b_row0_col0 {
   background-color: #5ba3d0;
   color: #f1f1f1;
 }
-#T_e4e00_row1_col0 {
+#T_1e83b_row1_col0 {
   background-color: #f7fbff;
   color: #000000;
 }
-#T_e4e00_row2_col0 {
+#T_1e83b_row2_col0 {
   background-color: #084c95;
   color: #f1f1f1;
 }
-#T_e4e00_row3_col0 {
+#T_1e83b_row3_col0 {
   background-color: #8fc2de;
   color: #000000;
 }
-#T_e4e00_row4_col0 {
+#T_1e83b_row4_col0 {
   background-color: #08306b;
   color: #f1f1f1;
 }
 </style>
-<table id="T_e4e00">
+<table id="T_1e83b">
   <caption>Validación cruzada (5-fold) sobre entrenamiento — Regresión Logística</caption>
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_e4e00_level0_col0" class="col_heading level0 col0" >Media</th>
-      <th id="T_e4e00_level0_col1" class="col_heading level0 col1" >Desv. estándar</th>
+      <th id="T_1e83b_level0_col0" class="col_heading level0 col0" >Media</th>
+      <th id="T_1e83b_level0_col1" class="col_heading level0 col1" >Desv. estándar</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_e4e00_level0_row0" class="row_heading level0 row0" >Accuracy</th>
-      <td id="T_e4e00_row0_col0" class="data row0 col0" >0.8644</td>
-      <td id="T_e4e00_row0_col1" class="data row0 col1" >0.0131</td>
+      <th id="T_1e83b_level0_row0" class="row_heading level0 row0" >Accuracy</th>
+      <td id="T_1e83b_row0_col0" class="data row0 col0" >0.8644</td>
+      <td id="T_1e83b_row0_col1" class="data row0 col1" >0.0131</td>
     </tr>
     <tr>
-      <th id="T_e4e00_level0_row1" class="row_heading level0 row1" >Precision</th>
-      <td id="T_e4e00_row1_col0" class="data row1 col0" >0.8013</td>
-      <td id="T_e4e00_row1_col1" class="data row1 col1" >0.0314</td>
+      <th id="T_1e83b_level0_row1" class="row_heading level0 row1" >Precision</th>
+      <td id="T_1e83b_row1_col0" class="data row1 col0" >0.8013</td>
+      <td id="T_1e83b_row1_col1" class="data row1 col1" >0.0314</td>
     </tr>
     <tr>
-      <th id="T_e4e00_level0_row2" class="row_heading level0 row2" >Recall</th>
-      <td id="T_e4e00_row2_col0" class="data row2 col0" >0.9042</td>
-      <td id="T_e4e00_row2_col1" class="data row2 col1" >0.0266</td>
+      <th id="T_1e83b_level0_row2" class="row_heading level0 row2" >Recall</th>
+      <td id="T_1e83b_row2_col0" class="data row2 col0" >0.9042</td>
+      <td id="T_1e83b_row2_col1" class="data row2 col1" >0.0266</td>
     </tr>
     <tr>
-      <th id="T_e4e00_level0_row3" class="row_heading level0 row3" >F1-score</th>
-      <td id="T_e4e00_row3_col0" class="data row3 col0" >0.8487</td>
-      <td id="T_e4e00_row3_col1" class="data row3 col1" >0.0114</td>
+      <th id="T_1e83b_level0_row3" class="row_heading level0 row3" >F1-score</th>
+      <td id="T_1e83b_row3_col0" class="data row3 col0" >0.8487</td>
+      <td id="T_1e83b_row3_col1" class="data row3 col1" >0.0114</td>
     </tr>
     <tr>
-      <th id="T_e4e00_level0_row4" class="row_heading level0 row4" >AUC-ROC</th>
-      <td id="T_e4e00_row4_col0" class="data row4 col0" >0.9165</td>
-      <td id="T_e4e00_row4_col1" class="data row4 col1" >0.0164</td>
+      <th id="T_1e83b_level0_row4" class="row_heading level0 row4" >AUC-ROC</th>
+      <td id="T_1e83b_row4_col0" class="data row4 col0" >0.9165</td>
+      <td id="T_1e83b_row4_col1" class="data row4 col1" >0.0164</td>
     </tr>
   </tbody>
 </table>
@@ -928,117 +966,117 @@ weighted avg       0.88      0.87      0.87       168
 <div class="cell_output docutils container">
 <img alt="_images/74b45f960ee71a4a6191b9c5bf2e0b9eb594c01d1152f9d539f3ec25c5e78800.png" src="_images/74b45f960ee71a4a6191b9c5bf2e0b9eb594c01d1152f9d539f3ec25c5e78800.png" />
 <div class="output text_html"><style type="text/css">
-#T_2c5e4_row0_col1 {
+#T_eade4_row0_col1 {
   background-color: #053061;
   color: #f1f1f1;
 }
-#T_2c5e4_row1_col1 {
+#T_eade4_row1_col1 {
   background-color: #ecf2f5;
   color: #000000;
 }
-#T_2c5e4_row2_col1 {
+#T_eade4_row2_col1 {
   background-color: #67001f;
   color: #f1f1f1;
 }
-#T_2c5e4_row3_col1 {
+#T_eade4_row3_col1 {
   background-color: #960f27;
   color: #f1f1f1;
 }
-#T_2c5e4_row4_col1 {
+#T_eade4_row4_col1 {
   background-color: #b41c2d;
   color: #f1f1f1;
 }
-#T_2c5e4_row5_col1 {
+#T_eade4_row5_col1 {
   background-color: #f5a886;
   color: #000000;
 }
-#T_2c5e4_row6_col1 {
+#T_eade4_row6_col1 {
   background-color: #ef9979;
   color: #000000;
 }
-#T_2c5e4_row7_col1 {
+#T_eade4_row7_col1 {
   background-color: #c94741;
   color: #f1f1f1;
 }
-#T_2c5e4_row8_col1 {
+#T_eade4_row8_col1 {
   background-color: #e58368;
   color: #f1f1f1;
 }
-#T_2c5e4_row9_col1 {
+#T_eade4_row9_col1 {
   background-color: #d55d4c;
   color: #f1f1f1;
 }
 </style>
-<table id="T_2c5e4">
+<table id="T_eade4">
   <caption>Top 10 variables con mayor impacto — Regresión Logística</caption>
   <thead>
     <tr>
       <th class="blank level0" >&nbsp;</th>
-      <th id="T_2c5e4_level0_col0" class="col_heading level0 col0" >Variable</th>
-      <th id="T_2c5e4_level0_col1" class="col_heading level0 col1" >Coeficiente</th>
-      <th id="T_2c5e4_level0_col2" class="col_heading level0 col2" >Odds Ratio</th>
+      <th id="T_eade4_level0_col0" class="col_heading level0 col0" >Variable</th>
+      <th id="T_eade4_level0_col1" class="col_heading level0 col1" >Coeficiente</th>
+      <th id="T_eade4_level0_col2" class="col_heading level0 col2" >Odds Ratio</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th id="T_2c5e4_level0_row0" class="row_heading level0 row0" >0</th>
-      <td id="T_2c5e4_row0_col0" class="data row0 col0" >IDH1</td>
-      <td id="T_2c5e4_row0_col1" class="data row0 col1" >-3.392</td>
-      <td id="T_2c5e4_row0_col2" class="data row0 col2" >0.034</td>
+      <th id="T_eade4_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_eade4_row0_col0" class="data row0 col0" >IDH1</td>
+      <td id="T_eade4_row0_col1" class="data row0 col1" >-3.392</td>
+      <td id="T_eade4_row0_col2" class="data row0 col2" >0.034</td>
     </tr>
     <tr>
-      <th id="T_2c5e4_level0_row1" class="row_heading level0 row1" >1</th>
-      <td id="T_2c5e4_row1_col0" class="data row1 col0" >IDH2</td>
-      <td id="T_2c5e4_row1_col1" class="data row1 col1" >-1.343</td>
-      <td id="T_2c5e4_row1_col2" class="data row1 col2" >0.261</td>
+      <th id="T_eade4_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_eade4_row1_col0" class="data row1 col0" >IDH2</td>
+      <td id="T_eade4_row1_col1" class="data row1 col1" >-1.343</td>
+      <td id="T_eade4_row1_col2" class="data row1 col2" >0.261</td>
     </tr>
     <tr>
-      <th id="T_2c5e4_level0_row2" class="row_heading level0 row2" >2</th>
-      <td id="T_2c5e4_row2_col0" class="data row2 col0" >TP53</td>
-      <td id="T_2c5e4_row2_col1" class="data row2 col1" >0.954</td>
-      <td id="T_2c5e4_row2_col2" class="data row2 col2" >2.595</td>
+      <th id="T_eade4_level0_row2" class="row_heading level0 row2" >2</th>
+      <td id="T_eade4_row2_col0" class="data row2 col0" >TP53</td>
+      <td id="T_eade4_row2_col1" class="data row2 col1" >0.954</td>
+      <td id="T_eade4_row2_col2" class="data row2 col2" >2.595</td>
     </tr>
     <tr>
-      <th id="T_2c5e4_level0_row3" class="row_heading level0 row3" >3</th>
-      <td id="T_2c5e4_row3_col0" class="data row3 col0" >Age_at_diagnosis</td>
-      <td id="T_2c5e4_row3_col1" class="data row3 col1" >0.667</td>
-      <td id="T_2c5e4_row3_col2" class="data row3 col2" >1.949</td>
+      <th id="T_eade4_level0_row3" class="row_heading level0 row3" >3</th>
+      <td id="T_eade4_row3_col0" class="data row3 col0" >Age_at_diagnosis</td>
+      <td id="T_eade4_row3_col1" class="data row3 col1" >0.667</td>
+      <td id="T_eade4_row3_col2" class="data row3 col2" >1.949</td>
     </tr>
     <tr>
-      <th id="T_2c5e4_level0_row4" class="row_heading level0 row4" >4</th>
-      <td id="T_2c5e4_row4_col0" class="data row4 col0" >PTEN</td>
-      <td id="T_2c5e4_row4_col1" class="data row4 col1" >0.491</td>
-      <td id="T_2c5e4_row4_col2" class="data row4 col2" >1.635</td>
+      <th id="T_eade4_level0_row4" class="row_heading level0 row4" >4</th>
+      <td id="T_eade4_row4_col0" class="data row4 col0" >PTEN</td>
+      <td id="T_eade4_row4_col1" class="data row4 col1" >0.491</td>
+      <td id="T_eade4_row4_col2" class="data row4 col2" >1.635</td>
     </tr>
     <tr>
-      <th id="T_2c5e4_level0_row5" class="row_heading level0 row5" >5</th>
-      <td id="T_2c5e4_row5_col0" class="data row5 col0" >NF1</td>
-      <td id="T_2c5e4_row5_col1" class="data row5 col1" >-0.373</td>
-      <td id="T_2c5e4_row5_col2" class="data row5 col2" >0.689</td>
+      <th id="T_eade4_level0_row5" class="row_heading level0 row5" >5</th>
+      <td id="T_eade4_row5_col0" class="data row5 col0" >NF1</td>
+      <td id="T_eade4_row5_col1" class="data row5 col1" >-0.373</td>
+      <td id="T_eade4_row5_col2" class="data row5 col2" >0.689</td>
     </tr>
     <tr>
-      <th id="T_2c5e4_level0_row6" class="row_heading level0 row6" >6</th>
-      <td id="T_2c5e4_row6_col0" class="data row6 col0" >CIC</td>
-      <td id="T_2c5e4_row6_col1" class="data row6 col1" >-0.273</td>
-      <td id="T_2c5e4_row6_col2" class="data row6 col2" >0.761</td>
+      <th id="T_eade4_level0_row6" class="row_heading level0 row6" >6</th>
+      <td id="T_eade4_row6_col0" class="data row6 col0" >CIC</td>
+      <td id="T_eade4_row6_col1" class="data row6 col1" >-0.273</td>
+      <td id="T_eade4_row6_col2" class="data row6 col2" >0.761</td>
     </tr>
     <tr>
-      <th id="T_2c5e4_level0_row7" class="row_heading level0 row7" >7</th>
-      <td id="T_2c5e4_row7_col0" class="data row7 col0" >PIK3R1</td>
-      <td id="T_2c5e4_row7_col1" class="data row7 col1" >0.236</td>
-      <td id="T_2c5e4_row7_col2" class="data row7 col2" >1.266</td>
+      <th id="T_eade4_level0_row7" class="row_heading level0 row7" >7</th>
+      <td id="T_eade4_row7_col0" class="data row7 col0" >PIK3R1</td>
+      <td id="T_eade4_row7_col1" class="data row7 col1" >0.236</td>
+      <td id="T_eade4_row7_col2" class="data row7 col2" >1.266</td>
     </tr>
     <tr>
-      <th id="T_2c5e4_level0_row8" class="row_heading level0 row8" >8</th>
-      <td id="T_2c5e4_row8_col0" class="data row8 col0" >NOTCH1</td>
-      <td id="T_2c5e4_row8_col1" class="data row8 col1" >-0.140</td>
-      <td id="T_2c5e4_row8_col2" class="data row8 col2" >0.870</td>
+      <th id="T_eade4_level0_row8" class="row_heading level0 row8" >8</th>
+      <td id="T_eade4_row8_col0" class="data row8 col0" >NOTCH1</td>
+      <td id="T_eade4_row8_col1" class="data row8 col1" >-0.140</td>
+      <td id="T_eade4_row8_col2" class="data row8 col2" >0.870</td>
     </tr>
     <tr>
-      <th id="T_2c5e4_level0_row9" class="row_heading level0 row9" >9</th>
-      <td id="T_2c5e4_row9_col0" class="data row9 col0" >MUC16</td>
-      <td id="T_2c5e4_row9_col1" class="data row9 col1" >0.102</td>
-      <td id="T_2c5e4_row9_col2" class="data row9 col2" >1.107</td>
+      <th id="T_eade4_level0_row9" class="row_heading level0 row9" >9</th>
+      <td id="T_eade4_row9_col0" class="data row9 col0" >MUC16</td>
+      <td id="T_eade4_row9_col1" class="data row9 col1" >0.102</td>
+      <td id="T_eade4_row9_col2" class="data row9 col2" >1.107</td>
     </tr>
   </tbody>
 </table>
