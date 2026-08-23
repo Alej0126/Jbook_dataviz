@@ -1,0 +1,1003 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Modelado: Modelo SOTA de referencia &#8212; Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '02_Baseline';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Análisis exploratorio de variables clínicas y mutacionales asociadas a la clasificación histológica (LGG vs. GBM)" href="01_EDA.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="Machine Learning - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Caracterización Clínico-Molecular del Grado Tumoral en Gliomas
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01_EDA.html">Análisis Exploratorio de Datos (EDA)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Modelo Base</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2F02_Baseline.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/02_Baseline.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modelado: Modelo SOTA de referencia</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regresion-logistica">2.1 Regresión Logística</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocesamiento">Preprocesamiento</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hiperparametros-grid-search">Hiperparámetros (Grid Search)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-x-test">Evaluación - <code class="docutils literal notranslate"><span class="pre">X_test</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validacion-cruzada">Validación cruzada</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modelado-modelo-sota-de-referencia">
+<h1>Modelado: Modelo SOTA de referencia<a class="headerlink" href="#modelado-modelo-sota-de-referencia" title="Link to this heading">#</a></h1>
+<p>Antes de evaluar el desempeño del modelo propuesto, es indispensable construir un conjunto de modelos de referencia (<em>baselines</em>) que representen el estado del arte visto durante el curso, abarcando desde modelos clásicos de aprendizaje automático hasta arquitecturas más avanzadas. Cada modelo se entrena, se ajusta mediante búsqueda de hiperparámetros y se evalúa bajo el mismo esquema de partición y las mismas métricas que se usarán para el modelo novedoso.</p>
+<hr class="docutils" />
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Librerias</span>
+<span class="c1">## Librerías estándar de Python</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="c1"># Cómputo numérico y tabular</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1">## Visualización</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="c1">## Machine Learning</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">clone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.compose</span><span class="w"> </span><span class="kn">import</span> <span class="n">ColumnTransformer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">cross_validate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">,</span>
+    <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span>
+    <span class="n">RocCurveDisplay</span>
+<span class="p">)</span>
+
+<span class="n">RANDOM_STATE</span> <span class="o">=</span> <span class="mi">42</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;datos_modelado.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">datos</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;X_train&quot;</span><span class="p">]</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;X_test&quot;</span><span class="p">]</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;y_train&quot;</span><span class="p">]</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">datos</span><span class="p">[</span><span class="s2">&quot;y_test&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot; RESUMEN DE LAS PARTICIONES&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;═&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Observaciones de entrenamiento : </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Observaciones de prueba        : </span><span class="si">{</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Variables predictoras          : </span><span class="si">{</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Distribución de clases (train):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">y_train</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; %&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Distribución de clases (test):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">y_test</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; %&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> RESUMEN DE LAS PARTICIONES
+════════════════════════════════════════════════════════════
+  Observaciones de entrenamiento : 671
+  Observaciones de prueba        : 168
+  Variables predictoras          : 23
+
+  Distribución de clases (train):
+Grade
+0    57.97 %
+1    42.03 %
+Name: proportion, dtype: object
+
+  Distribución de clases (test):
+Grade
+0    58.33 %
+1    41.67 %
+Name: proportion, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<section id="regresion-logistica">
+<h2>2.1 Regresión Logística<a class="headerlink" href="#regresion-logistica" title="Link to this heading">#</a></h2>
+<p>La regresión logística es uno de los modelos más utilizados en investigación clínica y genómica para problemas de clasificación binaria, precisamente el tipo de problema que se aborda en este proyecto (<code class="docutils literal notranslate"><span class="pre">Grade</span></code>: LGG = 0 vs. GBM = 1).
+Se selecciona como <em>baseline</em> por las siguientes razones:</p>
+<ul class="simple">
+<li><p><strong>Interpretabilidad</strong>: Sus coeficientes se traducen directamente en <em>odds ratios</em>, lo que permite cuantificar la contribución de cada mutación genética y de la edad al riesgo de un grado tumoral más agresivo — un estándar de facto en la literatura de oncología genómica.</p></li>
+<li><p><strong>Simplicidad y bajo costo computacional</strong>: Al ser un modelo lineal, su entrenamiento e inferencia son extremadamente rápidos, lo que la convierte en una referencia natural de eficiencia frente a modelos más complejos.</p></li>
+<li><p><strong>Robustez con pocas muestras y variables</strong>: Dado el número de predictores, es un modelo con bajo riesgo de sobreajuste, útil como cota inferior de referencia.</p></li>
+<li><p><strong>Estándar en la literatura</strong>: Es el modelo base reportado en la mayoría de estudios de clasificación de grado tumoral en gliomas, lo que facilita la comparación con resultados externos.</p></li>
+</ul>
+<p><strong>Formulación matemática</strong></p>
+<p>Dado un vector de características <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^{p}\)</span>, el modelo estima la probabilidad de que un paciente pertenezca a la clase GBM (<span class="math notranslate nohighlight">\(y=1\)</span>) mediante la función logística (sigmoide) aplicada a una combinación lineal de los predictores:</p>
+<div class="math notranslate nohighlight">
+\[
+P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^{\top}\mathbf{x} + b) = \frac{1}{1 + e^{-(\mathbf{w}^{\top}\mathbf{x} + b)}}
+\tag{2.1}
+\]</div>
+<p>donde <span class="math notranslate nohighlight">\(\mathbf{w} \in \mathbb{R}^{p}\)</span> es el vector de pesos y <span class="math notranslate nohighlight">\(b\)</span> el término de sesgo (<em>intercept</em>). Los parámetros <span class="math notranslate nohighlight">\((\mathbf{w}, b)\)</span> se estiman minimizando la función de pérdida de entropía cruzada binaria (<em>log-loss</em>), con un término de regularización <span class="math notranslate nohighlight">\(L_2\)</span> (o <span class="math notranslate nohighlight">\(L_1\)</span>, según el hiperparámetro <code class="docutils literal notranslate"><span class="pre">penalty</span></code>) que controla la complejidad del modelo:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{L}(\mathbf{w}, b) = -\frac{1}{n}\sum_{i=1}^{n}\Big[y_i \log(\hat{p}_i) + (1-y_i)\log(1-\hat{p}_i)\Big] + \frac{1}{C}\,\lVert \mathbf{w} \rVert_k
+\tag{2.2}
+\]</div>
+<p>con <span class="math notranslate nohighlight">\(\hat{p}_i = P(y=1 \mid \mathbf{x}_i)\)</span>, <span class="math notranslate nohighlight">\(n\)</span> el número de observaciones de entrenamiento, <span class="math notranslate nohighlight">\(k \in \{1,2\}\)</span> el tipo de norma de regularización, y <span class="math notranslate nohighlight">\(C &gt; 0\)</span> el inverso de la fuerza de regularización (a menor <span class="math notranslate nohighlight">\(C\)</span>, mayor regularización).</p>
+<p><strong>Hiperparámetros ajustables (Grid Search, validación cruzada <span class="math notranslate nohighlight">\(k=5\)</span>)</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Hiperparámetro</p></th>
+<th class="head"><p>Descripción</p></th>
+<th class="head"><p>Rango explorado</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">C</span></code></p></td>
+<td><p>Inverso de la fuerza de regularización</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">np.logspace(-3,</span> <span class="pre">3,</span> <span class="pre">13)</span></code> → <span class="math notranslate nohighlight">\([0.001,\ 1000]\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">penalty</span></code></p></td>
+<td><p>Tipo de regularización</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{'l1',</span> <span class="pre">'l2'}</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">solver</span></code></p></td>
+<td><p>Algoritmo de optimización (compatible con <code class="docutils literal notranslate"><span class="pre">l1</span></code> y <code class="docutils literal notranslate"><span class="pre">l2</span></code>)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'liblinear'</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">class_weight</span></code></p></td>
+<td><p>Balanceo de clases</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">{None,</span> <span class="pre">'balanced'}</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="preprocesamiento">
+<h3>Preprocesamiento<a class="headerlink" href="#preprocesamiento" title="Link to this heading">#</a></h3>
+<p>Se utiliza el <strong>conjunto completo de variables disponibles</strong>: la variable clínica numérica (<code class="docutils literal notranslate"><span class="pre">Age_at_diagnosis</span></code>), las variables clínicas categóricas (<code class="docutils literal notranslate"><span class="pre">Gender</span></code>, <code class="docutils literal notranslate"><span class="pre">Race</span></code>) y las <strong>20 variables genéticas</strong> de mutación. La estrategia de transformación depende del tipo de variable:</p>
+<ul class="simple">
+<li><p><strong>Numéricas</strong> → estandarización (<code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code>), ya que la regresión logística es sensible a la escala de las variables al estar regularizada.</p></li>
+<li><p><strong>Categóricas</strong> (<code class="docutils literal notranslate"><span class="pre">Gender</span></code>, <code class="docutils literal notranslate"><span class="pre">Race</span></code>) → codificación <em>one-hot</em> (<code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code>), ignorando categorías no vistas en entrenamiento.</p></li>
+<li><p><strong>Genéticas</strong> → se dejan sin transformar (<code class="docutils literal notranslate"><span class="pre">passthrough</span></code>), pues ya se encuentran codificadas como indicadores binarios (0/1).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variables_numericas</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Age_at_diagnosis&quot;</span>
+<span class="p">]</span>
+
+<span class="n">variables_categoricas</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Gender&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Race&quot;</span>
+<span class="p">]</span>
+
+<span class="n">variables_geneticas</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;IDH1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;TP53&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ATRX&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PTEN&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;EGFR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CIC&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MUC16&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PIK3CA&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NF1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PIK3R1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FUBP1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RB1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;NOTCH1&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;BCOR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CSMD3&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;SMARCA4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;GRIN2A&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;IDH2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FAT4&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;PDGFRA&quot;</span>
+<span class="p">]</span>
+
+<span class="n">preprocesamiento</span> <span class="o">=</span> <span class="n">ColumnTransformer</span><span class="p">(</span>
+    <span class="n">transformers</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;numericas&quot;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">variables_numericas</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;categoricas&quot;</span><span class="p">,</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">),</span> <span class="n">variables_categoricas</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;geneticas&quot;</span><span class="p">,</span> <span class="s2">&quot;passthrough&quot;</span><span class="p">,</span> <span class="n">variables_geneticas</span><span class="p">)</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">total_variables</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables_numericas</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables_categoricas</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables_geneticas</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total de variables utilizadas: </span><span class="si">{</span><span class="n">total_variables</span><span class="si">}</span><span class="s2"> &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">variables_numericas</span><span class="p">)</span><span class="si">}</span><span class="s2"> numérica, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">variables_categoricas</span><span class="p">)</span><span class="si">}</span><span class="s2"> categóricas, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">variables_geneticas</span><span class="p">)</span><span class="si">}</span><span class="s2"> genéticas)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total de variables utilizadas: 23 (1 numérica, 2 categóricas, 20 genéticas)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="hiperparametros-grid-search">
+<h3>Hiperparámetros (Grid Search)<a class="headerlink" href="#hiperparametros-grid-search" title="Link to this heading">#</a></h3>
+<p>Se define el <code class="docutils literal notranslate"><span class="pre">Pipeline</span></code> y se optimiza mediante <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> con validación cruzada estratificada de 5 particiones, usando <strong>AUC-ROC</strong> como métrica de selección por ser robusta ante un eventual desbalance de clases. El rango de búsqueda para cada hiperparámetro es el indicado en la tabla anteriormente mostrada.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modelo_logistico</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;preprocesamiento&quot;</span><span class="p">,</span> <span class="n">preprocesamiento</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;regresion_logistica&quot;</span><span class="p">,</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_STATE</span><span class="p">))</span>
+<span class="p">])</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;regresion_logistica__C&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
+    <span class="s2">&quot;regresion_logistica__penalty&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;l1&quot;</span><span class="p">,</span> <span class="s2">&quot;l2&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;regresion_logistica__solver&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;liblinear&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;regresion_logistica__class_weight&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;balanced&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">cv</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">RANDOM_STATE</span><span class="p">)</span>
+
+<span class="n">grid_search_lr</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">modelo_logistico</span><span class="p">,</span>
+    <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">&quot;roc_auc&quot;</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">refit</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="n">grid_search_lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">train_time_lr</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+
+<span class="n">modelo_logistico</span> <span class="o">=</span> <span class="n">grid_search_lr</span><span class="o">.</span><span class="n">best_estimator_</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; MEJOR CONFIGURACIÓN — REGRESIÓN LOGÍSTICA&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;═&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">grid_search_lr</span><span class="o">.</span><span class="n">best_params_</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;regresion_logistica__&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;15</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  AUC-ROC promedio (CV, 5-fold): </span><span class="si">{</span><span class="n">grid_search_lr</span><span class="o">.</span><span class="n">best_score_</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Tiempo total de búsqueda + entrenamiento: </span><span class="si">{</span><span class="n">train_time_lr</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> MEJOR CONFIGURACIÓN — REGRESIÓN LOGÍSTICA
+════════════════════════════════════════════════════════════
+                C: 0.31622776601683794
+     class_weight: None
+          penalty: l1
+           solver: liblinear
+
+  AUC-ROC promedio (CV, 5-fold): 0.9165
+  Tiempo total de búsqueda + entrenamiento: 12.496 s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="evaluacion-x-test">
+<h3>Evaluación - <code class="docutils literal notranslate"><span class="pre">X_test</span></code><a class="headerlink" href="#evaluacion-x-test" title="Link to this heading">#</a></h3>
+<p>Con el mejor modelo encontrado, se calculan las métricas estándar de clasificación binaria sobre el conjunto de prueba, junto con el tiempo de inferencia, dado que ambas dimensiones —error/precisión y tiempo de cómputo— son necesarias para la comparación final con el modelo propuesto.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">modelo_logistico</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_proba</span> <span class="o">=</span> <span class="n">modelo_logistico</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">inference_time_lr</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
+
+<span class="n">metrics_lr</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;Modelo&quot;</span><span class="p">:</span> <span class="s2">&quot;Regresión Logística&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
+    <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
+    <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
+    <span class="s2">&quot;F1-score&quot;</span><span class="p">:</span> <span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span>
+    <span class="s2">&quot;AUC-ROC&quot;</span><span class="p">:</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_proba</span><span class="p">),</span>
+    <span class="s2">&quot;Tiempo entrenamiento (s)&quot;</span><span class="p">:</span> <span class="n">train_time_lr</span><span class="p">,</span>
+    <span class="s2">&quot;Tiempo inferencia (s)&quot;</span><span class="p">:</span> <span class="n">inference_time_lr</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">df_metrics_lr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">metrics_lr</span><span class="p">])</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;Modelo&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_metrics_lr</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">(</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;Precision&quot;</span><span class="p">,</span> <span class="s2">&quot;Recall&quot;</span><span class="p">,</span> <span class="s2">&quot;F1-score&quot;</span><span class="p">,</span> <span class="s2">&quot;AUC-ROC&quot;</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;Resumen de desempeño en test — Baseline: Regresión Logística&quot;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Reporte de clasificación detallado:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;LGG (0)&quot;</span><span class="p">,</span> <span class="s2">&quot;GBM (1)&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+#T_5a76b_row0_col0, #T_5a76b_row0_col1, #T_5a76b_row0_col2, #T_5a76b_row0_col3, #T_5a76b_row0_col4 {
+  background-color: #f7fbff;
+  color: #000000;
+}
+</style>
+<table id="T_5a76b">
+  <caption>Resumen de desempeño en test — Baseline: Regresión Logística</caption>
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_5a76b_level0_col0" class="col_heading level0 col0" >Accuracy</th>
+      <th id="T_5a76b_level0_col1" class="col_heading level0 col1" >Precision</th>
+      <th id="T_5a76b_level0_col2" class="col_heading level0 col2" >Recall</th>
+      <th id="T_5a76b_level0_col3" class="col_heading level0 col3" >F1-score</th>
+      <th id="T_5a76b_level0_col4" class="col_heading level0 col4" >AUC-ROC</th>
+      <th id="T_5a76b_level0_col5" class="col_heading level0 col5" >Tiempo entrenamiento (s)</th>
+      <th id="T_5a76b_level0_col6" class="col_heading level0 col6" >Tiempo inferencia (s)</th>
+    </tr>
+    <tr>
+      <th class="index_name level0" >Modelo</th>
+      <th class="blank col0" >&nbsp;</th>
+      <th class="blank col1" >&nbsp;</th>
+      <th class="blank col2" >&nbsp;</th>
+      <th class="blank col3" >&nbsp;</th>
+      <th class="blank col4" >&nbsp;</th>
+      <th class="blank col5" >&nbsp;</th>
+      <th class="blank col6" >&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_5a76b_level0_row0" class="row_heading level0 row0" >Regresión Logística</th>
+      <td id="T_5a76b_row0_col0" class="data row0 col0" >0.8690</td>
+      <td id="T_5a76b_row0_col1" class="data row0 col1" >0.7927</td>
+      <td id="T_5a76b_row0_col2" class="data row0 col2" >0.9286</td>
+      <td id="T_5a76b_row0_col3" class="data row0 col3" >0.8553</td>
+      <td id="T_5a76b_row0_col4" class="data row0 col4" >0.9149</td>
+      <td id="T_5a76b_row0_col5" class="data row0 col5" >12.4960</td>
+      <td id="T_5a76b_row0_col6" class="data row0 col6" >0.0477</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reporte de clasificación detallado:
+
+              precision    recall  f1-score   support
+
+     LGG (0)       0.94      0.83      0.88        98
+     GBM (1)       0.79      0.93      0.86        70
+
+    accuracy                           0.87       168
+   macro avg       0.87      0.88      0.87       168
+weighted avg       0.88      0.87      0.87       168
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+
+<span class="c1"># Matriz de confusión</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">cbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;LGG (0)&quot;</span><span class="p">,</span> <span class="s2">&quot;GBM (1)&quot;</span><span class="p">],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;LGG (0)&quot;</span><span class="p">,</span> <span class="s2">&quot;GBM (1)&quot;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Matriz de confusión&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Predicción&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Valor real&quot;</span><span class="p">)</span>
+
+<span class="c1"># Curva ROC </span>
+<span class="n">RocCurveDisplay</span><span class="o">.</span><span class="n">from_predictions</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_proba</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;#2c6fbb&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Regresión Logística&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Azar&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Curva ROC&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Regresión Logística — Baseline&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.03</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1595f70f71a4a8f34ed6493ed2a56da03a52654b35ee0afafa4b46b1441c7162.png" src="_images/1595f70f71a4a8f34ed6493ed2a56da03a52654b35ee0afafa4b46b1441c7162.png" />
+</div>
+</div>
+</section>
+<section id="validacion-cruzada">
+<h3>Validación cruzada<a class="headerlink" href="#validacion-cruzada" title="Link to this heading">#</a></h3>
+<p>Adicionalmente, se evalúa la estabilidad del modelo (con los hiperparámetros ya seleccionados) mediante validación cruzada estratificada de 5 particiones sobre el conjunto de entrenamiento, reportando la media y la desviación estándar de cada métrica.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resultados_cv</span> <span class="o">=</span> <span class="n">cross_validate</span><span class="p">(</span>
+    <span class="n">clone</span><span class="p">(</span><span class="n">modelo_logistico</span><span class="p">),</span>
+    <span class="n">X_train</span><span class="p">,</span>
+    <span class="n">y_train</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="s2">&quot;roc_auc&quot;</span><span class="p">],</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="n">metricas_cv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">&quot;Media&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_accuracy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_precision&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_recall&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;F1-score&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_f1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;AUC-ROC&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_roc_auc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;Desv. estándar&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Accuracy&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_accuracy&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+        <span class="s2">&quot;Precision&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_precision&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+        <span class="s2">&quot;Recall&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_recall&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+        <span class="s2">&quot;F1-score&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_f1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+        <span class="s2">&quot;AUC-ROC&quot;</span><span class="p">:</span> <span class="n">resultados_cv</span><span class="p">[</span><span class="s2">&quot;test_roc_auc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">metricas_cv</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">,</span> <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Media&quot;</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;Validación cruzada (5-fold) sobre entrenamiento — Regresión Logística&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+#T_ef52d_row0_col0 {
+  background-color: #5ba3d0;
+  color: #f1f1f1;
+}
+#T_ef52d_row1_col0 {
+  background-color: #f7fbff;
+  color: #000000;
+}
+#T_ef52d_row2_col0 {
+  background-color: #084c95;
+  color: #f1f1f1;
+}
+#T_ef52d_row3_col0 {
+  background-color: #8fc2de;
+  color: #000000;
+}
+#T_ef52d_row4_col0 {
+  background-color: #08306b;
+  color: #f1f1f1;
+}
+</style>
+<table id="T_ef52d">
+  <caption>Validación cruzada (5-fold) sobre entrenamiento — Regresión Logística</caption>
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_ef52d_level0_col0" class="col_heading level0 col0" >Media</th>
+      <th id="T_ef52d_level0_col1" class="col_heading level0 col1" >Desv. estándar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_ef52d_level0_row0" class="row_heading level0 row0" >Accuracy</th>
+      <td id="T_ef52d_row0_col0" class="data row0 col0" >0.8644</td>
+      <td id="T_ef52d_row0_col1" class="data row0 col1" >0.0131</td>
+    </tr>
+    <tr>
+      <th id="T_ef52d_level0_row1" class="row_heading level0 row1" >Precision</th>
+      <td id="T_ef52d_row1_col0" class="data row1 col0" >0.8013</td>
+      <td id="T_ef52d_row1_col1" class="data row1 col1" >0.0314</td>
+    </tr>
+    <tr>
+      <th id="T_ef52d_level0_row2" class="row_heading level0 row2" >Recall</th>
+      <td id="T_ef52d_row2_col0" class="data row2 col0" >0.9042</td>
+      <td id="T_ef52d_row2_col1" class="data row2 col1" >0.0266</td>
+    </tr>
+    <tr>
+      <th id="T_ef52d_level0_row3" class="row_heading level0 row3" >F1-score</th>
+      <td id="T_ef52d_row3_col0" class="data row3 col0" >0.8487</td>
+      <td id="T_ef52d_row3_col1" class="data row3 col1" >0.0114</td>
+    </tr>
+    <tr>
+      <th id="T_ef52d_level0_row4" class="row_heading level0 row4" >AUC-ROC</th>
+      <td id="T_ef52d_row4_col0" class="data row4 col0" >0.9165</td>
+      <td id="T_ef52d_row4_col1" class="data row4 col1" >0.0164</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="01_EDA.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Análisis exploratorio de variables clínicas y mutacionales asociadas a la clasificación histológica (LGG vs. GBM)</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regresion-logistica">2.1 Regresión Logística</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocesamiento">Preprocesamiento</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hiperparametros-grid-search">Hiperparámetros (Grid Search)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluacion-x-test">Evaluación - <code class="docutils literal notranslate"><span class="pre">X_test</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validacion-cruzada">Validación cruzada</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joshua Hincapie Llorente y Alejandro Cantillo Escorcia
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

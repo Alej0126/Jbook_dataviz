@@ -4,7 +4,7 @@
 format: jb-book
 root: intro
 chapters:
-- file: EDA
+- file: 01_EDA
   title: Análisis Exploratorio de Datos (EDA)
-- file: Preprocesamiento
-  title: Preprocesamiento de Datos
+- file: 02_Baseline
+  title: Modelo Base
